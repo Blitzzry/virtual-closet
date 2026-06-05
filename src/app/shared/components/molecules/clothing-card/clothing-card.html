@@ -1,0 +1,12 @@
+<div class="grid grid-cols-3 gap-3">
+@for (item of items; track $index) {
+    <div class="clothing-card">
+        <div class="w-34 h-48 relative">
+            <app-favorite-button class="absolute top-0 right-0"></app-favorite-button>
+            <img [src]="item.imageUrl" alt="{{ item.name }}" class="clothing-image object-cover" />
+        </div>
+        <h3 class="clothing-name">{{ item.name }}</h3>
+        <app-color-dot [colors]="item.colors" class="flex"></app-color-dot>
+    </div>
+}
+</div>

@@ -1,0 +1,20 @@
+.clothing-card{
+  background: white;
+  border: 1px solid var(--border-primary);
+  border-radius: 24px;
+  overflow: hidden;
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+  box-shadow: var(--shadow-sm);
+  padding: 10px;
+}
+
+.clothing-card:hover{
+  transform: translateY(-4px);
+
+  border-color: var(--sage-200);
+
+  box-shadow: var(--shadow-lg);
+}

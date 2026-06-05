@@ -1,3 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+
+.main-text {
+    font-family: "Inter", sans-serif;
+}
+
+.secondary-text {
+    font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+.premium-title {
+    font-family: "DM Sans", sans-serif;
+}
