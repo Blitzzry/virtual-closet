@@ -1,12 +1,13 @@
-<div class="grid grid-cols-3 gap-3">
+<div class="grid grid-cols-5 gap-3">
 @for (item of items; track $index) {
     <div class="clothing-card">
-        <div class="w-34 h-48 relative">
-            <app-favorite-button class="absolute top-0 right-0"></app-favorite-button>
+        <div class="w-38 h-52 relative">
+            <app-favorite-button class="absolute top-0 right-0" [size]="'xs'"></app-favorite-button>
             <img [src]="item.imageUrl" alt="{{ item.name }}" class="clothing-image object-cover" />
+            <app-badge class="absolute bottom-0 left-0" [text]="item.category"></app-badge>
         </div>
-        <h3 class="clothing-name">{{ item.name }}</h3>
-        <app-color-dot [colors]="item.colors" class="flex"></app-color-dot>
+        <h3 class="clothing-name my-1">{{ item.name }}</h3>
+        <app-color-dot [colors]="item.colors" class="flex my-1"></app-color-dot>
     </div>
 }
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Icon } from '../icon/icons';
 
 @Component({
@@ -9,5 +9,6 @@ import { Icon } from '../icon/icons';
 })
 export class FavoriteButton {
   constructor() {}
-  
+  @Input() isFavorite: boolean = false;
+  @Input() size: string = 'xxs';
 }
