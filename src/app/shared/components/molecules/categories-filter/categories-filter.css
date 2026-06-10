@@ -1,0 +1,27 @@
+.category-filter{
+    border-radius:16px;
+
+    background:transparent;
+
+    border:1px solid transparent;
+
+    cursor:pointer;
+
+    transition:all .25s ease;
+}
+
+.counter{
+    min-width:28px;
+    height:24px;
+
+    padding:0 8px;
+
+    border-radius:999px;
+
+    background:#F4F1ED;
+
+    color:#8D8479;
+
+    font-size:12px;
+    font-weight:600;
+}

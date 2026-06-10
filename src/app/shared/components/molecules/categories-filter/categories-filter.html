@@ -1,0 +1,7 @@
+<div class="grid grid-cols-2 gap-2 category-filter">
+    <div class="flex items-center gap-2">
+        <app-icon [name]="iconCategoryName" [size]="'xs'"></app-icon>
+        <span>{{ iconCategoryName.charAt(0).toUpperCase() + iconCategoryName.slice(1) }}</span>
+    </div>
+    <span class="justify-self-end counter flex items-center justify-center">{{ categoryCounter }}</span>
+</div>

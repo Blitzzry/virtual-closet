@@ -1,13 +1,15 @@
-<div class="grid grid-cols-5 gap-3">
-@for (item of items; track $index) {
-    <div class="clothing-card">
-        <div class="w-38 h-52 relative">
-            <app-favorite-button class="absolute top-0 right-0" [size]="'xs'"></app-favorite-button>
-            <img [src]="item.imageUrl" alt="{{ item.name }}" class="clothing-image object-cover" />
-            <app-badge class="absolute bottom-0 left-0" [text]="item.category"></app-badge>
+<div class="grid grid-cols-3 gap-3 md-grid-cols-4 lg:grid-cols-5">
+    @for (item of items; track $index) {
+    <div class="clothing-card w-52 h-62">
+        <div class="flex relative bg-gray-200 h-44 rounded-lg overflow-hidden p-2">
+            <app-favorite-button class="absolute top-2 right-3" [size]="'xxs'"></app-favorite-button>
+            <img [src]="item.imageUrl" alt="{{ item.name }}" class="z-0 clothing-image object-cover" />
+            <app-badge class="absolute bottom-2 left-2" [text]="item.category"></app-badge>
         </div>
-        <h3 class="clothing-name my-1">{{ item.name }}</h3>
-        <app-color-dot [colors]="item.colors" class="flex my-1"></app-color-dot>
+        <div class="px-2">
+            <h3 class="clothing-name my-1">{{ item.name }}</h3>
+            <app-color-dot [colors]="item.colors" class="flex my-1"></app-color-dot>
+        </div>
     </div>
-}
+    }
 </div>

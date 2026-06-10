@@ -1,3 +1,6 @@
+@if (isArray(colors)) {
 @for (item of colors; track $index) {
-        <div [style.background-color]="item" class="color-dot"></div>
+<div [style.background-color]="item" [style.height]="colorSize" [style.width]="colorSize" class="color-dot"></div>
+}} @else {
+<div [style.background-color]="colors" [style.height]="colorSize" [style.width]="colorSize" class="color-dot"></div>
 }

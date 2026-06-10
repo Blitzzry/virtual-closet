@@ -8,5 +8,9 @@ import { Component, Input} from '@angular/core';
 })
 export class ColorDot {
   constructor() {}
-  @Input() colors: string[] = ['gray'];
+  @Input() colors: string[] | string = ['gray'];
+  @Input() colorSize: string = '16px';
+  isArray(value: any): boolean {
+  return Array.isArray(value);
+}
 }
