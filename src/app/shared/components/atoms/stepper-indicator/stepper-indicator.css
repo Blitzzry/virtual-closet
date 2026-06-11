@@ -1,0 +1,66 @@
+.upload-steps{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    margin-bottom:32px;
+}
+
+.step{
+    position:relative;
+
+    display:flex;
+    align-items:center;
+}
+
+.step:not(:last-child)::after{
+    content:"";
+
+    width:60px;
+    height:2px;
+
+    margin:0 8px;
+
+    background:#E9E3DA;
+}
+
+.step-circle{
+    width:24px;
+    height:24px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:#F3EFEB;
+
+    color:#B7ACA0;
+
+    font-size:12px;
+    font-weight:600;
+
+    transition:.25s ease;
+}
+
+.step.completed .step-circle{
+    background:#C4A86A;
+
+    color:white;
+}
+
+.step.completed::after{
+    background:#C4A86A;
+}
+
+.step.active .step-circle{
+    background:white;
+
+    color:#C4A86A;
+
+    border:2px solid #C4A86A;
+
+    box-shadow:
+        0 0 0 4px rgba(196,168,106,.15);
+}

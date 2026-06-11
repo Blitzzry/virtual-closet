@@ -11,5 +11,8 @@ import { Badge } from '../../atoms/badge/badge';
   styleUrl: './clothing-card.css',
 })
 export class ClothingCard {
-  items = mockClothing;
+  items: any[] = [];
+  ngOnInit() {
+    this.items = mockClothing;
+  }
 }

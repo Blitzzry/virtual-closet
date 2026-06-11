@@ -1,7 +1,7 @@
 <div class="grid grid-cols-3 gap-3 md-grid-cols-4 lg:grid-cols-5">
     @for (item of items; track $index) {
-    <div class="clothing-card w-52 h-62">
-        <div class="flex relative bg-gray-200 h-44 rounded-lg overflow-hidden p-2">
+    <div class="clothing-card w-48 h-58">
+        <div class="flex relative bg-gray-200 h-40 rounded-lg overflow-hidden p-2 items-center">
             <app-favorite-button class="absolute top-2 right-3" [size]="'xxs'"></app-favorite-button>
             <img [src]="item.imageUrl" alt="{{ item.name }}" class="z-0 clothing-image object-cover" />
             <app-badge class="absolute bottom-2 left-2" [text]="item.category"></app-badge>

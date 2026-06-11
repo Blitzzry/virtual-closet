@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
 })
 export class Icon {
   constructor() {}
-  @Input() name!: 'heart' | 'tops' | 'bottoms' | 'shoes' | 'accessories' | 'dresses' | 'outerwear';
+  @Input() name!: 'upload' | 'heart' | 'tops' | 'bottoms' | 'shoes' | 'accessories' | 'dresses' | 'outerwear';
   @Input() size: string = 'xxs';
   get sizeClasses(): string {
     return this.sizeClassesBuffer[this.size as keyof typeof this.sizeClassesBuffer] ?? this.sizeClassesBuffer['base'];
