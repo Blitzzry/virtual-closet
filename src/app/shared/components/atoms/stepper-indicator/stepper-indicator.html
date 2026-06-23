@@ -1,4 +1,25 @@
 @switch (phase) {
+    @case ('zero') {
+<div class="upload-steps">
+    <div class="step active">
+        <div class="step-circle">
+            1
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-circle">
+            2
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-circle">
+            3
+        </div>
+    </div>
+</div>
+}
 @case ('first') {
 <div class="upload-steps">
     <div class="step completed">
@@ -16,12 +37,6 @@
     <div class="step">
         <div class="step-circle">
             3
-        </div>
-    </div>
-
-    <div class="step">
-        <div class="step-circle">
-            4
         </div>
     </div>
 </div>
@@ -42,38 +57,6 @@
     <div class="step active">
         <div class="step-circle">
             3
-        </div>
-    </div>
-
-    <div class="step">
-        <div class="step-circle">
-            4
-        </div>
-    </div>
-</div>
-} @case ('third') {
-<div class="upload-steps">
-    <div class="step completed">
-        <div class="step-circle">
-            ✓
-        </div>
-    </div>
-
-    <div class="step completed">
-        <div class="step-circle">
-            ✓
-        </div>
-    </div>
-
-    <div class="step completed">
-        <div class="step-circle">
-            ✓
-        </div>
-    </div>
-
-    <div class="step active">
-        <div class="step-circle">
-            4
         </div>
     </div>
 </div>

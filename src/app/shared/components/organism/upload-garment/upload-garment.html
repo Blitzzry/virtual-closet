@@ -1,0 +1,16 @@
+@switch (state) {
+@case ('idle') {
+<app-stepper-indicator [phase]="'zero'"></app-stepper-indicator>
+<app-upload-zone (Text)="getText($event)" (Image)="getImage($event)"></app-upload-zone>
+}
+@case ('result') {
+<app-stepper-indicator [phase]="'first'"></app-stepper-indicator>
+<div class="flex gap-3">
+    <img [src]="aiPhoto" alt="Foto prenda" class="h-62 max-w-56 clothing-card object-cover">
+    <p>{{aiAnswer}}</p>
+</div>
+}
+@case ('added') {
+<p>Garment added to your closet!</p>
+}
+}
