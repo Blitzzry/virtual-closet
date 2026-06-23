@@ -2,7 +2,7 @@
 
 @import 'tailwindcss';
 
-.main-text {
+body {
     font-family: "Inter", sans-serif;
 }
 

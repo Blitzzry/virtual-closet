@@ -1,0 +1,5 @@
+@for (item of tags; track $index) {
+<div class="suggested-tags rounded-lg px-1.5 items-center">
+    <span class="main-text text-xs">{{ item.charAt(0).toUpperCase() + item.slice(1) }}</span>
+</div>
+}
