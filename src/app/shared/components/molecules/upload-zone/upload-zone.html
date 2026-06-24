@@ -2,6 +2,6 @@
     <app-icon [name]="'hanger'" [size]="'lg'"></app-icon>
     <div (click)="fileInput.click()" class="dropzone">
         <p>Arrastra tu foto aqui o dale click para <span class="gold">buscarla</span></p>
-        <input #fileInput type="file" hidden (change)="onFileSelected($event)" class="w-full h-full"/>
+        <input #fileInput type="file" hidden (change)="ClothingService.onFileSelected($event)" class="w-full h-full"/>
     </div>
 </div>

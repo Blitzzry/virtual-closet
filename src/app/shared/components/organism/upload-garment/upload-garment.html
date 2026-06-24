@@ -1,33 +1,53 @@
-@switch (state) {
+@switch (clothingService.stateUploader()) {
 @case ('idle') {
 <app-stepper-indicator [phase]="'zero'"></app-stepper-indicator>
-<app-upload-zone (Text)="getText($event)" (Image)="getImage($event)"></app-upload-zone>
+<app-upload-zone></app-upload-zone>
 }
 @case ('result') {
-<app-stepper-indicator [phase]="'first'"></app-stepper-indicator>
-<div class="flex gap-4">
-    <img [src]="aiPhoto" alt="Foto prenda" class="h-auto max-w-56 clothing-card object-cover">
-    <div class="flex flex-col gap-3">
-        <div>
-            <span class="garment-name">{{aiAnswer.name}}</span>
-            <app-badge [text]="aiAnswer.brand" class="flex"></app-badge>
+<div>
+    <app-stepper-indicator [phase]="'first'"></app-stepper-indicator>
+    <div class="flex gap-4">
+        <img [src]="clothingService.aiAnswer().imageUrl" alt="Foto prenda" class="h-auto max-w-56 clothing-card object-cover">
+        <div class="flex flex-col gap-3">
+            <div>
+                <span class="garment-name">{{clothingService.aiAnswer().name}}</span>
+                <app-badge [text]="clothingService.aiAnswer().brand" class="flex"></app-badge>
+            </div>
+            <div class="flex flex-col gap-0.5">
+                <p class="field-label">Colors</p>
+                <app-color-dot [colors]="clothingService.aiAnswer().colors" [colorSize]="'18px'" class="flex gap-0.5"></app-color-dot>
+            </div>
+            <div class="flex flex-col gap-0.5">
+                <p class="field-label">Suggested Tags</p>
+                <app-suggested-tags [tags]="clothingService.aiAnswer().tags" class="flex gap-1"></app-suggested-tags>
+            </div>
+            <div class="flex flex-col gap-0.5">
+                <p class="field-label">Material</p>
+                @if (editing) {
+                    <input [(ngModel)]="editedAiAnswer.material">
+                } @else {
+                <span class="text-sm">{{clothingService.aiAnswer().material}}</span>
+                }
+            </div>
+            <div class="flex flex-col gap-0.5">
+                <p class="field-label">Notes (AI)</p>
+                @if (editing) {
+                    <input [(ngModel)]="editedAiAnswer.notes" (input)="onInput($event)">
+                } @else {
+                <span class="text-sm">{{clothingService.aiAnswer().notes}}</span>
+                }
+            </div>
         </div>
-        <div class="flex flex-col gap-0.5">
-            <p class="field-label">Colors</p>
-            <app-color-dot [colors]="aiAnswer.colors" [colorSize]="'18px'" class="flex gap-0.5"></app-color-dot>
-        </div>
-        <div class="flex flex-col gap-0.5">
-            <p class="field-label">Suggested Tags</p>
-            <app-suggested-tags [tags]="aiAnswer.tags" class="flex gap-1"></app-suggested-tags>
-        </div>
-        <div class="flex flex-col gap-0.5">
-            <p class="field-label">Material</p>
-            <span class="text-sm">{{aiAnswer.material}}</span>
-        </div>
-        <div class="flex flex-col gap-0.5">
-            <p class="field-label">Notes (AI)</p>
-            <span class="text-sm">{{aiAnswer.notes}}</span>
-        </div>
+    </div>
+    <div class="grid grid-cols-2 gap-2 mt-5 justify-around">
+        <button  class="flex items-center edit-btn gap-1.5" (click)="toggleEdit()">
+            <app-icon [name]="'edit'"></app-icon>
+            <span>Edit</span>
+        </button>
+        <button class="flex items-center save-btn gap-1.5">
+            <span>Save to closet</span>
+            <app-icon [name]="'save'"></app-icon>
+        </button>
     </div>
 </div>
 }
