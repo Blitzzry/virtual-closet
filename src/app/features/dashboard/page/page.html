@@ -1,16 +1,23 @@
-<div class="grid grid-cols-3 w-full h-full gap-5 mt-5 items-center">
+<div class="flex w-full h-full gap-5 mt-5 items-center">
     <div class="flex flex-col gap-4 max-w-[300px]">
-        @for (item of items; track $index) {
+        @for (item of item; track $index) {
         <app-categories-filter [iconCategoryName]="item.category" [categoryCounter]="2"></app-categories-filter>
         }
         <div class="flex gap-2 mt-4">
-            @for (item of items; track $index) {
+            @for (item of item; track $index) {
             <app-color-dot [colors]="item.colors[0]" [colorSize]="'24px'" class="flexmy-1"></app-color-dot>
             }
         </div>
     </div>
     <div class="flex flex-col gap-4">
-        <app-add-garment-btn class="position absolute bottom-6 right-6"></app-add-garment-btn>
-        <app-upload-garment></app-upload-garment>
+        @for (item of garment; track $index) {
+        <div class="grid grid-cols-3 gap-3 md-grid-cols-4 lg:grid-cols-5">
+            <app-clothing-card class="w-full" [category]="item.category" [colors]="item.colors" [imageUrl]="item.imageUrl" [name]="item.name"></app-clothing-card>
+        </div>
+        }
+        <button class="position absolute bottom-6 right-6" (click)="openModal()"><app-icon name="upload" /></button>
+        @if (isGarmentModalOpen) {
+        <app-upload-garment class="modal" (close)="closeModal()"></app-upload-garment>
+        }
     </div>
 </div>

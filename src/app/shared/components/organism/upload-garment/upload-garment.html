@@ -1,21 +1,46 @@
 @switch (clothingService.stateUploader()) {
 @case ('idle') {
-<app-stepper-indicator [phase]="'zero'"></app-stepper-indicator>
-<app-upload-zone></app-upload-zone>
+<div class="flex flex-col card">
+    <app-stepper-indicator [phase]="'zero'"></app-stepper-indicator>
+    <app-upload-zone></app-upload-zone>
+    <div class="flex mt-4 justify-between">
+        <button class="flex items-center edit-btn gap-1.5 w-26 justify-center" (click)="closeModal()">
+            <span>Cancel</span>
+        </button>
+        <button class="flex items-center save-btn gap-1.5 w-26 justify-center" (click)="fileInput.click()">
+            <span>Upload</span>
+            <app-icon [name]="'arrow-bar-up'"></app-icon>
+            <input #fileInput type="file" hidden (change)="clothingService.onFileSelected($event)"
+                class="w-full h-full" />
+        </button>
+    </div>
+</div>
 }
 @case ('result') {
-<div>
+<div class="card">
     <app-stepper-indicator [phase]="'first'"></app-stepper-indicator>
     <div class="flex gap-4">
-        <img [src]="clothingService.aiAnswer().imageUrl" alt="Foto prenda" class="h-auto max-w-56 clothing-card object-cover">
+        <img [src]="clothingService.base64Image()" alt="Foto prenda" class="h-auto max-w-56 clothing-card object-cover">
         <div class="flex flex-col gap-3">
             <div>
+                @if (editing) {
+                <div class="flex flex-col gap-1.5">
+                    <input [(ngModel)]="clothingService.aiAnswer().name">
+                    <select [(ngModel)]="clothingService.aiAnswer().category">
+                        @for (item of categoryTypes; track $index) {
+                        <option [value]="item">{{item}}</option>
+                        }
+                    </select>
+                </div>
+                } @else {
                 <span class="garment-name">{{clothingService.aiAnswer().name}}</span>
-                <app-badge [text]="clothingService.aiAnswer().brand" class="flex"></app-badge>
+                <app-badge [text]="clothingService.aiAnswer().category" class="flex"></app-badge>
+                }
             </div>
             <div class="flex flex-col gap-0.5">
                 <p class="field-label">Colors</p>
-                <app-color-dot [colors]="clothingService.aiAnswer().colors" [colorSize]="'18px'" class="flex gap-0.5"></app-color-dot>
+                <app-color-dot [colors]="clothingService.aiAnswer().colors" [colorSize]="'18px'"
+                    class="flex gap-0.5"></app-color-dot>
             </div>
             <div class="flex flex-col gap-0.5">
                 <p class="field-label">Suggested Tags</p>
@@ -24,7 +49,7 @@
             <div class="flex flex-col gap-0.5">
                 <p class="field-label">Material</p>
                 @if (editing) {
-                    <input [(ngModel)]="editedAiAnswer.material">
+                <input [(ngModel)]="clothingService.aiAnswer().material">
                 } @else {
                 <span class="text-sm">{{clothingService.aiAnswer().material}}</span>
                 }
@@ -32,7 +57,7 @@
             <div class="flex flex-col gap-0.5">
                 <p class="field-label">Notes (AI)</p>
                 @if (editing) {
-                    <input [(ngModel)]="editedAiAnswer.notes" (input)="onInput($event)">
+                <input [(ngModel)]="clothingService.aiAnswer().notes" (input)="onInput($event)">
                 } @else {
                 <span class="text-sm">{{clothingService.aiAnswer().notes}}</span>
                 }
@@ -40,11 +65,12 @@
         </div>
     </div>
     <div class="grid grid-cols-2 gap-2 mt-5 justify-around">
-        <button  class="flex items-center edit-btn gap-1.5" (click)="toggleEdit()">
+        <button class="flex items-center edit-btn gap-1.5" (click)="toggleEdit()">
             <app-icon [name]="'edit'"></app-icon>
             <span>Edit</span>
         </button>
-        <button class="flex items-center save-btn gap-1.5">
+        <button class="flex items-center save-btn gap-1.5"
+            (click)="clothingService.saveGarment(clothingService.aiAnswer())">
             <span>Save to closet</span>
             <app-icon [name]="'save'"></app-icon>
         </button>
@@ -52,6 +78,16 @@
 </div>
 }
 @case ('added') {
-<p>Garment added to your closet!</p>
+<div class="flex flex-col card">
+    <app-stepper-indicator [phase]="'completed'"></app-stepper-indicator>
+    <div class="flex flex-col items-center">
+        <app-icon [name]="'check-circle'" [size]="'xl'"></app-icon>
+        <span class="mt-3 mb-1.5 premium-title text-lg">Item saved to your closet!</span>
+        <span class="secondary-text text-sm max-w-46 text-center">You can view and organize it anytime in your
+            closet</span>
+        <button class="save-btn flex items-center gap-1.5 mt-4" (click)="closeModal()">View my closet <app-icon
+                [name]="'hanger'"></app-icon></button>
+    </div>
+</div>
 }
 }

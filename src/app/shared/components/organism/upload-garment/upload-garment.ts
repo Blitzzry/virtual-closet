@@ -1,7 +1,7 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { UploadZone } from '../../molecules/upload-zone/upload-zone';
 import { StepperIndicator } from '../../atoms/stepper-indicator/stepper-indicator';
-import { ClothingItem } from '../../../../core/models/interface';
+import { ClothingItem, ClothingCategory } from '../../../../core/models/interface';
 import { ColorDot } from '../../atoms/color-dot/color-dot';
 import { Badge } from '../../atoms/badge/badge';
 import { SuggestedTags } from '../../atoms/suggested-tags/suggested-tags';
@@ -16,10 +16,15 @@ import { ClothingService } from '../../../../core/services/virtual-closet-servic
   styleUrl: './upload-garment.css',
 })
 export class UploadGarment {
-  constructor(public clothingService: ClothingService) {}
+  constructor(public clothingService: ClothingService) { }
   aiPhoto: string = '';
   editing: boolean = false;
-  editedAiAnswer: ClothingItem = {} as ClothingItem
+  categoryTypes: ClothingCategory[] = ['tops', 'bottoms', 'dresses', 'outerwear', 'shoes', 'accessories']
+  @Output() close = new EventEmitter<void>();
+
+  closeModal() {
+    this.close.emit();
+  }
 
   onInput(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -27,9 +32,7 @@ export class UploadGarment {
   }
 
   toggleEdit() {
-
     this.editing = !this.editing
-    console.log(this.editedAiAnswer.notes)
   }
 
   getImage(image: string) {

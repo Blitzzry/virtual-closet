@@ -1,3 +1,9 @@
 .gold{
     color: #E3B873;
 }
+
+.card {
+    background-color: rgb(239, 238, 238);
+    border-radius: 16px;
+    padding: 25px 0;
+}

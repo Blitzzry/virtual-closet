@@ -1,7 +1,7 @@
-<div class="w-full flex flex-col items-center justify-center">
+<div class="w-full flex flex-col items-center justify-center card">
     <app-icon [name]="'hanger'" [size]="'lg'"></app-icon>
     <div (click)="fileInput.click()" class="dropzone">
-        <p>Arrastra tu foto aqui o dale click para <span class="gold">buscarla</span></p>
+        <p class="max-w-50 text-center">Arrastra tu foto aqui o dale click para <span class="gold">buscarla</span></p>
         <input #fileInput type="file" hidden (change)="ClothingService.onFileSelected($event)" class="w-full h-full"/>
     </div>
 </div>
