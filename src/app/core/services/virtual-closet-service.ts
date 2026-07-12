@@ -12,14 +12,12 @@ export class ClothingService {
   stateUploader = signal<'idle' | 'result' | 'added'>('idle');
   base64Image = signal<string>('')
   savedGarment = signal<ClothingItem[]>([])
-  savedClothes = signal<ClothingItem>
 
   saveGarment(event: ClothingItem) {
-    this.savedGarment.set([event])
-    this.aiAnswer.set({} as ClothingItem)
+    console.log(this.savedGarment())
+    this.savedGarment.update(list => [...list, {...event}])
     console.log(this.savedGarment())
     this.stateUploader.set('added')
-
   }
 
   onFileSelected(event: Event): void {
@@ -67,6 +65,7 @@ export class ClothingService {
       this.aiAnswer.set(mockClothing[0])
       this.base64Image.set(reader.result as string)
       if (this.aiAnswer()) {
+        this.aiAnswer().imageUrl = this.base64Image()
         this.stateUploader.set('result')
       }
     };

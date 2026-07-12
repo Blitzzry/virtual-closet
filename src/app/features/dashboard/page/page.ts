@@ -4,15 +4,16 @@ import { CategoriesFilter } from '../../../shared/components/molecules/categorie
 import { mockClothing } from '../../../core/mock/mock-data';
 import { ColorDot } from '../../../shared/components/atoms/color-dot/color-dot';
 import { StepperIndicator } from '../../../shared/components/atoms/stepper-indicator/stepper-indicator';
-import { UploadGarment } from '../../../shared/components/organism/upload-garment/upload-garment';
+import { UploadGarment } from '../../../shared/components/organisms/upload-garment/upload-garment';
 import { Icon } from '../../../shared/components/atoms/icon/icons';
 import { ClothingService } from '../../../core/services/virtual-closet-service';
 import { ClothingItem } from '../../../core/models/interface';
+import { SignUpBtn } from '../../../shared/components/molecules/sign-up-btn/sign-up-btn';
 
 
 @Component({
   selector: 'app-page',
-  imports: [ClothingCard, CategoriesFilter, ColorDot, StepperIndicator, UploadGarment, Icon],
+  imports: [ClothingCard, CategoriesFilter, ColorDot, StepperIndicator, UploadGarment, Icon, SignUpBtn],
   templateUrl: './page.html',
   styleUrl: './page.css',
 })
