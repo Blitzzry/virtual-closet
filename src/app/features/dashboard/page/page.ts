@@ -9,11 +9,13 @@ import { Icon } from '../../../shared/components/atoms/icon/icons';
 import { ClothingService } from '../../../core/services/virtual-closet-service';
 import { ClothingItem } from '../../../core/models/interface';
 import { SignUpBtn } from '../../../shared/components/molecules/sign-up-btn/sign-up-btn';
+import { SignUpForm } from '../../../shared/components/organisms/auth/sign-up-form/sign-up-form';
+import { LogInForm } from '../../../shared/components/organisms/auth/log-in-form/log-in-form';
 
 
 @Component({
   selector: 'app-page',
-  imports: [ClothingCard, CategoriesFilter, ColorDot, StepperIndicator, UploadGarment, Icon, SignUpBtn],
+  imports: [ClothingCard, CategoriesFilter, ColorDot, StepperIndicator, UploadGarment, Icon, SignUpBtn, LogInForm, SignUpForm],
   templateUrl: './page.html',
   styleUrl: './page.css',
 })

@@ -1,0 +1,70 @@
+input{
+    width:100%;
+    height:48px;
+
+    padding:0 16px;
+
+    border:1px solid #E7E1D9;
+    border-radius:14px;
+
+    background:#FFFFFF;
+
+    color:#232323;
+
+    font-family:"Inter", sans-serif;
+    font-size:14px;
+    font-weight:400;
+
+    transition:all .25s ease;
+}
+
+input::placeholder{
+    color:#B0A79C;
+}
+
+input:hover{
+    border-color:#D8D0C6;
+}
+
+
+input:focus{
+    outline:none;
+
+    border-color:#C4A86A;
+
+    box-shadow:0 0 0 4px rgba(196,168,106,.15);
+}
+
+input:disabled{
+    background:#F8F6F3;
+
+    color:#A7A7A7;
+
+    cursor:not-allowed;
+}
+
+.signIn {
+    color: #C4A86A;
+}
+
+.sign-up-btn {
+  height: 48px;
+  padding: 0 14px;
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  background: #C4A86A;
+  color: #FFFFFF;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .25s ease;
+  box-shadow:
+    0 4px 12px rgba(196, 168, 106, .18);
+}
+
+.sign-up-btn:hover {
+  background: #B38E43;
+  transform: translateY(-1px);
+}

@@ -1,0 +1,42 @@
+@if (userRegistered){
+<div class="w-92 h-auto flex flex-col items-center justify-center p-6 rounded-lg bg-white shadow-md gap-2">
+    <h1 class="text-2xl font-semibold text-gray-800">Mooder</h1>
+    <app-icon [name]="'check-circle'" [size]="'lg'" class="text-green-300 text-center my-2"></app-icon>
+    <p class="text-lg">You have successfully registered!</p>
+    <span class="text-gray-600 text-center">Now you can browse and manage your virtual closet!</span>
+    <button class="sign-up-btn my-4" (click)="signIn()">Log In!</button>
+</div>
+} @else {
+<div class="w-72 h-auto flex flex-col items-center justify-center p-6 rounded-lg bg-white shadow-md">
+    <button (click)="closeWindow()" class="self-end text-lg cursor-pointer">
+        x
+    </button>
+    <h1 class="text-2xl font-semibold text-gray-800">Mooder</h1>
+    <span class="mb-3">Create an account!</span>
+    <div class="flex flex-col gap-1.5">
+        <span class="text-sm">Full Name</span>
+        <input type="text" placeholder="Full Name" [(ngModel)]="name" />
+        <span class="text-sm">Email</span>
+        <input type="email" placeholder="your@email.com" [(ngModel)]="email" />
+        <span class="text-sm">Password</span>
+        <input type="password" placeholder="....." [(ngModel)]="password" />
+        <span class="text-sm">Confirm password</span>
+        <input type="password" placeholder="....." [(ngModel)]="confirmPassword" />
+        <button class="sign-up-btn my-4" (click)="signUp()">Sign Up!</button>
+    </div>
+    <div class="flex flex-col gap-2 items-center">
+        <span class="text-sm">-- OR --</span>
+        <div class="grid grid-cols-2 gap-2 w-full justify-center items-center">
+            <button
+                class="w-auto border-gray-300 border-2 rounded-md p-3 items-center justify-center flex cursor-pointer">
+                <app-icon name="facebook"></app-icon>
+            </button>
+            <button
+                class="w-auto border-gray-300 border-2 rounded-md p-3 items-center justify-center flex cursor-pointer">
+                <app-icon name="google"></app-icon>
+            </button>
+        </div>
+        <span class="text-sm">Already have an account? <a href="#" class="signIn hover:underline">Sign in</a></span>
+    </div>
+</div>
+}

@@ -1,4 +1,8 @@
 <div class="flex w-full h-full gap-5 mt-5 items-center">
+    <app-log-in-form class="ml-52"></app-log-in-form>
+    <app-sign-up-form [userRegistered]="true"></app-sign-up-form>
+        <app-sign-up-form ></app-sign-up-form>
+
     <!-- <div class="flex flex-col gap-4 max-w-[300px]">
         @for (item of item; track $index) {
         <app-categories-filter [iconCategoryName]="item.category" [categoryCounter]="2"></app-categories-filter>
@@ -8,7 +12,7 @@
             <app-color-dot [colors]="item.colors[0]" [colorSize]="'24px'" class="flexmy-1"></app-color-dot>
             }
         </div>
-    </div> -->
+    </div> 
     <div class="flex flex-col justify-center items-center gap-4 w-full">
         <div class="flex justify-between w-full">
             <app-sign-up-btn class="absolute right-6"></app-sign-up-btn>
@@ -31,5 +35,5 @@
         @if (isGarmentModalOpen) {
         <app-upload-garment class="modal" (close)="closeModal()"></app-upload-garment>
         }
-    </div>
+    </div>-->
 </div>

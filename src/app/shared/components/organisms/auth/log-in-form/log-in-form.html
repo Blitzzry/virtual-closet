@@ -1,0 +1,35 @@
+<div class="w-92 h-auto flex flex-col items-center justify-center p-6 rounded-lg bg-white shadow-md">
+    <button (click)="closeWindow()" class="self-end text-lg cursor-pointer">
+        x
+    </button>
+    <h1 class="text-2xl font-semibold text-gray-800">Mooder</h1>
+    <span class="mb-3">Create an account!</span>
+    <div class="flex flex-col gap-1.5">
+        <span class="text-sm">Email</span>
+        <input type="email" placeholder="your@email.com" [(ngModel)]="email" />
+        <span class="text-sm">Password</span>
+        <input type="password" placeholder="....." [(ngModel)]="password" />
+        <div class="grid grid-cols-2 w-auto gap-14">
+            <div class="flex items-center    mt-1">
+                <input type="checkbox" [(ngModel)]="rememberMe" class="inline-block w-2 h-2 border-1 border-gray-500 appearance-none"/>
+                <label class="text-sm text-gray-600">Remember me</label>
+            </div>
+            <button class="text-sm text-gray-600 hover:underline mt-1 justify-self-end">Forgot password?</button>
+        </div>
+        <button class="sign-up-btn my-2" (click)="signUp()">Log in!</button>
+    </div>
+    <div class="flex flex-col gap-2 items-center w-full">
+        <span class="text-sm">-- OR --</span>
+        <div class="grid grid-cols-2 gap-2 w-full justify-center items-center">
+            <button
+                class="w-auto border-gray-300 border-2 rounded-md p-3 items-center justify-center flex cursor-pointer">
+                <app-icon name="facebook"></app-icon>
+            </button>
+            <button
+                class="w-auto border-gray-300 border-2 rounded-md p-3 items-center justify-center flex cursor-pointer">
+                <app-icon name="google"></app-icon>
+            </button>
+        </div>
+        <span class="text-sm mt-1">You don't have an account? <a href="#" class="signIn hover:underline">Sign up</a></span>
+    </div>
+</div>
