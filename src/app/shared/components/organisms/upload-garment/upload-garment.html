@@ -1,4 +1,4 @@
-@switch (clothingService.stateUploader()) {
+@switch (this.stateUploader()) {
 @case ('idle') {
 <div class="flex flex-col card">
     <app-stepper-indicator [phase]="'zero'"></app-stepper-indicator>
@@ -10,7 +10,7 @@
         <button class="flex items-center save-btn gap-1.5 w-26 justify-center" (click)="fileInput.click()">
             <span>Upload</span>
             <app-icon [name]="'arrow-bar-up'"></app-icon>
-            <input #fileInput type="file" hidden (change)="clothingService.onFileSelected($event)"
+            <input #fileInput type="file" hidden (change)="this.onFileSelected($event)"
                 class="w-full h-full" />
         </button>
     </div>
@@ -85,8 +85,12 @@
         <span class="mt-3 mb-1.5 premium-title text-lg">Item saved to your closet!</span>
         <span class="secondary-text text-sm max-w-46 text-center">You can view and organize it anytime in your
             closet</span>
-        <button class="save-btn flex items-center gap-1.5 mt-4" (click)="closeModal()">View my closet <app-icon
-                [name]="'hanger'"></app-icon></button>
+        <button class="save-btn flex items-center gap-1.5 mt-4" (click)="closeModal()">View my closet
+            <app-icon [name]="'hanger'"></app-icon>
+        </button>
+        <button class="flex items-center gap-1.5 mt-4" (click)="anotherOne()">Add a new one
+            <app-icon [name]="'hanger'"></app-icon>
+        </button>
     </div>
 </div>
 }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, signal } from '@angular/core';
 import { UploadZone } from '../../molecules/upload-zone/upload-zone';
 import { StepperIndicator } from '../../atoms/stepper-indicator/stepper-indicator';
 import { ClothingItem, ClothingCategory } from '../../../../core/models/interface';
@@ -21,9 +21,23 @@ export class UploadGarment {
   editing: boolean = false;
   categoryTypes: ClothingCategory[] = ['tops', 'bottoms', 'dresses', 'outerwear', 'shoes', 'accessories']
   @Output() close = new EventEmitter<void>();
+  stateUploader = signal<'idle' | 'result' | 'added'>('idle');
 
   closeModal() {
     this.close.emit();
+  }
+
+  async onFileSelected(photo: any) {
+    this.clothingService.onFileSelected(photo)
+    try {
+      const response = await this.clothingService.aiAnswer()
+      if (response){
+        this.stateUploader.set('result')
+        console.log('a')
+      }
+    } catch (error) {
+      console.log(this.clothingService.aiAnswer())
+    }
   }
 
   onInput(event: Event) {
@@ -37,5 +51,8 @@ export class UploadGarment {
 
   getImage(image: string) {
     this.aiPhoto = `data:image/png;base64,${image}`;
+  }
+  anotherOne() {
+
   }
 }

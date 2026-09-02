@@ -11,29 +11,45 @@ import { ClothingItem } from '../../../core/models/interface';
 import { SignUpBtn } from '../../../shared/components/molecules/sign-up-btn/sign-up-btn';
 import { SignUpForm } from '../../../shared/components/organisms/auth/sign-up-form/sign-up-form';
 import { LogInForm } from '../../../shared/components/organisms/auth/log-in-form/log-in-form';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../core/services/auht.service';
 
 
 @Component({
   selector: 'app-page',
-  imports: [ClothingCard, CategoriesFilter, ColorDot, StepperIndicator, UploadGarment, Icon, SignUpBtn, LogInForm, SignUpForm],
+  imports: [ClothingCard, 
+    CategoriesFilter, 
+    ColorDot, 
+    StepperIndicator, 
+    UploadGarment, 
+    Icon,
+    SignUpBtn,
+    LogInForm, 
+    SignUpForm],
   templateUrl: './page.html',
   styleUrl: './page.css',
 })
 export class Page {
-  constructor(public clothingService: ClothingService) { 
+  constructor(public clothingService: ClothingService, public router: Router, public authService: AuthService) {
     effect(() => {
-    this.garment = this.clothingService.savedGarment();
-   });
+      this.garment = this.clothingService.savedGarment();
+    });
   }
   garment: ClothingItem[] = []
   item: ClothingItem[] = mockClothing
   isGarmentModalOpen: boolean = false
 
-openModal() {
-  this.isGarmentModalOpen = true;
-  this.clothingService.stateUploader.set('idle')
-}
-closeModal() {
-  this.isGarmentModalOpen = false;
-}
+  openModal() {
+    this.isGarmentModalOpen = true;
+    this.clothingService.stateUploader.set('idle')
+  }
+  closeModal() {
+    this.isGarmentModalOpen = false;
+  }
+  signUp() {
+    this.router.navigate(["/signUp"])
+  }
+  logIn() {
+    this.router.navigate(["/logIn"])
+  }
 }
