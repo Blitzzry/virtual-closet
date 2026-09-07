@@ -14,17 +14,16 @@ import { LogInForm } from '../../../shared/components/organisms/auth/log-in-form
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auht.service';
 
-
 @Component({
   selector: 'app-page',
-  imports: [ClothingCard, 
-    CategoriesFilter, 
-    ColorDot, 
-    StepperIndicator, 
-    UploadGarment, 
+  imports: [ClothingCard,
+    CategoriesFilter,
+    ColorDot,
+    StepperIndicator,
+    UploadGarment,
     Icon,
     SignUpBtn,
-    LogInForm, 
+    LogInForm,
     SignUpForm],
   templateUrl: './page.html',
   styleUrl: './page.css',

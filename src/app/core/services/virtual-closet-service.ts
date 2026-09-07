@@ -10,13 +10,22 @@ import { AuthService } from './auht.service';
 })
 
 export class ClothingService {
-  constructor(private garmentRep: GarmentRepository, private authService: AuthService) { }
+  constructor(private garmentRep: GarmentRepository, private authService: AuthService) {
+    if (authService.userIsLoggedIn() !== null) {
+      garmentRep.getAllClots().then(data => this.savedGarment.set(data))
+      console.log(this.savedGarment())
+    }
+  }
   aiAnswer = signal<ClothingItem>({} as ClothingItem);
   stateUploader = signal<'idle' | 'result' | 'added'>('idle');
   base64Image = signal<string>('')
   savedGarment = signal<ClothingItem[]>([])
-  imageName : string = ''
+  imageName: string = ''
   compressedBlob: Blob | null = null;
+
+  async debugger() {
+    console.log(this.savedGarment())
+  }
 
   async saveGarment(event: ClothingItem) {
     this.savedGarment.update(list => [...list, { ...event }])
@@ -29,53 +38,53 @@ export class ClothingService {
     if (file) {
       const reader = new FileReader();
       const imageCompressed: Blob = await this.imageCompressor(file)
-        reader.onload = () => {
-          /* const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${environment.groqKey}`
-            },
-            body: JSON.stringify({
-              model: 'meta-llama/llama-4-scout-17b-16e-instruct',
-              messages: [
-                {
-                  role: 'user',
-                  content: [
-                    {
-                      type: 'image_url',
-                      image_url: {
-                        url: `data:image/jpeg;base64,${this.base64Image.split(',')[1]}`
-                      }
-                    },
-                    {
-                      type: 'text',
-                      text: 'describe la imagen en detalle, incluyendo tipo de prenda, colores, patrones y cualquier otro detalle relevante'
+      reader.onload = () => {
+        /* const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${environment.groqKey}`
+          },
+          body: JSON.stringify({
+            model: 'meta-llama/llama-4-scout-17b-16e-instruct',
+            messages: [
+              {
+                role: 'user',
+                content: [
+                  {
+                    type: 'image_url',
+                    image_url: {
+                      url: `data:image/jpeg;base64,${this.base64Image.split(',')[1]}`
                     }
-                  ]
-                }
-              ]
-            })
-          });
-     
-          const data = await response.json();
-          this.aiAnswer = data.choices[0].message.content;
-          console.log(this.aiAnswer); */
-          this.aiAnswer.set(mockClothing[Math.ceil(Math.random() * (5 - 1) + 1)])
-          this.base64Image.set(reader.result as string)
-          if (this.aiAnswer()) {
-            this.aiAnswer().imageUrl = URL.createObjectURL(imageCompressed)
-            this.compressedBlob = imageCompressed
-            this.imageName = file.name
-          } else {
-            throw new Error
-          }
-        };
-        reader.onerror = () => {
-          console.log('Algo fallo')
+                  },
+                  {
+                    type: 'text',
+                    text: 'describe la imagen en detalle, incluyendo tipo de prenda, colores, patrones y cualquier otro detalle relevante'
+                  }
+                ]
+              }
+            ]
+          })
+        });
+   
+        const data = await response.json();
+        this.aiAnswer = data.choices[0].message.content;
+        console.log(this.aiAnswer); */
+        this.aiAnswer.set(mockClothing[Math.ceil(Math.random() * (5 - 1) + 1)])
+        this.base64Image.set(reader.result as string)
+        if (this.aiAnswer()) {
+          this.aiAnswer().imageUrl = URL.createObjectURL(imageCompressed)
+          this.compressedBlob = imageCompressed
+          this.imageName = file.name
+        } else {
+          throw new Error
         }
-        reader.readAsDataURL(imageCompressed);
+      };
+      reader.onerror = () => {
+        console.log('Algo fallo')
       }
+      reader.readAsDataURL(imageCompressed);
+    }
     return this.aiAnswer()
   }
 
