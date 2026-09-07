@@ -6,6 +6,11 @@
             <button class="sign-up-btn px-6 py-8" (click)="signUp()">Sign Up!</button>
         </div>
         } @else {
+        <app-top-bar [userName]="authService.currentUser()?.user_metadata?.['name']"
+            (openAI)="modalActive.set('AI')"></app-top-bar>
+        @if (modalActive() == 'AI') {
+            <span class="modal">HOLA</span>
+        }
         @if (clothingService.savedGarment().length > 0) {
         <div class="flex gap-7 mt-5 ml-8 justify-center items-center w-full">
             @for (item of clothingService.savedGarment(); track $index) {
@@ -17,16 +22,16 @@
         <div class="max-w-82">
             <span class="text-center"> You do not have any garment yet, add one right now with the
                 button on the left and bottom of your
-                screen! 
+                screen!
             </span>
         </div>
         }
         <div class="flex absolute bottom-6 right-6 gap-3">
-            <button class="" (click)="clothingService.debugger()">Debugger</button>
-            <button class="" (click)="openModal()"><app-icon name="upload" /></button>
+            <button class="" (click)="debbugger()">Debugger</button>
+            <button class="" (click)="modalActive.set('uploader')"><app-icon name="upload" /></button>
         </div>
-        @if (isGarmentModalOpen) {
-        <app-upload-garment class="modal" (close)="closeModal()"></app-upload-garment>
+        @if (modalActive() == 'uploader') {
+        <app-upload-garment class="modal" (close)="modalActive.set(null)"></app-upload-garment>
         }}
     </div>
 </div>

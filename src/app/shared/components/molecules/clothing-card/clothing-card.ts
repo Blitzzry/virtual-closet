@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { mockClothing } from '../../../../core/mock/mock-data';
 import { FavoriteButton } from '../../atoms/favorite-button/favorite-button';
 import { ColorDot } from '../../atoms/color-dot/color-dot';

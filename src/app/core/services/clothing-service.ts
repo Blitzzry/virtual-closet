@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { mockClothing } from '../mock/mock-data';
 import { ClothingItem } from '../models/interface';
 import { environment } from '../../../enviroments/enviroment';
@@ -16,12 +16,18 @@ export class ClothingService {
       console.log(this.savedGarment())
     }
   }
+
   aiAnswer = signal<ClothingItem>({} as ClothingItem);
   stateUploader = signal<'idle' | 'result' | 'added'>('idle');
   base64Image = signal<string>('')
   savedGarment = signal<ClothingItem[]>([])
   imageName: string = ''
   compressedBlob: Blob | null = null;
+  windowWidth = signal<number>(window.innerWidth);
+
+  windowResizer = computed(() => {
+    return this.windowWidth.set(window.innerWidth)
+  })
 
   async debugger() {
     console.log(this.savedGarment())

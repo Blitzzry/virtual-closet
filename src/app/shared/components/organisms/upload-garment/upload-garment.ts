@@ -7,7 +7,7 @@ import { Badge } from '../../atoms/badge/badge';
 import { SuggestedTags } from '../../atoms/suggested-tags/suggested-tags';
 import { FormsModule } from '@angular/forms';
 import { Icon } from '../../atoms/icon/icons';
-import { ClothingService } from '../../../../core/services/virtual-closet-service';
+import { ClothingService } from '../../../../core/services/clothing-service';
 
 @Component({
   selector: 'app-upload-garment',
@@ -28,7 +28,7 @@ export class UploadGarment {
   }
 
   async onFileSelected(photo: any) {
-    this.clothingService.onFileSelected(photo)
+    await this.clothingService.onFileSelected(photo)
     try {
       const response = await this.clothingService.aiAnswer()
       if (response) {

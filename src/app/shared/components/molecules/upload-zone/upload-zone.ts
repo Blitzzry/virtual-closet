@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Icon } from '../../atoms/icon/icons';
-import { ClothingService } from '../../../../core/services/virtual-closet-service';
+import { ClothingService } from '../../../../core/services/clothing-service';
 
 @Component({
   selector: 'app-upload-zone',
