@@ -15,3 +15,9 @@ body {
 .premium-title {
     font-family: "DM Sans", sans-serif;
 }
+
+button {
+    cursor: pointer;
+    background-color: rgb(202, 201, 201);
+    border-radius: 12px;
+}

@@ -1,11 +1,11 @@
 <div class="flex w-full h-full gap-5 mt-5 items-center">
-    <div class="flex flex-col justify-center items-center gap-4 w-full">
-        @if (authService.userIsLoggedIn()){
-        <div class="flex w-full justify-end mb-3 gap-2 px-3">
-            <button class="log-in-btn" (click)="logIn()">Log In!</button>
-            <button class="sign-up-btn" (click)="signUp()">Sign Up!</button>
+    <div class="flex flex-col justify-center items-center gap-4 w-full h-full">
+        @if (authService.userIsLoggedIn() == null){
+        <div class="flex w-full h-full justify-center items-center mb-3 gap-2 px-3">
+            <button class="log-in-btn px-6 py-8" (click)="logIn()">Log In!</button>
+            <button class="sign-up-btn px-6 py-8" (click)="signUp()">Sign Up!</button>
         </div>
-        }
+        } @else {
         @if (garment.length > 0) {
         <div class="grid grid-cols-3 gap-3 md:grid-cols-4 lg:grid-cols-5">
             @for (item of garment; track $index) {
@@ -23,6 +23,6 @@
         <button class="position absolute bottom-6 right-6" (click)="openModal()"><app-icon name="upload" /></button>
         @if (isGarmentModalOpen) {
         <app-upload-garment class="modal" (close)="closeModal()"></app-upload-garment>
-        }
+        }}
     </div>
 </div>

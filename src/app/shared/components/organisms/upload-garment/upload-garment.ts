@@ -31,14 +31,19 @@ export class UploadGarment {
     this.clothingService.onFileSelected(photo)
     try {
       const response = await this.clothingService.aiAnswer()
-      if (response){
+      if (response) {
         this.stateUploader.set('result')
-        console.log('a')
       }
     } catch (error) {
-      console.log(this.clothingService.aiAnswer())
+      console.log('erroor')
     }
   }
+  saveGarment(event: ClothingItem) {
+    this.clothingService.saveGarment(event)
+    console.log(event)
+    this.stateUploader.set('added')
+  }
+
 
   onInput(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -48,11 +53,8 @@ export class UploadGarment {
   toggleEdit() {
     this.editing = !this.editing
   }
-
-  getImage(image: string) {
-    this.aiPhoto = `data:image/png;base64,${image}`;
-  }
+  
   anotherOne() {
-
+    this.stateUploader.set('idle')
   }
 }

@@ -99,4 +99,5 @@ export const mockClothing = [
 
 export const mockAiAnswers = [
   'This is a ribbed knit sweater, perfect for casual winter days. It has a cozy texture and comes in neutral colors that can be easily paired with jeans or skirts.',
-  'This satin button-up shirt has a smooth and silky feel, ideal for work or dressier occasions. The light green color adds a fresh touch to your outfit.',]
+  'This satin button-up shirt has a smooth and silky feel, ideal for work or dressier occasions. The light green color adds a fresh touch to your outfit.',
+]

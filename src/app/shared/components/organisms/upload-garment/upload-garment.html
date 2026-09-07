@@ -10,8 +10,7 @@
         <button class="flex items-center save-btn gap-1.5 w-26 justify-center" (click)="fileInput.click()">
             <span>Upload</span>
             <app-icon [name]="'arrow-bar-up'"></app-icon>
-            <input #fileInput type="file" hidden (change)="this.onFileSelected($event)"
-                class="w-full h-full" />
+            <input #fileInput type="file" hidden (change)="this.onFileSelected($event)" class="w-full h-full" />
         </button>
     </div>
 </div>
@@ -69,8 +68,7 @@
             <app-icon [name]="'edit'"></app-icon>
             <span>Edit</span>
         </button>
-        <button class="flex items-center save-btn gap-1.5"
-            (click)="clothingService.saveGarment(clothingService.aiAnswer())">
+        <button class="flex items-center save-btn gap-1.5" (click)="this.saveGarment(clothingService.aiAnswer())">
             <span>Save to closet</span>
             <app-icon [name]="'save'"></app-icon>
         </button>
@@ -80,17 +78,18 @@
 @case ('added') {
 <div class="flex flex-col card">
     <app-stepper-indicator [phase]="'completed'"></app-stepper-indicator>
-    <div class="flex flex-col items-center">
+    <div class="flex flex-col items-center p-3">
         <app-icon [name]="'check-circle'" [size]="'xl'"></app-icon>
         <span class="mt-3 mb-1.5 premium-title text-lg">Item saved to your closet!</span>
         <span class="secondary-text text-sm max-w-46 text-center">You can view and organize it anytime in your
             closet</span>
-        <button class="save-btn flex items-center gap-1.5 mt-4" (click)="closeModal()">View my closet
-            <app-icon [name]="'hanger'"></app-icon>
-        </button>
-        <button class="flex items-center gap-1.5 mt-4" (click)="anotherOne()">Add a new one
-            <app-icon [name]="'hanger'"></app-icon>
-        </button>
+        <div class="flex gap-3 mt-4">
+            <button class="save-btn flex items-center gap-1.5 " (click)="closeModal()">View my closet
+                <app-icon [name]="'hanger'"></app-icon>
+            </button>
+            <button class="flex items-center gap-1.5 px-2" (click)="anotherOne()">Add a new one
+            </button>
+        </div>
     </div>
 </div>
 }
