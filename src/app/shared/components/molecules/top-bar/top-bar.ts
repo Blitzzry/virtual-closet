@@ -12,9 +12,9 @@ import { Icon } from '../../atoms/icon/icons';
 export class TopBar {
   constructor (public authService: AuthService, public clothingService: ClothingService){}
   @Input() userName?: string = ''
-  @Output() openAI = new EventEmitter<void>();
+  @Output() openOutfitMaker = new EventEmitter<void>();
 
-  askAI() {
-    this.openAI.emit()
+  outfitMaker() {
+    this.openOutfitMaker.emit()
   }
 }

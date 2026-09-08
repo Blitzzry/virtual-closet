@@ -1,0 +1,61 @@
+<div class="w-full card flex gap-4 p-4">
+    <div class="flex flex-col gap-3">
+        <div class="flex items-center gap-2">
+            <div class="flex flex-col gap-1">
+                <button class="flex items-center edit-btn gap-1.5" (click)="toggleEdit()">
+                    <app-icon [name]="'edit'"></app-icon>
+                </button>
+                <app-favorite-button [size]="'xxs'"></app-favorite-button>
+            </div>
+            <img [src]="this.clot.imageUrl" alt="garment image" class="clothing-card object-fill h-64 min-w-0 flex-1 shrink min-h-xl">
+        </div>
+        <div>
+            @if (editing) {
+            <div class="flex flex-col gap-1.5">
+                <input [(ngModel)]="this.clot.name">
+                <select [(ngModel)]="this.clot.category">
+                    @for (item of clot.category; track $index) {
+                    <option [value]="item">{{item}}</option>
+                    }
+                </select>
+            </div>
+            } @else {
+            <span class="garment-name">{{this.clot.name}}</span>
+            <app-badge [text]="this.clot.category" class="flex"></app-badge>
+            }
+        </div>
+        <div class="flex flex-col gap-0.5">
+            <p class="field-label">Colors</p>
+            <app-color-dot [colors]="this.clot.colors" [colorSize]="'18px'" class="flex gap-0.5"></app-color-dot>
+        </div>
+        <div class="flex flex-col gap-0.5">
+            <p class="field-label">Suggested Tags</p>
+            <app-suggested-tags [tags]="this.clot.tags" class="flex gap-1"></app-suggested-tags>
+        </div>
+        <div class="flex flex-col gap-0.5">
+            <p class="field-label">Material</p>
+            @if (editing) {
+            <input [(ngModel)]="this.clot.material">
+            } @else {
+            <span class="text-sm">{{this.clot.material}}</span>
+            }
+        </div>
+        <div class="flex flex-col gap-0.5">
+            <p class="field-label">Notes (AI)</p>
+            @if (editing) {
+            <input [(ngModel)]="this.clot.notes" (input)="onInput($event)">
+            } @else {
+            <span class="text-sm">{{this.clot.notes}}</span>
+            }
+        </div>
+    </div>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-5 justify-around">
+    <button class="flex items-center edit-btn gap-1.5 justify-center" (click)="closeModal()">
+        <span>Cancel</span>
+    </button>
+    <button class="flex items-center save-btn gap-1.5">
+        <span>Save to closet</span>
+        <app-icon [name]="'save'"></app-icon>
+    </button>
+</div>

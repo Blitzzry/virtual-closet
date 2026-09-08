@@ -19,7 +19,7 @@
 <div class="card">
     <app-stepper-indicator [phase]="'first'"></app-stepper-indicator>
     <div class="flex gap-4">
-        <img [src]="clothingService.base64Image()" alt="Foto prenda" class="h-auto max-w-56 clothing-card object-cover">
+        <img [src]="clothingService.base64Image()" alt="garment image" class="h-auto max-w-56 clothing-card object-cover">
         <div class="flex flex-col gap-3">
             <div>
                 @if (editing) {
@@ -63,7 +63,10 @@
             </div>
         </div>
     </div>
-    <div class="grid grid-cols-2 gap-2 mt-5 justify-around">
+    <div class="flex gap-2 mt-5 justify-around">
+        <button class="flex items-center edit-btn gap-1.5 w-26 justify-center" (click)="closeModal()">
+            <span>Cancel</span>
+        </button>
         <button class="flex items-center edit-btn gap-1.5" (click)="toggleEdit()">
             <app-icon [name]="'edit'"></app-icon>
             <span>Edit</span>

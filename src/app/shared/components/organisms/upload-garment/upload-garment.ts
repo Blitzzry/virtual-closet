@@ -20,8 +20,8 @@ export class UploadGarment {
   aiPhoto: string = '';
   editing: boolean = false;
   categoryTypes: ClothingCategory[] = ['tops', 'bottoms', 'dresses', 'outerwear', 'shoes', 'accessories']
-  @Output() close = new EventEmitter<void>();
   stateUploader = signal<'idle' | 'result' | 'added'>('idle');
+  @Output() close = new EventEmitter<void>();
 
   closeModal() {
     this.close.emit();

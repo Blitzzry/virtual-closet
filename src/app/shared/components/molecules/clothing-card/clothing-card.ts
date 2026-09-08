@@ -1,4 +1,4 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { mockClothing } from '../../../../core/mock/mock-data';
 import { FavoriteButton } from '../../atoms/favorite-button/favorite-button';
 import { ColorDot } from '../../atoms/color-dot/color-dot';
@@ -6,7 +6,7 @@ import { Badge } from '../../atoms/badge/badge';
 
 @Component({
   selector: 'app-clothing-card',
-  imports: [ Badge, ColorDot, FavoriteButton],
+  imports: [Badge, ColorDot, FavoriteButton],
   templateUrl: './clothing-card.html',
   styleUrl: './clothing-card.css',
 })
@@ -15,4 +15,8 @@ export class ClothingCard {
   @Input() name: string = ''
   @Input() category: string = ''
   @Input() imageUrl: string = ''
+  @Output() selectClot = new EventEmitter<void>()
+  selClot() {
+    this.selectClot.emit();
+  }
 }

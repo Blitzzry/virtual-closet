@@ -1,6 +1,6 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { mockClothing } from '../mock/mock-data';
-import { ClothingItem } from '../models/interface';
+import { ClothingCategory, ClothingItem } from '../models/interface';
 import { environment } from '../../../enviroments/enviroment';
 import { GarmentRepository } from './garment-repository';
 import { AuthService } from './auht.service';
@@ -25,12 +25,27 @@ export class ClothingService {
   compressedBlob: Blob | null = null;
   windowWidth = signal<number>(window.innerWidth);
 
+  categoryCount = computed(() => {
+    const valorInicial: Record<ClothingCategory, number> = {
+      tops: 0,
+      bottoms: 0,
+      dresses: 0,
+      outerwear: 0,
+      shoes: 0,
+      accessories: 0
+    }
+    return this.savedGarment().reduce((acc, garment) => {
+      acc[garment.category] = acc[garment.category] + 1
+      return acc
+    }, {} = valorInicial)
+  })
+
   windowResizer = computed(() => {
     return this.windowWidth.set(window.innerWidth)
   })
 
   async debugger() {
-    console.log(this.savedGarment())
+    console.log(Object.entries(this.categoryCount()).length)
   }
 
   async saveGarment(event: ClothingItem) {
