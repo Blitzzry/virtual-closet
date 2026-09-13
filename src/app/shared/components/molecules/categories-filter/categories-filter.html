@@ -1,7 +1,20 @@
-<div class="grid grid-cols-2 gap-2 category-filter">
-    <div class="flex items-center gap-2">
-        <app-icon [name]="iconCategoryName" [size]="'xs'"></app-icon>
-        <span>{{ iconCategoryName.charAt(0).toUpperCase() + iconCategoryName.slice(1) }}</span>
+<div class="flex flex-col gap-2">
+    @for (item of categories; track $index) {
+    <div class="flex justify-between gap-3 category-filter" [class.selected]="clothingService.selectedCategories().has(item[0])"
+        (click)="clothingService.toggleCategory(item[0], item[1])">
+        <div class="flex items-center gap-2">
+            <app-icon [name]="item[0]" [size]="'xs'" class="category-row icon"></app-icon>
+            <span>{{ item[0].charAt(0).toUpperCase() + item[0].slice(1) }}</span>
+        </div>
+        <div class="flex">
+            <span class="counter flex items-center gap-2 justify-center">
+                {{ item[1] }}
+            </span>
+            <app-icon [name]="'check'" [size]="'xs'" class="check-icon shrink-0"></app-icon>
+        </div>
     </div>
-    <span class="justify-self-end counter flex items-center justify-center">{{ categoryCounter }}</span>
+    }
+    <div class="flex mt-3 gap-2 w-full justify-center">
+        <button (click)="debugger()">Debugger</button>
+    </div>
 </div>

@@ -27,7 +27,6 @@ export class Page {
   constructor(public clothingService: ClothingService, public router: Router, public authService: AuthService) {
     effect(() => {
       this.garment = this.clothingService.savedGarment();
-      this.categories = Object.entries(clothingService.categoryCount()) as [ClothingCategory, number][]
     });
   }
   garment: ClothingItem[] = []
@@ -36,6 +35,10 @@ export class Page {
   isGarmentModalOpen: boolean = false
   modalActive = signal<'uploader' | 'OutfitMaker' | 'preview' | null>(null)
   idSelectedClot = signal<string>('')
+
+  cancelFilters(){
+    this.garment = this.clothingService.savedGarment()
+  }
 
   selectClot(id: string) {
     this.idSelectedClot.set(id)

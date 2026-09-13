@@ -1,9 +1,10 @@
 import { Injectable, signal, computed } from '@angular/core';
 import { mockClothing } from '../mock/mock-data';
 import { ClothingCategory, ClothingItem } from '../models/interface';
-import { environment } from '../../../enviroments/enviroment';
 import { GarmentRepository } from './garment-repository';
 import { AuthService } from './auht.service';
+import { debounceTime, fromEvent } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,14 @@ import { AuthService } from './auht.service';
 
 export class ClothingService {
   constructor(private garmentRep: GarmentRepository, private authService: AuthService) {
+    fromEvent(window, 'resize')
+      .pipe(
+        debounceTime(150),
+        takeUntilDestroyed()
+      )
+      .subscribe(() => {
+        this.windowWidth.set(window.innerWidth)
+      })
     if (authService.userIsLoggedIn() !== null) {
       garmentRep.getAllClots().then(data => this.savedGarment.set(data))
       console.log(this.savedGarment())
@@ -24,6 +33,33 @@ export class ClothingService {
   imageName: string = ''
   compressedBlob: Blob | null = null;
   windowWidth = signal<number>(window.innerWidth);
+  selectedCategories = signal<Set<ClothingCategory>>(new Set())
+
+  toggleCategory(cat: ClothingCategory, counter: number) {
+    if (counter == 0) {
+      console.log('ej')
+    } else {
+      this.selectedCategories.update(current => {
+        const next = new Set(current)
+        if (next.has(cat)) {
+          next.delete(cat)
+        } else {
+          next.add(cat)
+        }
+        return next
+      })
+    }
+  }
+
+  filteredClots = computed(() => {
+    if (this.selectedCategories().size == 0) {
+      return this.savedGarment()
+    } else {
+      return this.savedGarment().filter(ele =>
+        this.selectedCategories().has(ele.category)
+      )
+    }
+  })
 
   categoryCount = computed(() => {
     const valorInicial: Record<ClothingCategory, number> = {
@@ -40,17 +76,9 @@ export class ClothingService {
     }, {} = valorInicial)
   })
 
-  windowResizer = computed(() => {
-    return this.windowWidth.set(window.innerWidth)
-  })
-
-  async debugger() {
-    console.log(Object.entries(this.categoryCount()).length)
-  }
-
   async saveGarment(event: ClothingItem) {
     this.savedGarment.update(list => [...list, { ...event }])
-    this.garmentRep.insertClots(event, this.authService.currentUser()?.id, this.compressedBlob, this.imageName)
+    await this.garmentRep.insertClots(event, this.authService.currentUser()?.id, this.compressedBlob, this.imageName)
   }
 
   async onFileSelected(event: Event): Promise<ClothingItem> {

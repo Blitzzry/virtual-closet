@@ -45,3 +45,17 @@ button:hover {
   box-shadow:
     0 15px 30px rgba(196, 168, 106, .25);
 }
+
+.btn-secondary {
+  background: transparent;
+  color: #6B5F3E;
+  border: 1px solid #D8CDA0;
+  border-radius: 999px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.btn-secondary:hover {
+  background: #F1ECDA;
+}
