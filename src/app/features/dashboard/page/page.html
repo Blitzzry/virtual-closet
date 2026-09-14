@@ -10,10 +10,10 @@
             (openOutfitMaker)="modalActive.set('OutfitMaker')"></app-top-bar>
         @if (clothingService.savedGarment().length > 0) {
         <div class="flex">
-            <div class="flex flex-col gap-2 w-1/5 p-3">
-                    <app-categories-filter (cancel)="cancelFilters()"></app-categories-filter>
+            <div class="flex flex-col gap-2 w-60 p-3">
+                <app-categories-filter></app-categories-filter>
             </div>
-            <div class="flex gap-7 mt-5 ml-8 justify-center items-center w-full">
+            <div class="flex gap-7 mt-5 ml-8 justify-center flex-wrap items-center">
                 @for (item of this.clothingService.filteredClots(); track $index) {
                 <app-clothing-card class="w-auto" [category]="item.category" [colors]="item.colors"
                     [imageUrl]="item.imageUrl" [name]="item.name"
@@ -42,6 +42,6 @@
         }}
     </div>
     @if(modalActive() == 'preview'){
-    <app-side-bar class="w-2/6" [idSelectedClot]="idSelectedClot()" (close)="modalActive.set(null)"></app-side-bar>
+    <app-side-bar class="w-96" [idSelectedClot]="idSelectedClot()" (close)="modalActive.set(null)"></app-side-bar>
     }
 </div>

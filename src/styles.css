@@ -21,14 +21,13 @@ button {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  height: 52px;
-  padding: 0 20px;
+  height: 32px;
+  padding: 0 10px;
   border: none;
   border-radius: 16px;
   background: #C4A86A;
   color: white;
   font-family: "Inter", sans-serif;
-  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   box-shadow:
@@ -46,7 +45,7 @@ button:hover {
     0 15px 30px rgba(196, 168, 106, .25);
 }
 
-.btn-secondary {
+.secondary-btn {
   background: transparent;
   color: #6B5F3E;
   border: 1px solid #D8CDA0;
@@ -56,6 +55,6 @@ button:hover {
   transition: background 0.15s ease, transform 0.15s ease;
 }
 
-.btn-secondary:hover {
+.secondary-btn:hover {
   background: #F1ECDA;
 }

@@ -1,0 +1,41 @@
+{
+  "version": "5",
+  "specifiers": {
+    "jsr:@deno/installer-shell-setup@*": "0.3.4"
+  },
+  "jsr": {
+    "@deno/installer-shell-setup@0.3.4": {
+      "integrity": "48665d1a737d487cce6874bc97bba70a5aeffa7053aca3f60df93c6fab8963b4"
+    }
+  },
+  "workspace": {
+    "packageJson": {
+      "dependencies": [
+        "npm:@angular/build@^21.2.10",
+        "npm:@angular/cli@^21.2.10",
+        "npm:@angular/common@^21.2.0",
+        "npm:@angular/compiler-cli@^21.2.0",
+        "npm:@angular/compiler@^21.2.0",
+        "npm:@angular/core@^21.2.0",
+        "npm:@angular/forms@^21.2.0",
+        "npm:@angular/platform-browser@^21.2.0",
+        "npm:@angular/router@^21.2.0",
+        "npm:@google/genai@^2.8.0",
+        "npm:@supabase/ssr@~0.12.5",
+        "npm:@supabase/supabase-js@^2.112.4",
+        "npm:@tailwindcss/postcss@^4.1.12",
+        "npm:@types/node@^25.9.3",
+        "npm:jsdom@28",
+        "npm:mime@^4.1.0",
+        "npm:postcss@^8.5.3",
+        "npm:prettier@^3.8.1",
+        "npm:rxjs@7.8",
+        "npm:supabase@^2.117.0",
+        "npm:tailwindcss@^4.1.12",
+        "npm:tslib@^2.3.0",
+        "npm:typescript@~5.9.2",
+        "npm:vitest@^4.0.8"
+      ]
+    }
+  }
+}

@@ -2,7 +2,7 @@
     <div class="flex flex-col gap-3">
         <div class="flex items-center gap-2">
             <div class="flex flex-col gap-1">
-                <button class="flex items-center edit-btn gap-1.5" (click)="toggleEdit()">
+                <button class="flex items-center edit-btn px-1" (click)="toggleEdit()">
                     <app-icon [name]="'edit'"></app-icon>
                 </button>
                 <app-favorite-button [size]="'xxs'"></app-favorite-button>
@@ -51,10 +51,10 @@
     </div>
 </div>
 <div class="grid grid-cols-2 gap-2 mt-5 justify-around">
-    <button class="flex items-center edit-btn gap-1.5 justify-center" (click)="closeModal()">
+    <button class="flex items-center !py-6 xl:!py-5 secondary-btn gap-1.5 justify-center" (click)="closeModal()">
         <span>Cancel</span>
     </button>
-    <button class="flex items-center save-btn gap-1.5">
+    <button class="flex text-sm !py-6 xl:!py-5 items-center save-btn gap-1.5">
         <span>Save to closet</span>
         <app-icon [name]="'save'"></app-icon>
     </button>

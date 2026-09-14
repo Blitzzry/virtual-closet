@@ -119,7 +119,7 @@ export class ClothingService {
         const data = await response.json();
         this.aiAnswer = data.choices[0].message.content;
         console.log(this.aiAnswer); */
-        this.aiAnswer.set(mockClothing[Math.ceil(Math.random() * (5 - 1) + 1)])
+        this.aiAnswer.set(mockClothing[Math.ceil(Math.random() * (8 - 1) + 1)])
         this.base64Image.set(reader.result as string)
         if (this.aiAnswer()) {
           this.aiAnswer().imageUrl = URL.createObjectURL(imageCompressed)

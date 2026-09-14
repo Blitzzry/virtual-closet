@@ -36,10 +36,6 @@ export class Page {
   modalActive = signal<'uploader' | 'OutfitMaker' | 'preview' | null>(null)
   idSelectedClot = signal<string>('')
 
-  cancelFilters(){
-    this.garment = this.clothingService.savedGarment()
-  }
-
   selectClot(id: string) {
     this.idSelectedClot.set(id)
     this.modalActive.set('preview')
