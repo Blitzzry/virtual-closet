@@ -12,3 +12,9 @@ export interface ClothingItem {
   isFavorite: boolean;
   imageUrl: string;
 }
+
+export interface AiAnswer {
+  "isGarmnet": boolean,
+  "item": ClothingItem | null,
+  "reason": string | null,
+}

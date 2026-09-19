@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Output, signal } from '@angular/core';
+import { Component, computed, EventEmitter, Output, signal, } from '@angular/core';
 import { UploadZone } from '../../molecules/upload-zone/upload-zone';
 import { StepperIndicator } from '../../atoms/stepper-indicator/stepper-indicator';
-import { ClothingItem, ClothingCategory } from '../../../../core/models/interface';
+import { ClothingItem, ClothingCategory, AiAnswer } from '../../../../core/models/interface';
 import { ColorDot } from '../../atoms/color-dot/color-dot';
 import { Badge } from '../../atoms/badge/badge';
 import { SuggestedTags } from '../../atoms/suggested-tags/suggested-tags';
@@ -16,7 +16,7 @@ import { ClothingService } from '../../../../core/services/clothing-service';
   styleUrl: './upload-garment.css',
 })
 export class UploadGarment {
-  constructor(public clothingService: ClothingService) { }
+  constructor(public clothingService: ClothingService) {}
   aiPhoto: string = '';
   editing: boolean = false;
   categoryTypes: ClothingCategory[] = ['tops', 'bottoms', 'dresses', 'outerwear', 'shoes', 'accessories']
@@ -25,6 +25,15 @@ export class UploadGarment {
 
   closeModal() {
     this.close.emit();
+  }
+
+  aiAnswerInfo = computed(() => {
+    return this.clothingService.aiAnswer()
+  })
+  
+  debugger() {
+    console.log(this.aiAnswerInfo())
+    console.log(this.aiAnswerInfo().item)
   }
 
   async onFileSelected(photo: any) {
@@ -43,7 +52,6 @@ export class UploadGarment {
     console.log(event)
     this.stateUploader.set('added')
   }
-
 
   onInput(event: Event) {
     const input = event.target as HTMLInputElement;

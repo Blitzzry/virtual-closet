@@ -1,65 +1,68 @@
-import { Injectable, signal, computed } from '@angular/core';
-import { mockClothing } from '../mock/mock-data';
-import { ClothingCategory, ClothingItem } from '../models/interface';
-import { GarmentRepository } from './garment-repository';
-import { AuthService } from './auht.service';
-import { debounceTime, fromEvent } from 'rxjs';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { computed, Injectable, signal } from "@angular/core";
+import { mockClothing } from "../mock/mock-data";
+import { AiAnswer, ClothingCategory, ClothingItem } from "../models/interface";
+import { GarmentRepository } from "./garment-repository";
+import { AuthService } from "./auht.service";
+import { debounceTime, fromEvent } from "rxjs";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { SupabaseService } from "./supabase.service";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
-
 export class ClothingService {
-  constructor(private garmentRep: GarmentRepository, private authService: AuthService) {
-    fromEvent(window, 'resize')
+  constructor(
+    private garmentRep: GarmentRepository,
+    private authService: AuthService,
+    public supabase: SupabaseService,
+  ) {
+    fromEvent(window, "resize")
       .pipe(
         debounceTime(150),
-        takeUntilDestroyed()
+        takeUntilDestroyed(),
       )
       .subscribe(() => {
-        this.windowWidth.set(window.innerWidth)
-      })
+        this.windowWidth.set(window.innerWidth);
+      });
     if (authService.userIsLoggedIn() !== null) {
-      garmentRep.getAllClots().then(data => this.savedGarment.set(data))
-      console.log(this.savedGarment())
+      garmentRep.getAllClots().then((data) => this.savedGarment.set(data));
     }
   }
 
-  aiAnswer = signal<ClothingItem>({} as ClothingItem);
-  stateUploader = signal<'idle' | 'result' | 'added'>('idle');
-  base64Image = signal<string>('')
-  savedGarment = signal<ClothingItem[]>([])
-  imageName: string = ''
+  aiAnswer = signal<AiAnswer>({} as AiAnswer);
+  stateUploader = signal<"idle" | "result" | "added">("idle");
+  base64Image = signal<string>("");
+  savedGarment = signal<ClothingItem[]>([]);
+  imageName: string = "";
   compressedBlob: Blob | null = null;
   windowWidth = signal<number>(window.innerWidth);
-  selectedCategories = signal<Set<ClothingCategory>>(new Set())
+  selectedCategories = signal<Set<ClothingCategory>>(new Set());
 
   toggleCategory(cat: ClothingCategory, counter: number) {
     if (counter == 0) {
-      console.log('ej')
+      console.log("ej");
     } else {
-      this.selectedCategories.update(current => {
-        const next = new Set(current)
+      this.selectedCategories.update((current) => {
+        const next = new Set(current);
         if (next.has(cat)) {
-          next.delete(cat)
+          next.delete(cat);
         } else {
-          next.add(cat)
+          next.add(cat);
         }
-        return next
-      })
+        return next;
+      });
     }
   }
 
   filteredClots = computed(() => {
     if (this.selectedCategories().size == 0) {
-      return this.savedGarment()
+      return this.savedGarment();
     } else {
-      return this.savedGarment().filter(ele =>
+      return this.savedGarment().filter((ele) =>
         this.selectedCategories().has(ele.category)
-      )
+      );
     }
-  })
+  });
 
   categoryCount = computed(() => {
     const valorInicial: Record<ClothingCategory, number> = {
@@ -68,101 +71,101 @@ export class ClothingService {
       dresses: 0,
       outerwear: 0,
       shoes: 0,
-      accessories: 0
-    }
+      accessories: 0,
+    };
     return this.savedGarment().reduce((acc, garment) => {
-      acc[garment.category] = acc[garment.category] + 1
-      return acc
-    }, {} = valorInicial)
-  })
+      acc[garment.category] = acc[garment.category] + 1;
+      return acc;
+    }, {} = valorInicial);
+  });
 
   async saveGarment(event: ClothingItem) {
-    this.savedGarment.update(list => [...list, { ...event }])
-    await this.garmentRep.insertClots(event, this.authService.currentUser()?.id, this.compressedBlob, this.imageName)
+    this.savedGarment.update((list) => [...list, { ...event }]);
+    await this.garmentRep.insertClots(
+      event,
+      this.authService.currentUser()?.id,
+      this.compressedBlob,
+      this.imageName,
+    );
   }
 
-  async onFileSelected(event: Event): Promise<ClothingItem> {
+  async onFileSelected(event: Event): Promise<AiAnswer> {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
     if (file) {
       const reader = new FileReader();
-      const imageCompressed: Blob = await this.imageCompressor(file)
-      reader.onload = () => {
-        /* const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${environment.groqKey}`
-          },
-          body: JSON.stringify({
-            model: 'meta-llama/llama-4-scout-17b-16e-instruct',
-            messages: [
-              {
-                role: 'user',
-                content: [
-                  {
-                    type: 'image_url',
-                    image_url: {
-                      url: `data:image/jpeg;base64,${this.base64Image.split(',')[1]}`
-                    }
-                  },
-                  {
-                    type: 'text',
-                    text: 'describe la imagen en detalle, incluyendo tipo de prenda, colores, patrones y cualquier otro detalle relevante'
-                  }
-                ]
-              }
-            ]
-          })
-        });
-   
-        const data = await response.json();
-        this.aiAnswer = data.choices[0].message.content;
-        console.log(this.aiAnswer); */
-        this.aiAnswer.set(mockClothing[Math.ceil(Math.random() * (8 - 1) + 1)])
-        this.base64Image.set(reader.result as string)
-        if (this.aiAnswer()) {
-          this.aiAnswer().imageUrl = URL.createObjectURL(imageCompressed)
-          this.compressedBlob = imageCompressed
-          this.imageName = file.name
+      const imageCompressed: Blob = await this.imageCompressor(file);
+      reader.onload = async () => {
+        this.base64Image.set(reader.result as string);
+        const { data, error } = await this.supabase.client.functions.invoke(
+          "ai-caller",
+          { body: { image: this.base64Image().split("base64")[1] } },
+        );
+        if (error) throw error;
+        this.aiAnswer.set(JSON.parse(data.aiAnswer.choices[0].message.content));
+        console.log(typeof this.aiAnswer());
+        if (!this.aiAnswer().isGarmnet) {
+          this.aiAnswer.update(ele => ({
+            ...ele,
+            item: {
+              ...ele.item!,
+              id: crypto.randomUUID(),
+              imageUrl: URL.createObjectURL(imageCompressed),
+              isFavorite: false
+            }
+          }))
+          this.compressedBlob = imageCompressed;
+          this.imageName = file.name;
+          return this.aiAnswer().item;
         } else {
-          throw new Error
+          console.log('paila');
+          return this.aiAnswer();
         }
       };
       reader.onerror = () => {
-        console.log('Algo fallo')
-      }
+        console.log("Algo fallo");
+      };
       reader.readAsDataURL(imageCompressed);
     }
-    return this.aiAnswer()
+    return this.aiAnswer();
   }
 
   async imageCompressor(file: File): Promise<Blob> {
-    const temporalUrl = URL.createObjectURL(file)
-    const image = new Image()
+    const temporalUrl = URL.createObjectURL(file);
+    const image = new Image();
     return new Promise<Blob>((resolve, reject) => {
       image.onload = () => {
-        let biggestSide: number = 1024
+        let biggestSide: number = 1024;
         if (image.width > image.height) {
-          image.height = image.height * (biggestSide / image.width)
-          image.width = biggestSide
+          image.height = image.height * (biggestSide / image.width);
+          image.width = biggestSide;
         } else {
-          image.width = image.width * (biggestSide / image.height)
-          image.height = biggestSide
+          image.width = image.width * (biggestSide / image.height);
+          image.height = biggestSide;
         }
-        let canvas = document.createElement('canvas')
-        canvas.width = image.width
-        canvas.height = image.height
-        canvas.getContext('2d')?.drawImage(image, 0, 0, image.width, image.height)
-        canvas.toBlob((blob) => {
-          resolve(blob as Blob)
-        }, "image/jpeg", 0.7)
-      }
+        let canvas = document.createElement("canvas");
+        canvas.width = image.width;
+        canvas.height = image.height;
+        canvas.getContext("2d")?.drawImage(
+          image,
+          0,
+          0,
+          image.width,
+          image.height,
+        );
+        canvas.toBlob(
+          (blob) => {
+            resolve(blob as Blob);
+          },
+          "image/jpeg",
+          0.7,
+        );
+      };
       image.onerror = () => {
-        reject
-        console.log('algo fallo en la imagen')
-      }
-      image.src = temporalUrl
-    })
+        reject;
+        console.log("algo fallo en la imagen");
+      };
+      image.src = temporalUrl;
+    });
   }
 }
