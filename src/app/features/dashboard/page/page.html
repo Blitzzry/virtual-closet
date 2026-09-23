@@ -10,7 +10,7 @@
             (openOutfitMaker)="modalActive.set('OutfitMaker')"></app-top-bar>
         @if (clothingService.savedGarment().length > 0) {
         <div class="flex">
-            <div class="flex flex-col gap-2 w-72 px-5">
+            <div class="flex flex-col gap-2 max-w-80 px-5">
                 <app-categories-filter></app-categories-filter>
             </div>
             <div class="flex gap-7 mt-5 mx-3 justify-center flex-wrap items-center">
@@ -33,9 +33,7 @@
         </div>
         }
         @if (modalActive() == 'OutfitMaker') {
-        <div class="modal">
-            <button (click)="modalActive.set(null)">Close</button>
-        </div>
+        <app-outfit-maker class="modal"></app-outfit-maker>
         }
         @if (modalActive() == 'uploader') {
         <app-upload-garment class="modal" (close)="modalActive.set(null)"></app-upload-garment>

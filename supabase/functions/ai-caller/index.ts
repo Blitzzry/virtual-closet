@@ -7,7 +7,6 @@ Deno.serve(async (req) => {
       "authorization, x-client-info, apikey, content-type",
   };
   if (req.method === "OPTIONS") {
-    console.log("patata");
     return new Response("ok", { headers: corsHeaders });
   } else {
     const { image } = await req.json();
@@ -89,7 +88,6 @@ Example outputs:
   "item": null,
   "reason": "The image shows a stuffed teddy bear, not a piece of clothing."
 }`;
-    console.log(image);
     const response = await fetch(
       "https://api.groq.com/openai/v1/chat/completions",
       {
@@ -125,8 +123,6 @@ Example outputs:
       },
     );
     const data = await response.json();
-    console.log(typeof data);
-    console.log(data);
     return Response.json({ aiAnswer: data }, {
       headers: corsHeaders,
     });

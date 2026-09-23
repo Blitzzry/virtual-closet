@@ -62,17 +62,3 @@
   background: #FAF8F5;
   border-color: #CFC6BC;
 }
-
-.card {
-  background: white;
-  border: 1px solid var(--border-primary);
-  border-radius: 24px;
-  padding: 25px;
-  overflow: hidden;
-  transition:
-    transform .25s ease,
-    box-shadow .25s ease,
-    border-color .25s ease;
-  box-shadow: var(--shadow-sm);
-
-}

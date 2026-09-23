@@ -1,6 +1,6 @@
 import { computed, Injectable, signal } from "@angular/core";
 import { mockClothing } from "../mock/mock-data";
-import { AiAnswer, ClothingCategory, ClothingItem } from "../models/interface";
+import { AiAnswer, ClothingCategory, ClothingItem, StylesList } from "../models/interface";
 import { GarmentRepository } from "./garment-repository";
 import { AuthService } from "./auht.service";
 import { debounceTime, fromEvent } from "rxjs";
@@ -37,6 +37,24 @@ export class ClothingService {
   compressedBlob: Blob | null = null;
   windowWidth = signal<number>(window.innerWidth);
   selectedCategories = signal<Set<ClothingCategory>>(new Set());
+  formRequests = signal<Set<ClothingCategory>>(new Set());
+  styleList: StylesList[] = [
+    "Casual",
+    "Streetwear",
+    "Old Money",
+    "Formal",
+    "Coquette",
+    "Y2K",
+    "Minimalista",
+    "Gótico",
+    "Deportivo",
+    "Boho",
+    "Preppy",
+    "Grunge",
+    "Elegante",
+    "Vintage",
+    "Business Casual",
+  ];
 
   toggleCategory(cat: ClothingCategory, counter: number) {
     if (counter == 0) {
@@ -53,6 +71,7 @@ export class ClothingService {
       });
     }
   }
+
 
   filteredClots = computed(() => {
     if (this.selectedCategories().size == 0) {
@@ -89,6 +108,14 @@ export class ClothingService {
     );
   }
 
+  async outitMaker (tags: string[], style: StylesList, tempt: string){
+    const { data, error } = await this.supabase.client.functions.invoke(
+      'outfit-maker',
+      { body: { tags: tags, style: style, tempt: tempt}}
+    )
+    console.log(await data)
+  }
+
   async onFileSelected(event: Event): Promise<AiAnswer> {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
@@ -103,7 +130,6 @@ export class ClothingService {
         );
         if (error) throw error;
         this.aiAnswer.set(JSON.parse(data.aiAnswer.choices[0].message.content));
-        console.log(typeof this.aiAnswer());
         if (!this.aiAnswer().isGarmnet) {
           this.aiAnswer.update(ele => ({
             ...ele,

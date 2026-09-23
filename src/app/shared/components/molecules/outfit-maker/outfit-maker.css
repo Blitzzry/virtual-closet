@@ -1,0 +1,58 @@
+.form-btn:hover{
+    background: #f3d8ac;
+}
+
+.weather-btn:hover{
+    background: #fdeacc;
+}
+
+.selected {
+    border: 1.5px solid #edb55a;
+    background: #f3d8ac;
+}
+
+.selected-weather {
+    border: 1.5px solid #edb55a;
+}
+
+.section-title {
+  color: #77736d;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.description {
+  display: block;
+  margin-top: 0.5rem;
+  color: #8a867f;
+  line-height: 1.5;
+}
+
+textarea {
+  resize: vertical;
+  padding: 1rem;
+  border: 1px solid #e8e4dc;
+  border-radius: 1rem;
+  background: #fff;
+  min-width: 100%;
+  min-height: 7rem;
+  max-height: 7rem;
+  color: #33312e;
+  font-family: inherit;
+  font-size: 0.9rem;
+  line-height: 1.5;
+
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+textarea::placeholder {
+  color: #aaa59d;
+}
+
+textarea:focus {
+  border-color: #c4a86a;
+  box-shadow: 0 0 0 3px rgba(196, 168, 106, 0.12);
+}

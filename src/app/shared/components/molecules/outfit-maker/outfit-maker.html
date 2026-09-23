@@ -1,0 +1,51 @@
+<div class="card">
+    <h1 class="text-2xl font-semibold">Create a new Outfit</h1>
+    <span class="description text-sm">Tell us what you have in mind, and let Gira make an amazing look for you.</span>
+    <div class="grid grid-cols-2 gap-2">
+        <div class="mt-2">
+            <span class="section-title">Tags</span>
+            <div class="max-h-62 overflow-scroll gap-1.5 flex px-1.5 flex-col mt-4">
+                @for (item of tagsList(); track $index) {
+                <button class="py-1 w-full form-btn" (click)="addTag(item)"
+                    [class.selected]="tagsSelected.find(el => el == item)">
+                    {{ item }}
+                </button>
+                }
+            </div>
+        </div>
+        <div class="mt-2">
+            <span class="section-title">Style</span>
+            <div class="max-h-62 overflow-scroll flex flex-col px-1.5 gap-1.5 mt-4">
+                @for (item of clothingService.styleList; track item; let ind = $index) {
+                <button class="py-1.5 px-2 w-full form-btn" (click)="styleSelected = item"
+                    [class.selected]="styleSelected == item">{{ item }} </button>
+                }
+            </div>
+        </div>
+    </div>
+    <span class="section-title">
+        weather
+    </span>
+    <div class="grid grid-cols-3 gap-2 mt-2">
+        <button class="weather-btn py-7 flex flex-col gap-0.5" (click)="weatherSelected = 'sun'"
+            [class.selected-weather]="weatherSelected == 'sun'">
+            <app-icon [name]="'sun'"></app-icon>
+            Heat
+        </button>
+        <button class="weather-btn py-7 flex flex-col gap-0.5" (click)="weatherSelected = 'cloud'"
+            [class.selected-weather]="weatherSelected == 'cloud'">
+            <app-icon [name]="'cloud'"></app-icon>
+            Temperate climate
+        </button>
+        <button class="weather-btn py-7 flex flex-col gap-0.5" (click)="weatherSelected = 'snowflake'"
+            [class.selected-weather]="weatherSelected == 'snowflake'">
+            <app-icon [name]="'snowflake'"></app-icon>
+            Freeze
+        </button>
+    </div>
+    <div class="mt-2">
+        <span class="section-title">Notes</span>
+        <textarea  name="" id="" class="mt-2"></textarea>
+    </div>
+    <button class="primary-btn w-full mt-3 !py-5" (click)="clothingService.outitMaker(tagsSelected, styleSelected, weatherSelected)">Generate Outfit</button>
+</div>
