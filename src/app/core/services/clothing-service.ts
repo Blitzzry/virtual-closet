@@ -1,6 +1,5 @@
 import { computed, Injectable, signal } from "@angular/core";
-import { mockClothing } from "../mock/mock-data";
-import { AiAnswer, ClothingCategory, ClothingItem, StylesList } from "../models/interface";
+import { AiAnswer, ClothingCategory, ClothingItem, OutfitMakerInterface, StylesList } from "../models/interface";
 import { GarmentRepository } from "./garment-repository";
 import { AuthService } from "./auht.service";
 import { debounceTime, fromEvent } from "rxjs";
@@ -29,8 +28,15 @@ export class ClothingService {
     }
   }
 
+  outfitMakerResponse = signal<OutfitMakerInterface>({} as OutfitMakerInterface);
+  paramsSelected = {
+    tags: [''],
+    style: '',
+    tempt: ''
+  }
   aiAnswer = signal<AiAnswer>({} as AiAnswer);
   stateUploader = signal<"idle" | "result" | "added">("idle");
+  outfitMakerStep = signal<"idle" | "result" | "added">("idle");
   base64Image = signal<string>("");
   savedGarment = signal<ClothingItem[]>([]);
   imageName: string = "";
@@ -58,7 +64,6 @@ export class ClothingService {
 
   toggleCategory(cat: ClothingCategory, counter: number) {
     if (counter == 0) {
-      console.log("ej");
     } else {
       this.selectedCategories.update((current) => {
         const next = new Set(current);
@@ -108,12 +113,28 @@ export class ClothingService {
     );
   }
 
+  suggestedCloths = computed(() => {
+    const outfit = this.savedGarment().filter((ele) => {
+      return this.outfitMakerResponse().outfitItemIds!.includes(ele.id);
+    });
+    return outfit
+  });
+
   async outitMaker (tags: string[], style: StylesList, tempt: string){
+    this.paramsSelected = {
+      tags: tags,
+      style: style,
+      tempt: tempt
+    }
     const { data, error } = await this.supabase.client.functions.invoke(
       'outfit-maker',
-      { body: { tags: tags, style: style, tempt: tempt}}
+      { body: { clothes: this.savedGarment(), tags: tags, style: style, tempt: tempt}}
     )
-    console.log(await data)
+    if (error) throw error;
+    console.log(await JSON.parse(data.response.choices[0].message.content))
+    this.outfitMakerResponse.set(JSON.parse(data.response.choices[0].message.content))
+    this.outfitMakerStep.set('result')
+    return this.outfitMakerResponse()
   }
 
   async onFileSelected(event: Event): Promise<AiAnswer> {
@@ -144,7 +165,6 @@ export class ClothingService {
           this.imageName = file.name;
           return this.aiAnswer().item;
         } else {
-          console.log('paila');
           return this.aiAnswer();
         }
       };

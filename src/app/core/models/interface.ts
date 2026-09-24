@@ -20,3 +20,10 @@ export interface AiAnswer {
   "item": ClothingItem | null,
   "reason": string | null,
 }
+
+export interface OutfitMakerInterface {
+  "success": boolean,
+  "outfitItemIds": string[] | null,
+  "reason": string | null,
+  "error": string | null,
+}

@@ -10,7 +10,7 @@ import { AuthService } from '../../../core/services/auht.service';
 import { TopBar } from '../../../shared/components/molecules/top-bar/top-bar';
 import { SideBar } from '../../../shared/components/molecules/side-bar/side-bar';
 import { CategoriesFilter } from '../../../shared/components/molecules/categories-filter/categories-filter';
-import { OutfitMaker } from '../../../outfit-maker/outfit-maker';
+import { OutfitMaker } from '../../../shared/components/molecules/outfit-maker/outfit-maker';
 
 @Component({
   selector: 'app-page',
