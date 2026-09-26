@@ -18,9 +18,6 @@ export class CategoriesFilter {
   @Input() categoryCounter: number = 0;
   categories: [ClothingCategory, number][] = []
   debugger(){
-    console.log(this.clothingService.savedGarment().reduce((acc, el) => {
-      acc.push(...el.tags)
-      return acc
-    },[] as string[]))
+    console.log(this.clothingService.outfitMakerResponse().outfitItemIds?.length)
   }
 }

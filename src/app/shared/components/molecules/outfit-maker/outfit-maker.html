@@ -56,18 +56,27 @@
 }
 @case ('result') {
 <div class="card">
+    <app-stepper-indicator [phase]="'first'"></app-stepper-indicator>
     <h1 class="text-2xl font-semibold">Your Outfit is ready</h1>
-    <div class="flex gap-2">
-        <span class="flex"><app-icon [name]="'hanger'"></app-icon>{{ this.clothingService.paramsSelected.tags }}</span>
-        <span class="flex"><app-icon [name]="'dresses'"></app-icon>{{ this.clothingService.paramsSelected.style }}</span>
-        <span class="flex"><app-icon [name]="'arrow-bar-up'"></app-icon>{{ this.clothingService.paramsSelected.tempt }}</span>
+    <div class="flex gap-2 my-3 tags">
+        @if (this.clothingService.paramsSelected.tags.length !== 0) {
+        <span class="flex items-center tag"><app-icon [name]="'hanger'"></app-icon>{{ this.clothingService.paramsSelected.tags }}</span>
+        }
+        <span class="flex items-center tag"><app-icon [name]="'dresses'"></app-icon>{{ this.clothingService.paramsSelected.style
+            }}</span>
+        @if (this.clothingService.paramsSelected.tempt) {
+        <span class="flex items-center tag"><app-icon [name]="'arrow-bar-up'"></app-icon>{{ this.clothingService.paramsSelected.tempt
+            }}</span>}
     </div>
-    @if (typeof this.clothingService.suggestedCloths() == 'object'){
-    @for (item of this.clothingService.suggestedCloths(); track $index) {
-    <app-clothing-card class="w-auto" [category]="item.category" [colors]="item.colors" [imageUrl]="item.imageUrl"
-        [name]="item.name"></app-clothing-card>
-    }}
-    <button (click)="debugger()">Debugger</button>
+    @if (this.clothingService.suggestedCloths().length !== 0){
+    <div [class.aTonOfClothes]="this.clothingService.suggestedCloths().length >= 3" class="gap-3 flex flex-col">
+
+        @for (item of this.clothingService.suggestedCloths(); track $index) {
+        <app-clothing-card class="w-auto" [category]="item.category" [colors]="item.colors" [imageUrl]="item.imageUrl"
+            [name]="item.name" [tags]="item.tags"></app-clothing-card>
+        }
+    </div>
+    }
 </div>
 }
 }

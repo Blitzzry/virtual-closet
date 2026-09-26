@@ -56,3 +56,30 @@ textarea:focus {
   border-color: #c4a86a;
   box-shadow: 0 0 0 3px rgba(196, 168, 106, 0.12);
 }
+
+.tags {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 999px;
+  background: #f7f3eb;
+  border: 1px solid #ebe4d8;
+
+  color: #4f4b45;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.aTonOfClothes {
+  display: grid;
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}

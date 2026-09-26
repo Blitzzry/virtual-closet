@@ -36,7 +36,6 @@ export class ClothingService {
   }
   aiAnswer = signal<AiAnswer>({} as AiAnswer);
   stateUploader = signal<"idle" | "result" | "added">("idle");
-  outfitMakerStep = signal<"idle" | "result" | "added">("idle");
   base64Image = signal<string>("");
   savedGarment = signal<ClothingItem[]>([]);
   imageName: string = "";
@@ -77,6 +76,13 @@ export class ClothingService {
     }
   }
 
+  outfitMakerStep = computed (() => {
+    if (this.outfitMakerResponse().outfitItemIds?.length !== undefined){
+      return 'result'
+    } else {
+      return 'idle'
+    }
+  })
 
   filteredClots = computed(() => {
     if (this.selectedCategories().size == 0) {
@@ -114,9 +120,11 @@ export class ClothingService {
   }
 
   suggestedCloths = computed(() => {
-    const outfit = this.savedGarment().filter((ele) => {
+    let outfit = {} as ClothingItem[]
+    if (typeof this.outfitMakerResponse().outfitItemIds?.length !== 'undefined'){
+    outfit = this.savedGarment().filter((ele) => {
       return this.outfitMakerResponse().outfitItemIds!.includes(ele.id);
-    });
+    });}
     return outfit
   });
 
@@ -133,9 +141,10 @@ export class ClothingService {
     if (error) throw error;
     console.log(await JSON.parse(data.response.choices[0].message.content))
     this.outfitMakerResponse.set(JSON.parse(data.response.choices[0].message.content))
-    this.outfitMakerStep.set('result')
     return this.outfitMakerResponse()
   }
+
+
 
   async onFileSelected(event: Event): Promise<AiAnswer> {
     const input = event.target as HTMLInputElement;

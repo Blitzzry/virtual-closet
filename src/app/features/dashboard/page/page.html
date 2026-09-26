@@ -16,7 +16,7 @@
             <div class="flex gap-7 mt-5 mx-3 justify-center flex-wrap items-center">
                 @for (item of this.clothingService.filteredClots(); track $index) {
                 <app-clothing-card class="w-auto" [category]="item.category" [colors]="item.colors"
-                    [imageUrl]="item.imageUrl" [name]="item.name"
+                    [imageUrl]="item.imageUrl" [name]="item.name" [style]="'home'"
                     (selectClot)="selectClot(item.id)"></app-clothing-card>
                 }
             </div>
