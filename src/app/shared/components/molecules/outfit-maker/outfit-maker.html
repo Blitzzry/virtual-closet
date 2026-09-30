@@ -1,7 +1,7 @@
 @switch (clothingService.outfitMakerStep()){
 @case ('idle') {
 <div class="card">
-    <app-stepper-indicator [phase]="'first'"></app-stepper-indicator>
+    <app-stepper-indicator [phase]="'zero'"></app-stepper-indicator>
     <h1 class="text-2xl font-semibold">Create a new Outfit</h1>
     <span class="description text-sm">Tell us what you have in mind, and let Gira make an amazing look for you.</span>
     <div class="grid grid-cols-2 gap-2">
@@ -48,34 +48,49 @@
     </div>
     <div class="mt-2">
         <span class="section-title">Notes</span>
-        <textarea name="" id="" class="mt-2"></textarea>
+        <textarea #notesInput class="mt-2"></textarea>
     </div>
-    <button class="primary-btn w-full mt-3 !py-5"
-        (click)="clothingService.outitMaker(tagsSelected, styleSelected, weatherSelected)">Generate Outfit</button>
+    <div class="flex items-center gap-3">
+        <button class="secondary-btn w-full mt-3 !py-2" (click)="closeModal()">Cancel</button>
+        <button class="primary-btn w-full mt-3 !py-5"
+            (click)="clothingService.outitMaker(tagsSelected, styleSelected, weatherSelected, notesInput.value)">Generate
+            Outfit</button>
+    </div>
 </div>
 }
 @case ('result') {
-<div class="card">
+<div class="card max-w-lg">
     <app-stepper-indicator [phase]="'first'"></app-stepper-indicator>
-    <h1 class="text-2xl font-semibold">Your Outfit is ready</h1>
+    @if (clothingService.outfitMakerResponse().success == true) {
+    <div class="flex gap-2">
+        <h1 class="text-2xl font-semibold">Your Outfit is ready</h1>
+        <button class="primary-btn"><app-icon [name]="'heart'"></app-icon></button>
+    </div>
+    <span class="max-w-46 ai-note">{{ clothingService.outfitMakerResponse().reason }}</span>
     <div class="flex gap-2 my-3 tags">
         @if (this.clothingService.paramsSelected.tags.length !== 0) {
-        <span class="flex items-center tag"><app-icon [name]="'hanger'"></app-icon>{{ this.clothingService.paramsSelected.tags }}</span>
+        <span class="flex items-center tag"><app-icon [name]="'hanger'"></app-icon>{{
+            this.clothingService.paramsSelected.tags }}</span>
         }
-        <span class="flex items-center tag"><app-icon [name]="'dresses'"></app-icon>{{ this.clothingService.paramsSelected.style
+        <span class="flex items-center tag"><app-icon [name]="'dresses'"></app-icon>{{
+            this.clothingService.paramsSelected.style
             }}</span>
         @if (this.clothingService.paramsSelected.tempt) {
-        <span class="flex items-center tag"><app-icon [name]="'arrow-bar-up'"></app-icon>{{ this.clothingService.paramsSelected.tempt
+        <span class="flex items-center tag"><app-icon [name]="'arrow-bar-up'"></app-icon>{{
+            this.clothingService.paramsSelected.tempt
             }}</span>}
     </div>
     @if (this.clothingService.suggestedCloths().length !== 0){
-    <div [class.aTonOfClothes]="this.clothingService.suggestedCloths().length >= 3" class="gap-3 flex flex-col">
-
+    <div [class.a-ton-of-clothes]="this.clothingService.suggestedCloths().length >= 3" class="gap-3 flex flex-col">
         @for (item of this.clothingService.suggestedCloths(); track $index) {
         <app-clothing-card class="w-auto" [category]="item.category" [colors]="item.colors" [imageUrl]="item.imageUrl"
-            [name]="item.name" [tags]="item.tags"></app-clothing-card>
+            [name]="item.name" [tags]="item.tags" (locknewClot)="item.id" (replaceCloth)="item.id"></app-clothing-card>
         }
     </div>
+    }
+    } @else {
+    <h1 class="text-2xl font-semibold">Oops! Something happened</h1>
+    <span class="max-w-46 ai-note">{{ clothingService.outfitMakerResponse().error }}</span>
     }
 </div>
 }

@@ -53,6 +53,23 @@ export class GarmentRepository {
         if (error) throw error;
     }
 
+    async removeClots (id: string, path: string[]) {
+        await this.delImagFromBucket(path)
+        const { error } = await this.supaService.client
+            .from('garment')
+            .delete()
+            .eq('id', id)
+        if (error) throw error
+    }
+
+    async delImagFromBucket (path: string[]) {
+        const { error } = await this.supaService.client
+            .storage
+            .from('images')
+            .remove(path)
+        if (error) throw error
+    }
+
     async upldImagInBucket(blob: Blob | null, imageName: string): Promise<string> {
         const path = `${this.authService.currentUser()?.id}/${Date.now()}-${imageName}`
         const { error } = await this.supaService.client

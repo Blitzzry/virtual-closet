@@ -13,7 +13,7 @@ import { ClothingCard } from "../clothing-card/clothing-card";
 })
 export class OutfitMaker {
   constructor(public clothingService: ClothingService) {}
-  openOutfitMaker = new EventEmitter<void>();
+  @Output() close = new EventEmitter<void>()
   tagsSelected: string[] = [];
   styleSelected: StylesList = "" as StylesList;
   weatherSelected: string = "";
@@ -25,6 +25,10 @@ export class OutfitMaker {
       return acc;
     }, [] as string[]);
   });
+
+  closeModal(){
+    this.close.emit()
+  }
 
   aiOutfit = computed(() => {
     return this.clothingService.outfitMakerResponse();
@@ -40,15 +44,10 @@ export class OutfitMaker {
       return this.tagsSelected;
     }
     if (this.tagsSelected.find((el) => el == tag)) {
-      console.log(this.tagsSelected);
       this.tagsSelected = this.tagsSelected.filter((el) => el !== tag);
       return this.tagsSelected;
     } else {
       return this.tagsSelected.push(tag);
     }
-  }
-
-  outfitMaker() {
-    this.openOutfitMaker.emit();
   }
 }

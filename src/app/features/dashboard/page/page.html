@@ -1,4 +1,4 @@
-<div class="flex w-full h-full gap-5 mt-5 items-center">
+<div [class.modal-open]="modalActive() !== null" class="flex w-full h-full gap-5 mt-5 items-center overflow-hidden">
     <div class="flex flex-col gap-4 w-full h-full relative">
         @if (authService.userIsLoggedIn() == false){
         <div class="flex w-full h-full justify-center items-center mb-3 gap-2 px-3">
@@ -7,21 +7,26 @@
         </div>
         } @else {
         <app-top-bar [userName]="authService.currentUser()?.user_metadata?.['name']"
-            (openOutfitMaker)="modalActive.set('OutfitMaker')"></app-top-bar>
+            (openOutfitMaker)="activeModal('OutfitMaker')"></app-top-bar>
         @if (clothingService.savedGarment().length > 0) {
         <div class="flex">
-            <div class="flex flex-col gap-2 max-w-80 px-5">
+            <div class="flex flex-col gap-2 max-w-sm pl-8">
                 <app-categories-filter></app-categories-filter>
             </div>
-            <div class="flex gap-7 mt-5 mx-3 justify-center flex-wrap items-center">
-                @for (item of this.clothingService.filteredClots(); track $index) {
-                <app-clothing-card class="w-auto" [category]="item.category" [colors]="item.colors"
-                    [imageUrl]="item.imageUrl" [name]="item.name" [style]="'home'"
-                    (selectClot)="selectClot(item.id)"></app-clothing-card>
-                }
-            </div>
-            <div class="flex absolute bottom-4 right-4 gap-3">
-                <button class="" (click)="modalActive.set('uploader')"><app-icon name="upload" /></button>
+            <div class="flex flex-col mt-2 mx-4 px-16">
+                <div class="flex w-full justify-between mb-5">
+                    <span>My Closet</span>
+                    <button class="primary-btn" (click)="activeModal('uploader')"><app-icon [name]="'upload'" />Upload
+                        garment</button>
+                </div>
+                <div class="flex gap-7 justify-center flex-wrap items-center">
+                    @for (item of this.clothingService.filteredClots(); track $index) {
+                    <app-clothing-card class="w-auto" [category]="item.category" [colors]="item.colors"
+                        [imageUrl]="item.imageUrl" [name]="item.name" [style]="'home'"
+                        (selectClot)="selectClot(item.id)"
+                        (delGarment)="deleteGarment(item.id, item.imageUrl)"></app-clothing-card>
+                    }
+                </div>
             </div>
         </div>
         } @else {
@@ -33,13 +38,13 @@
         </div>
         }
         @if (modalActive() == 'OutfitMaker') {
-        <app-outfit-maker class="modal"></app-outfit-maker>
+        <app-outfit-maker class="modal" (close)="closeModal()"></app-outfit-maker>
         }
         @if (modalActive() == 'uploader') {
-        <app-upload-garment class="modal" (close)="modalActive.set(null)"></app-upload-garment>
+        <app-upload-garment class="modal" (close)="closeModal()"></app-upload-garment>
         }}
     </div>
     @if(modalActive() == 'preview'){
-    <app-side-bar class="w-96" [idSelectedClot]="idSelectedClot()" (close)="modalActive.set(null)"></app-side-bar>
+    <app-side-bar class="w-96 side-bar" [idSelectedClot]="idSelectedClot()" (close)="modalActive.set(null)"></app-side-bar>
     }
 </div>

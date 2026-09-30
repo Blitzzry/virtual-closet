@@ -30,11 +30,6 @@ export class UploadGarment {
   aiAnswerInfo = computed(() => {
     return this.clothingService.aiAnswer()
   })
-  
-  debugger() {
-    console.log(this.aiAnswerInfo())
-    console.log(this.aiAnswerInfo().item)
-  }
 
   async onFileSelected(photo: any) {
     await this.clothingService.onFileSelected(photo)
@@ -49,7 +44,6 @@ export class UploadGarment {
   }
   saveGarment(event: ClothingItem) {
     this.clothingService.saveGarment(event)
-    console.log(event)
     this.stateUploader.set('added')
   }
 

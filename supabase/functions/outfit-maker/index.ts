@@ -9,7 +9,7 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
   } else {
-    const { clothes, tags, style, tempt } = await req.json();
+    const { clothes, tags, style, tempt, notesInput } = await req.json();
     const SYSTEM_PROMPT: string = `You are an outfit-building assistant for a virtual closet app. You will be given:
 1. The user's full closet as a JSON array of clothing items, each with: id, name, category, colors, tags, brand, material, notes.
 2. The occasion the user wants the outfit for.
@@ -24,6 +24,7 @@ Respond ONLY with a valid JSON object, with no additional text before or after, 
 RULES:
 - The outfit must include AT MINIMUM one top and one bottom, OR one dress. Shoes should be included when a suitable pair exists in the closet. Accessories and outerwear are optional — include them only when they genuinely improve the outfit for the given occasion/weather.
 - Only select items that actually exist in the provided closet array. Never invent items.
+- If there is a note from the customer, you should take attention to it as much as possible, if you are not able to make an outfit with the indications inside the note or you detect that the note is vulgar, you should response with an error stating what happened.
 - If the closet does NOT contain enough compatible items to form a valid outfit (for example: no tops available, or no bottoms/dresses at all, or nothing matches the requested weather), do not force a combination — return a failure response instead.
 - Prioritize coherence: colors and materials should reasonably work together, and the overall combination should make sense for the stated occasion and weather.
 
@@ -58,7 +59,7 @@ If a valid outfit CANNOT be formed, respond exactly in this shape:
             },
             {
               role: "user",
-              content: `${JSON.stringify(clothes)} ${tags} ${style} ${tempt}`
+              content: `${JSON.stringify(clothes)} ${tags} ${style} ${tempt} ${notesInput}`
             },
           ],
           response_format: {
@@ -87,7 +88,7 @@ If a valid outfit CANNOT be formed, respond exactly in this shape:
              }
             },
           "model": "openai/gpt-oss-120b",
-          "temperature": 1,
+          "temperature": 0.9,
           "max_completion_tokens": 1000,
           "top_p": 1,
         }),

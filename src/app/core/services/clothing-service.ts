@@ -32,7 +32,8 @@ export class ClothingService {
   paramsSelected = {
     tags: [''],
     style: '',
-    tempt: ''
+    tempt: '',
+    notesInput: ''
   }
   aiAnswer = signal<AiAnswer>({} as AiAnswer);
   stateUploader = signal<"idle" | "result" | "added">("idle");
@@ -119,6 +120,11 @@ export class ClothingService {
     );
   }
 
+  async deleteGarment (id: string, path: string[]) {
+    await this.garmentRep.removeClots(id, path)
+    this.savedGarment.update(garments => garments.filter(garment => garment.id !== id))
+  }
+
   suggestedCloths = computed(() => {
     let outfit = {} as ClothingItem[]
     if (typeof this.outfitMakerResponse().outfitItemIds?.length !== 'undefined'){
@@ -128,23 +134,23 @@ export class ClothingService {
     return outfit
   });
 
-  async outitMaker (tags: string[], style: StylesList, tempt: string){
+  async outitMaker (tags: string[], style: StylesList, tempt: string, notesInput: string){
     this.paramsSelected = {
       tags: tags,
       style: style,
-      tempt: tempt
+      tempt: tempt,
+      notesInput: notesInput
     }
+    console.log(this.paramsSelected)
     const { data, error } = await this.supabase.client.functions.invoke(
       'outfit-maker',
-      { body: { clothes: this.savedGarment(), tags: tags, style: style, tempt: tempt}}
+      { body: { clothes: this.savedGarment(), tags: tags, style: style, tempt: tempt, notesInput:notesInput}}
     )
     if (error) throw error;
-    console.log(await JSON.parse(data.response.choices[0].message.content))
+    console.log(data.response.choices[0].message.content)
     this.outfitMakerResponse.set(JSON.parse(data.response.choices[0].message.content))
     return this.outfitMakerResponse()
   }
-
-
 
   async onFileSelected(event: Event): Promise<AiAnswer> {
     const input = event.target as HTMLInputElement;

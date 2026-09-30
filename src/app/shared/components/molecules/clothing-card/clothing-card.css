@@ -15,3 +15,16 @@
   border-color: var(--sage-200);
   box-shadow: var(--shadow-lg);
 }
+
+.options-btns {
+  font-size: 12px;
+  border: 1px solid rgb(187, 187, 187);
+}
+
+.without-hover {
+  pointer-events: none;
+}
+
+.without-hover button{
+  pointer-events: auto;
+}
