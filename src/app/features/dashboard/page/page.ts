@@ -45,10 +45,10 @@ export class Page {
 
   deleteGarment(id: string, imageUrl: string) {
     const url = new URL(imageUrl);
-    console.log("awaw");
-    this.clothingService.deleteGarment(id, [
-      url.pathname.split(`${this.authService.currentUser()?.id}/`)[1],
-    ]);
+    this.clothingService.deleteGarment(
+      id,
+      imageUrl,
+    );
   }
 
   selectClot(id: string) {
@@ -57,11 +57,12 @@ export class Page {
   }
 
   activeModal(modal: "uploader" | "OutfitMaker" | "preview" | null) {
-    this.modalActive.set(modal)
+    this.modalActive.set(modal);
   }
 
-  closeModal(){
-    this.modalActive.set(null)
+  closeModal() {
+    this.modalActive.set(null);
+    this.clothingService.closeAiResponse()
   }
 
   debbugger() {

@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges, Output, EventEmitter} from 
 import { ClothingService } from '../../../../core/services/clothing-service';
 import { Icon } from '../../atoms/icon/icons';
 import { FormsModule } from '@angular/forms';
-import { ClothingItem } from '../../../../core/models/interface';
+import { ClothingItem, ClothingCategory } from '../../../../core/models/interface';
 import { SuggestedTags } from '../../atoms/suggested-tags/suggested-tags';
 import { ColorDot } from '../../atoms/color-dot/color-dot';
 import { Badge } from '../../atoms/badge/badge';
@@ -23,16 +23,13 @@ import { FavoriteButton } from '../../atoms/favorite-button/favorite-button';
 export class SideBar implements OnChanges {
   constructor(public clothingService: ClothingService) { }
   editing: boolean = false
+  clothingCategories: ClothingCategory[] = ['tops', 'bottoms', 'dresses', 'outerwear', 'shoes', 'accessories']
   @Input() idSelectedClot: string | null = null
   clot: ClothingItem = {} as ClothingItem
   @Output() close = new EventEmitter<void>();
 
   closeModal() {
     this.close.emit();
-  }
-
-  debbugger() {
-    console.log(this.clot)
   }
 
   toggleEdit() {
@@ -42,6 +39,10 @@ export class SideBar implements OnChanges {
   onInput(event: Event) {
     const input = event.target as HTMLInputElement;
     input.style.width = input.value.length + 3 + 'ch';
+  }
+
+  saveEdit() {
+    
   }
 
   ngOnChanges(changes: SimpleChanges) {

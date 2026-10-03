@@ -1,4 +1,4 @@
-@switch (this.stateUploader()) {
+@switch (this.clothingService.upldGarmentStep()) {
 @case ('idle') {
 <div class="flex flex-col card">
     <app-stepper-indicator [phase]="'zero'"></app-stepper-indicator>
@@ -6,6 +6,9 @@
     <div class="flex mt-4 justify-between">
         <button class="flex items-center edit-btn gap-1.5 w-26 justify-center" (click)="closeModal()">
             <span>Cancel</span>
+        </button>
+        <button (click)="debugger()">
+            Debugger
         </button>
         <button class="flex items-center save-btn gap-1.5 w-26 justify-center" (click)="fileInput.click()">
             <span>Upload</span>
@@ -15,11 +18,27 @@
     </div>
 </div>
 }
-@case ('result') {
+@case ('loading') {
 <div class="card">
     <app-stepper-indicator [phase]="'first'"></app-stepper-indicator>
+    <div class="loading-content">
+        <div class="loader-container">
+            <div class="loader"></div>
+
+            <span class="sparkle sparkle-one">✦</span>
+            <span class="sparkle sparkle-two">✦</span>
+        </div>
+        <h2>Scaning garment</h2>
+        <p>This may take a few seconds.</p>
+    </div>
+</div>
+}
+@case ('result') {
+<div class="card">
+    <app-stepper-indicator [phase]="'second'"></app-stepper-indicator>
     <div class="flex gap-4">
-        <img [src]="clothingService.base64Image()" alt="garment image" class="h-auto max-w-56 clothing-card object-cover">
+        <img [src]="clothingService.base64Image()" alt="garment image"
+            class="h-auto max-w-56 clothing-card object-cover">
         <div class="flex flex-col gap-3">
             <div>
                 @if (editing) {

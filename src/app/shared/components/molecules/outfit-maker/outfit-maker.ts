@@ -1,4 +1,4 @@
-import { Component, computed, EventEmitter, Output } from "@angular/core";
+import { Component, computed, EventEmitter, OnDestroy, OnInit, Output, Renderer2 } from "@angular/core";
 import { Icon } from "../../atoms/icon/icons";
 import { ClothingService } from "../../../../core/services/clothing-service";
 import { StylesList } from "../../../../core/models/interface";
@@ -11,8 +11,8 @@ import { ClothingCard } from "../clothing-card/clothing-card";
   templateUrl: "./outfit-maker.html",
   styleUrl: "./outfit-maker.css",
 })
-export class OutfitMaker {
-  constructor(public clothingService: ClothingService) {}
+export class OutfitMaker implements OnInit, OnDestroy {
+  constructor(public clothingService: ClothingService, private renderer: Renderer2) {}
   @Output() close = new EventEmitter<void>()
   tagsSelected: string[] = [];
   styleSelected: StylesList = "" as StylesList;
@@ -49,5 +49,14 @@ export class OutfitMaker {
     } else {
       return this.tagsSelected.push(tag);
     }
+  }
+  ngOnInit(): void {
+    // Bloquea el scroll del body al abrir la modal
+    this.renderer.addClass(document.body, 'no-scroll');
+  }
+
+  ngOnDestroy(): void {
+    // Devuelve el scroll al body cuando la modal se destruye (cierra)
+    this.renderer.removeClass(document.body, 'no-scroll');
   }
 }

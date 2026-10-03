@@ -19,7 +19,6 @@ export class CategoriesFilter {
   @Input() categoryCounter: number = 0;
   categories: [ClothingCategory, number][] = []
   debugger(){
-    const url = new URL(this.clothingService.savedGarment()[0].imageUrl)
-    console.log([url.pathname.split(`${this.auth.currentUser()?.id}/`)[1]])
+    console.log(this.clothingService.aiAnswer().isGarment)
   }
 }

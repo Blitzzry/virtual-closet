@@ -8,4 +8,5 @@ import { Component, Input} from '@angular/core';
 })
 export class StepperIndicator {
   @Input() phase: string = 'first';
+  @Input() maxPhases: number | undefined = undefined
 }

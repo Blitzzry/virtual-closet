@@ -8,6 +8,7 @@
     box-shadow .25s ease,
     border-color .25s ease;
   box-shadow: var(--shadow-sm);
+  
 }
 
 .clothing-card:hover{

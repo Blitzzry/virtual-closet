@@ -16,7 +16,7 @@ export interface ClothingItem {
 }
 
 export interface AiAnswer {
-  "isGarmnet": boolean,
+  "isGarment": boolean,
   "item": ClothingItem | null,
   "reason": string | null,
 }

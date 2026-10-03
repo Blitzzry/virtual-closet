@@ -14,10 +14,10 @@
             <div class="flex flex-col gap-1.5">
                 <input [(ngModel)]="this.clot.name">
                 <select [(ngModel)]="this.clot.category">
-                    @for (item of clot.category; track $index) {
+                    @for (item of clothingCategories; track $index) {
                     <option [value]="item">{{item}}</option>
                     }
-                </select>
+                </select>a
             </div>
             } @else {
             <span class="garment-name">{{this.clot.name}}</span>

@@ -39,7 +39,9 @@ export class ClothingService {
   stateUploader = signal<"idle" | "result" | "added">("idle");
   base64Image = signal<string>("");
   savedGarment = signal<ClothingItem[]>([]);
+  isLoading = signal<boolean>(false)
   imageName: string = "";
+  clothAdded = signal<boolean>(false)
   compressedBlob: Blob | null = null;
   windowWidth = signal<number>(window.innerWidth);
   selectedCategories = signal<Set<ClothingCategory>>(new Set());
@@ -77,13 +79,33 @@ export class ClothingService {
     }
   }
 
-  outfitMakerStep = computed (() => {
+  closeAiResponse() {
+    this.outfitMakerResponse.set({} as OutfitMakerInterface)
+    this.aiAnswer.set({} as AiAnswer)
+  }
+
+  outfitMakrStep = computed (() => {
     if (this.outfitMakerResponse().outfitItemIds?.length !== undefined){
       return 'result'
+    } if (this.isLoading() == true) {
+      return 'isLoading'
     } else {
       return 'idle'
     }
   })
+
+  upldGarmentStep = computed (() => {
+    if (this.aiAnswer().isGarment !== undefined && this.clothAdded() == false){
+      return 'result'
+    } if (this.isLoading() == true) {
+      return 'loading'
+    } if (this.clothAdded() == true) {
+      return 'added'
+    } else {
+      return 'idle'
+    }
+  })
+
 
   filteredClots = computed(() => {
     if (this.selectedCategories().size == 0) {
@@ -96,7 +118,7 @@ export class ClothingService {
   });
 
   categoryCount = computed(() => {
-    const valorInicial: Record<ClothingCategory, number> = {
+    const initialValue: Record<ClothingCategory, number> = {
       tops: 0,
       bottoms: 0,
       dresses: 0,
@@ -107,10 +129,11 @@ export class ClothingService {
     return this.savedGarment().reduce((acc, garment) => {
       acc[garment.category] = acc[garment.category] + 1;
       return acc;
-    }, {} = valorInicial);
+    }, {} = initialValue);
   });
 
   async saveGarment(event: ClothingItem) {
+    this.clothAdded.set(true)
     this.savedGarment.update((list) => [...list, { ...event }]);
     await this.garmentRep.insertClots(
       event,
@@ -120,8 +143,13 @@ export class ClothingService {
     );
   }
 
-  async deleteGarment (id: string, path: string[]) {
-    await this.garmentRep.removeClots(id, path)
+  async deleteGarment (id: string, path: string) {
+   if (path.split(':')[0] == 'blob'){
+      await this.garmentRep.removeClots(id, [this.garmentRep.path])
+    } else {
+      const url = new URL (path)
+      await this.garmentRep.removeClots(id, [`${this.authService.currentUser()}/${url.pathname.split(`${this.authService.currentUser()?.id}/`)[1]}`])
+    }
     this.savedGarment.update(garments => garments.filter(garment => garment.id !== id))
   }
 
@@ -141,6 +169,7 @@ export class ClothingService {
       tempt: tempt,
       notesInput: notesInput
     }
+    this.isLoading.set(true)
     console.log(this.paramsSelected)
     const { data, error } = await this.supabase.client.functions.invoke(
       'outfit-maker',
@@ -148,6 +177,9 @@ export class ClothingService {
     )
     if (error) throw error;
     console.log(data.response.choices[0].message.content)
+    if (data || error) {
+      this.isLoading.set(false)
+    }
     this.outfitMakerResponse.set(JSON.parse(data.response.choices[0].message.content))
     return this.outfitMakerResponse()
   }
@@ -155,6 +187,7 @@ export class ClothingService {
   async onFileSelected(event: Event): Promise<AiAnswer> {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
+    this.isLoading.set(true)
     if (file) {
       const reader = new FileReader();
       const imageCompressed: Blob = await this.imageCompressor(file);
@@ -165,8 +198,11 @@ export class ClothingService {
           { body: { image: this.base64Image().split("base64")[1] } },
         );
         if (error) throw error;
+        if (data || error){
+          this.isLoading.set(false)
+        }
         this.aiAnswer.set(JSON.parse(data.aiAnswer.choices[0].message.content));
-        if (!this.aiAnswer().isGarmnet) {
+        if (this.aiAnswer().isGarment) {
           this.aiAnswer.update(ele => ({
             ...ele,
             item: {
@@ -184,7 +220,7 @@ export class ClothingService {
         }
       };
       reader.onerror = () => {
-        console.log("Algo fallo");
+        console.log("Something went wrong!");
       };
       reader.readAsDataURL(imageCompressed);
     }
@@ -224,7 +260,7 @@ export class ClothingService {
       };
       image.onerror = () => {
         reject;
-        console.log("algo fallo en la imagen");
+        console.log("Something went wrong!");
       };
       image.src = temporalUrl;
     });

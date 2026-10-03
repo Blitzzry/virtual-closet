@@ -1,5 +1,5 @@
-<div [class.modal-open]="modalActive() !== null" class="flex w-full h-full gap-5 mt-5 items-center overflow-hidden">
-    <div class="flex flex-col gap-4 w-full h-full relative">
+<div class="flex w-full h-full gap-5 mt-5 items-center">
+    <div [class.modal-open]="modalActive() !== null" class="flex flex-col gap-4 w-full h-full relative">
         @if (authService.userIsLoggedIn() == false){
         <div class="flex w-full h-full justify-center items-center mb-3 gap-2 px-3">
             <button class="log-in-btn px-6 py-8" (click)="logIn()">Log In!</button>
@@ -38,13 +38,18 @@
         </div>
         }
         @if (modalActive() == 'OutfitMaker') {
-        <app-outfit-maker class="modal" (close)="closeModal()"></app-outfit-maker>
+        <div class="modal-overlay">
+            <app-outfit-maker class="modal rounded-xl" (close)="closeModal()"></app-outfit-maker>
+        </div>
         }
         @if (modalActive() == 'uploader') {
-        <app-upload-garment class="modal" (close)="closeModal()"></app-upload-garment>
+        <div class="modal-overlay">
+            <app-upload-garment class="modal rounded-xl" (close)="closeModal()"></app-upload-garment>
+        </div>
         }}
     </div>
     @if(modalActive() == 'preview'){
-    <app-side-bar class="w-96 side-bar" [idSelectedClot]="idSelectedClot()" (close)="modalActive.set(null)"></app-side-bar>
+    <app-side-bar class="w-96 side-bar" [idSelectedClot]="idSelectedClot()"
+        (close)="modalActive.set(null)"></app-side-bar>
     }
 </div>

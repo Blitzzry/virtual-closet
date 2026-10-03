@@ -1,13 +1,13 @@
-@switch (clothingService.outfitMakerStep()){
+@switch (clothingService.outfitMakrStep()){
 @case ('idle') {
 <div class="card">
-    <app-stepper-indicator [phase]="'zero'"></app-stepper-indicator>
+    <app-stepper-indicator [maxPhases]="3" [phase]="'zero'"></app-stepper-indicator>
     <h1 class="text-2xl font-semibold">Create a new Outfit</h1>
     <span class="description text-sm">Tell us what you have in mind, and let Gira make an amazing look for you.</span>
     <div class="grid grid-cols-2 gap-2">
         <div class="mt-2">
             <span class="section-title">Tags</span>
-            <div class="max-h-62 overflow-scroll gap-1.5 flex px-1.5 flex-col mt-4">
+            <div class="max-h-62 overflow-scroll gap-1.5 flex px-1.5 flex-col mt-4 px-4">
                 @for (item of tagsList(); track $index) {
                 <button class="py-1 w-full form-btn" (click)="addTag(item)"
                     [class.selected]="tagsSelected.find(el => el == item)">
@@ -18,7 +18,7 @@
         </div>
         <div class="mt-2">
             <span class="section-title">Style</span>
-            <div class="max-h-62 overflow-scroll flex flex-col px-1.5 gap-1.5 mt-4">
+            <div class="max-h-62 overflow-scroll flex flex-col px-1.5 gap-1.5 mt-4 px-4">
                 @for (item of clothingService.styleList; track item; let ind = $index) {
                 <button class="py-1.5 px-2 w-full form-btn" (click)="styleSelected = item"
                     [class.selected]="styleSelected == item">{{ item }} </button>
@@ -58,9 +58,25 @@
     </div>
 </div>
 }
+@case ('isLoading') {
+<div class="card">
+    <app-stepper-indicator [maxPhases]="3" [phase]="'first'"></app-stepper-indicator>
+    <div class="loading-content">
+
+        <div class="loader-container">
+            <div class="loader"></div>
+
+            <span class="sparkle sparkle-one">✦</span>
+            <span class="sparkle sparkle-two">✦</span>
+        </div>
+        <h2>Creating your outfit</h2>
+        <p>This may take a few seconds.</p>
+    </div>
+</div>
+}
 @case ('result') {
-<div class="card max-w-lg">
-    <app-stepper-indicator [phase]="'first'"></app-stepper-indicator>
+<div class="card max-w-lg overflow-scroll">
+    <app-stepper-indicator [maxPhases]="3" [phase]="'completed'"></app-stepper-indicator>
     @if (clothingService.outfitMakerResponse().success == true) {
     <div class="flex gap-2">
         <h1 class="text-2xl font-semibold">Your Outfit is ready</h1>
@@ -88,6 +104,7 @@
         }
     </div>
     }
+    <button class="w-full primary-btn mt-1" (click)="closeModal()"> Finish</button>
     } @else {
     <h1 class="text-2xl font-semibold">Oops! Something happened</h1>
     <span class="max-w-46 ai-note">{{ clothingService.outfitMakerResponse().error }}</span>

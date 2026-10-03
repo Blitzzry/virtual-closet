@@ -20,7 +20,7 @@ export class UploadGarment {
   aiPhoto: string = '';
   editing: boolean = false;
   categoryTypes: ClothingCategory[] = ['tops', 'bottoms', 'dresses', 'outerwear', 'shoes', 'accessories']
-  stateUploader = signal<'idle' | 'result' | 'added'>('idle');
+  stateUploader = signal<'idle' | 'loading' | 'result' | 'added'>('idle');
   @Output() close = new EventEmitter<void>();
 
   closeModal() {
@@ -32,12 +32,10 @@ export class UploadGarment {
   })
 
   async onFileSelected(photo: any) {
+    this.stateUploader.set('loading')
     await this.clothingService.onFileSelected(photo)
     try {
       const response = await this.clothingService.aiAnswer()
-      if (response) {
-        this.stateUploader.set('result')
-      }
     } catch (error) {
       console.log('erroor')
     }
@@ -58,5 +56,10 @@ export class UploadGarment {
   
   anotherOne() {
     this.stateUploader.set('idle')
+  }
+  
+  debugger() {
+    console.log(this.clothingService.aiAnswer())
+    console.log(this.clothingService.aiAnswer().isGarment)
   }
 }
