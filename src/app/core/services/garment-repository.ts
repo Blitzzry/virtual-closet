@@ -19,7 +19,9 @@ export class GarmentRepository {
         let clotsWithImgs: ClothingItem[] = [];
         const { data, error } = await this.supaService.client
             .from("garment")
-            .select("*");
+            .select("*")
+            .order('created_at', { ascending: true })
+            .order('id', { ascending: true });
         if (error) throw error;
         if (data) {
             data.forEach((clot) => arrayBuckets.push(clot.bucket_path));
@@ -63,12 +65,27 @@ export class GarmentRepository {
         if (error) throw error;
     }
 
+    async updateGarment(id: string, clot: Partial<ClothingItem>) {
+        const { error } = await this.supaService.client
+            .from("garment")
+            .update({
+                name: clot.name,
+                category: clot.category,
+                brand: clot.brand,
+                material: clot.material,
+                notes: clot.notes,
+                is_favorite: clot.isFavorite,
+            })
+            .eq('id', id)
+        if (error) throw error;
+    }
+
     async removeClots(id: string, path: string[]) {
         console.log(path);
         const { error } = await this.supaService.client
-        .from("garment")
-        .delete()
-        .eq("id", id);
+            .from("garment")
+            .delete()
+            .eq("id", id);
         if (error) throw error;
         await this.delImagFromBucket(path);
     }

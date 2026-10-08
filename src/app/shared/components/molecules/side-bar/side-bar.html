@@ -2,25 +2,28 @@
     <div class="flex flex-col gap-3">
         <div class="flex items-center gap-2">
             <div class="flex flex-col gap-1">
-                <button class="flex items-center edit-btn px-1" (click)="toggleEdit()">
+                <button class="flex items-center edit-btn !p-1.5" (click)="toggleEdit()">
                     <app-icon [name]="'edit'"></app-icon>
                 </button>
                 <app-favorite-button [size]="'xxs'"></app-favorite-button>
             </div>
-            <img [src]="this.clot.imageUrl" alt="garment image" class="clothing-card object-fill h-64 min-w-0 flex-1 shrink min-h-xl">
+            <img [src]="this.clot.imageUrl" alt="garment image"
+                class="clothing-card object-fill h-64 min-w-0 flex-1 shrink min-h-xl">
         </div>
-        <div>
+        <div class="flex flex-col">
             @if (editing) {
             <div class="flex flex-col gap-1.5">
-                <input [(ngModel)]="this.clot.name">
-                <select [(ngModel)]="this.clot.category">
+                <input class="form-input garment-name" (input)="onNameChange($event)" [value]="this.clot.name">
+                <input class="form-input brand-text !font-normal !text-xs" (input)="onBrandChange($event)" [value]="clot.brand">
+                <select [ngModel]="clot.category" (ngModelChange)="onCategoryChange($event)">
                     @for (item of clothingCategories; track $index) {
-                    <option [value]="item">{{item}}</option>
+                    <option class="form-select" [ngValue]="item">{{item}}</option>
                     }
-                </select>a
+                </select>
             </div>
             } @else {
             <span class="garment-name">{{this.clot.name}}</span>
+            <span class="brand-text mb-1"> {{ clot.brand }} </span>
             <app-badge [text]="this.clot.category" class="flex"></app-badge>
             }
         </div>
@@ -35,7 +38,7 @@
         <div class="flex flex-col gap-0.5">
             <p class="field-label">Material</p>
             @if (editing) {
-            <input [(ngModel)]="this.clot.material">
+            <input class="form-input" (input)="onMaterialChange($event)" [value]="this.clot.material">
             } @else {
             <span class="text-sm">{{this.clot.material}}</span>
             }
@@ -43,7 +46,9 @@
         <div class="flex flex-col gap-0.5">
             <p class="field-label">Notes (AI)</p>
             @if (editing) {
-            <input [(ngModel)]="this.clot.notes" (input)="onInput($event)">
+            <textarea (input)="onNoteChange($event)" class="mt-2">
+                {{ this.clot.notes }}
+            </textarea>
             } @else {
             <span class="text-sm">{{this.clot.notes}}</span>
             }
@@ -51,10 +56,12 @@
     </div>
 </div>
 <div class="grid grid-cols-2 gap-1 mt-2 px-3 justify-around">
-    <button class="flex items-center !py-3 !px-1 xl:!py-2 xl:!px-2 secondary-btn gap-1.5 justify-center" (click)="closeModal()">
-        <span>Cancel</span>
+    <button class="flex items-center !py-3 !px-1 xl:!py-2 xl:!px-2 secondary-btn gap-1.5 justify-center"
+        (click)="closeModal()">
+        <span>Close</span>
     </button>
-    <button class="flex text-sm !py-3 xl:!px-1 xl:!py-2 xl:!px-2 items-center save-btn gap-1.5">
+    <button (click)="saveClt(clot.id, editedNote(), editedName(), editedMaterial(), editedCategory(), editedBrand())"
+        class="flex text-sm !py-3 xl:!px-1 xl:!py-2 xl:!px-2 items-center save-btn gap-1.5">
         <span>Save to closet</span>
         <app-icon [name]="'save'"></app-icon>
     </button>

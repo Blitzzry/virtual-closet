@@ -17,10 +17,9 @@
 
 .modal {
   background: #ffffff;
-  width: 90%;
+  width: 100%;
   max-width: 500px;
   max-height: 90vh;
-  overflow: scroll;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
@@ -64,6 +63,7 @@
 
 .side-bar {
   position: sticky;
+  margin-top: 5rem;
   top: 0;
   height: 100vh;
 }

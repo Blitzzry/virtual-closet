@@ -1,4 +1,4 @@
-<div class="flex w-full h-full gap-5 mt-5 items-center">
+<div class="flex w-full h-full gap-5 mt-5">
     <div [class.modal-open]="modalActive() !== null" class="flex flex-col gap-4 w-full h-full relative">
         @if (authService.userIsLoggedIn() == false){
         <div class="flex w-full h-full justify-center items-center mb-3 gap-2 px-3">
@@ -39,7 +39,7 @@
         }
         @if (modalActive() == 'OutfitMaker') {
         <div class="modal-overlay">
-            <app-outfit-maker class="modal rounded-xl" (close)="closeModal()"></app-outfit-maker>
+            <app-outfit-maker class="modal overflow-scroll rounded-xl" (close)="closeModal()"></app-outfit-maker>
         </div>
         }
         @if (modalActive() == 'uploader') {
@@ -49,7 +49,7 @@
         }}
     </div>
     @if(modalActive() == 'preview'){
-    <app-side-bar class="w-96 side-bar" [idSelectedClot]="idSelectedClot()"
-        (close)="modalActive.set(null)"></app-side-bar>
+    <app-side-bar class="w-104 side-bar" [idSelectedClot]="idSelectedClot()"
+        (close)="modalActive.set(null)" [clots]="clothingService.savedGarment()"></app-side-bar>
     }
 </div>

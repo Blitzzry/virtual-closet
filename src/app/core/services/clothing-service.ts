@@ -84,6 +84,11 @@ export class ClothingService {
     this.aiAnswer.set({} as AiAnswer)
   }
 
+  async saveEdit(id: string, event: ClothingItem) {
+    await this.garmentRep.updateGarment(id, event)
+    this.savedGarment.update(clts => clts.map(clt => clt.id === id ? { ...event } : clt))
+  }
+
   outfitMakrStep = computed (() => {
     if (this.outfitMakerResponse().outfitItemIds?.length !== undefined){
       return 'result'

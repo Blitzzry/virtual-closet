@@ -3,7 +3,7 @@ import { Icon } from "../../atoms/icon/icons";
 import { ClothingService } from "../../../../core/services/clothing-service";
 import { StylesList } from "../../../../core/models/interface";
 import { StepperIndicator } from "../../atoms/stepper-indicator/stepper-indicator";
-import { ClothingCard } from "../clothing-card/clothing-card";
+import { ClothingCard } from "../../molecules/clothing-card/clothing-card";
 
 @Component({
   selector: "app-outfit-maker",

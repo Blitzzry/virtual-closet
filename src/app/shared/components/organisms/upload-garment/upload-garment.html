@@ -36,11 +36,19 @@
 @case ('result') {
 <div class="card">
     <app-stepper-indicator [phase]="'second'"></app-stepper-indicator>
+    @if (this.aiAnswerInfo().isGarment == false || this.aiAnswerInfo() == undefined){
+    <div class="flex items-center flex-col">
+        <h1 class="text-2xl font-semibold">Oops! Something happened</h1>
+        <span class="ai-note text-center my-1">{{ clothingService.aiAnswer().reason }}</span>
+        <button class="w-full primary-btn mt-3" (click)="anotherOne()">Try again
+        </button>
+    </div>
+    } @else {
     <div class="flex gap-4">
         <img [src]="clothingService.base64Image()" alt="garment image"
             class="h-auto max-w-56 clothing-card object-cover">
         <div class="flex flex-col gap-3">
-            <div>
+            <div class="flex flex-col">
                 @if (editing) {
                 <div class="flex flex-col gap-1.5">
                     <input [(ngModel)]="this.aiAnswerInfo().item!.name">
@@ -52,6 +60,7 @@
                 </div>
                 } @else {
                 <span class="garment-name">{{this.aiAnswerInfo().item!.name}}</span>
+                <span class="brand-text mb-1"> {{ aiAnswerInfo().item?.brand }} </span>
                 <app-badge [text]="this.aiAnswerInfo().item!.category" class="flex"></app-badge>
                 }
             </div>
@@ -95,6 +104,7 @@
             <app-icon [name]="'save'"></app-icon>
         </button>
     </div>
+    }
 </div>
 }
 @case ('added') {

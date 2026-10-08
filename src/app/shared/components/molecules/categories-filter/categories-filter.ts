@@ -19,6 +19,6 @@ export class CategoriesFilter {
   @Input() categoryCounter: number = 0;
   categories: [ClothingCategory, number][] = []
   debugger(){
-    console.log(this.clothingService.aiAnswer().isGarment)
+    console.log(this.clothingService.savedGarment())
   }
 }
