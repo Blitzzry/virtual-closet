@@ -3,8 +3,8 @@
 @import 'tailwindcss';
 
 body {
-    font-family: "Inter", sans-serif;
-    appearance: none;
+  font-family: "Manrope", sans-serif;
+  color: #292824;
 }
 
 body.no-scroll {
@@ -25,12 +25,14 @@ body.no-scroll {
 }
 
 .secondary-text {
-    font-family: "Plus Jakarta Sans", sans-serif;
-    color: rgb(145, 141, 141);
+  font-family: "Plus Jakarta Sans", sans-serif;
+  color: rgb(145, 141, 141);
+  font-weight: 400;
+  color: #817d76;
 }
 
 .premium-title {
-    font-family: "DM Sans", sans-serif;
+  font-family: "DM Sans", sans-serif;
 }
 
 button {
@@ -83,4 +85,25 @@ button:hover {
 
 .secondary-btn:hover {
   background: #F1ECDA;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 600;
+}
+
+.card-title {
+  font-weight: 500;
+}
+
+button {
+  font-weight: 600;
+}
+
+.label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }

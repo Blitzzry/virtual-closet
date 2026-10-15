@@ -27,3 +27,17 @@ export interface OutfitMakerInterface {
   "reason": string | null,
   "error": string | null,
 }
+
+export interface GarmentRow {
+  id: string;
+  name: string;
+  category: ClothingCategory;
+  colors: string[];
+  tags: string[];
+  brand: string;
+  material: string;
+  notes: string;
+  is_favorite: boolean;
+  imageUrl: string;
+  created_at: string;
+}

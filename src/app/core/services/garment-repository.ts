@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { SupabaseService } from "./supabase.service";
-import { ClothingItem } from "../models/interface";
+import { ClothingItem, GarmentRow } from "../models/interface";
 import { AuthService } from "./auht.service";
 
 @Injectable({
@@ -12,16 +12,31 @@ export class GarmentRepository {
         private authService: AuthService,
     ) {
     }
-    path: string = ''
+    path: string = "";
+
+    private fromRow(clot: Omit<GarmentRow, 'created_at'>): ClothingItem {
+        return {
+            id: clot.id,
+            name: clot.name,
+            category: clot.category,
+            colors: clot.colors,
+            tags: clot.tags,
+            brand: clot.brand,
+            material: clot.material,
+            notes: clot.notes,
+            isFavorite: clot.is_favorite,
+            imageUrl: clot.imageUrl
+        };
+    }
 
     async getAllClots(): Promise<ClothingItem[]> {
         let arrayBuckets: string[] = [];
-        let clotsWithImgs: ClothingItem[] = [];
+        let clotsWithImgs: GarmentRow[] = [];
         const { data, error } = await this.supaService.client
             .from("garment")
             .select("*")
-            .order('created_at', { ascending: true })
-            .order('id', { ascending: true });
+            .order("created_at", { ascending: true })
+            .order("id", { ascending: true });
         if (error) throw error;
         if (data) {
             data.forEach((clot) => arrayBuckets.push(clot.bucket_path));
@@ -31,14 +46,13 @@ export class GarmentRepository {
                 .createSignedUrls(arrayBuckets, 3600);
             clotsWithImgs = data.map((clot, ind) => {
                 const currentUrlObj = (urlData as any[])?.[ind];
-
                 return {
                     ...clot,
                     imageUrl: currentUrlObj?.signedUrl ?? "",
                 };
             });
         }
-        return clotsWithImgs;
+        return clotsWithImgs.map((clot: GarmentRow) => this.fromRow(clot));
     }
     async insertClots(
         item: ClothingItem,
@@ -47,7 +61,7 @@ export class GarmentRepository {
         imageName: string,
     ): Promise<void> {
         const path = await this.upldImagInBucket(blob, imageName);
-        const { data, error } = await this.supaService.client
+        const { error } = await this.supaService.client
             .from("garment")
             .insert({
                 id: item.id,
@@ -66,6 +80,7 @@ export class GarmentRepository {
     }
 
     async updateGarment(id: string, clot: Partial<ClothingItem>) {
+        console.log(clot)
         const { error } = await this.supaService.client
             .from("garment")
             .update({
@@ -76,7 +91,7 @@ export class GarmentRepository {
                 notes: clot.notes,
                 is_favorite: clot.isFavorite,
             })
-            .eq('id', id)
+            .eq('id', id);
         if (error) throw error;
     }
 
@@ -91,11 +106,10 @@ export class GarmentRepository {
     }
 
     async delImagFromBucket(path: string[]) {
-        const { error, data } = await this.supaService.client
+        const { error } = await this.supaService.client
             .storage
             .from("images")
             .remove(path);
-        console.log("data:", data, "error:", error);
         if (error) throw error;
     }
 

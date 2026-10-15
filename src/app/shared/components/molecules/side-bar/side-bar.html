@@ -14,7 +14,8 @@
             @if (editing) {
             <div class="flex flex-col gap-1.5">
                 <input class="form-input garment-name" (input)="onNameChange($event)" [value]="this.clot.name">
-                <input class="form-input brand-text !font-normal !text-xs" (input)="onBrandChange($event)" [value]="clot.brand">
+                <input class="form-input brand-text !font-normal !text-xs" (input)="onBrandChange($event)"
+                    [value]="clot.brand">
                 <select [ngModel]="clot.category" (ngModelChange)="onCategoryChange($event)">
                     @for (item of clothingCategories; track $index) {
                     <option class="form-select" [ngValue]="item">{{item}}</option>
@@ -55,14 +56,16 @@
         </div>
     </div>
 </div>
-<div class="grid grid-cols-2 gap-1 mt-2 px-3 justify-around">
-    <button class="flex items-center !py-3 !px-1 xl:!py-2 xl:!px-2 secondary-btn gap-1.5 justify-center"
+<div class="flex gap-1 mt-2 px-3 justify-around">
+    <button class="w-full flex items-center !py-3 !px-1 xl:!py-2 xl:!px-2 secondary-btn gap-1.5 justify-center"
         (click)="closeModal()">
         <span>Close</span>
     </button>
+    @if (editing == true){
     <button (click)="saveClt(clot.id, editedNote(), editedName(), editedMaterial(), editedCategory(), editedBrand())"
-        class="flex text-sm !py-3 xl:!px-1 xl:!py-2 xl:!px-2 items-center save-btn gap-1.5">
+        class="flex text-sm w-full !py-3 xl:!px-1 xl:!py-2 xl:!px-2 items-center save-btn gap-1.5">
         <span>Save to closet</span>
         <app-icon [name]="'save'"></app-icon>
     </button>
+    }
 </div>

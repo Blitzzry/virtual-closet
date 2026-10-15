@@ -130,3 +130,21 @@
   to {
     transform: rotate(360deg);
   }}
+
+textarea {
+  resize: vertical;
+  padding: 0.5rem;
+  border: 1px solid #e8e4dc;
+  border-radius: 1rem;
+  background: #fff;
+  min-width: 100%;
+  min-height: 7rem;
+  max-height: 7rem;
+  color: #33312e;
+  font-family: inherit;
+  font-size: 0.9rem;
+  line-height: 1.5;
+
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}

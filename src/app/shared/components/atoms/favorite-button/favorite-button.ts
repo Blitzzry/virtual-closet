@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Icon } from '../icon/icons';
 
 @Component({
@@ -11,4 +11,9 @@ export class FavoriteButton {
   constructor() {}
   @Input() isFavorite: boolean = false;
   @Input() size: string = 'xxs';
+  @Output() btnAction = new EventEmitter<void>()
+
+  selectFavorite() {
+    this.btnAction.emit()
+  }
 }

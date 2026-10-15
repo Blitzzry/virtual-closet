@@ -2,7 +2,7 @@
 <div class="clothing-card w-48 h-62">
     <div class="flex relative bg-gray-200 h-40 rounded-lg overflow-hidden py-2 items-center">
         <div class="absolute top-2 right-3 flex gap-1">
-            <app-favorite-button class="" [size]="'xxs'"></app-favorite-button>
+            <app-favorite-button (btnAction)="addGrmtFav()" [isFavorite]="isFavorite" [size]="'xxs'"></app-favorite-button>
             <button class="bg-white !px-1" (click)="deleteGarment()"><app-icon [name]="'trash'"></app-icon></button>
         </div>
         <img (click)="selClot()" [src]="imageUrl" alt="{{ name }}" class="rounded-md object-hidden cursor-pointer" />
@@ -22,12 +22,6 @@
             <h3 class="text-sm font-medium">{{ name }}</h3>
             <app-suggested-tags [tags]="tags" class="flex gap-1 flex-wrap"></app-suggested-tags>
         </div>
-    </div>
-    <div class="grid grid-cols-2 gap-2 w-full">
-        <button class="options-btns flex font-semibold items-center h-6 gap-1" (click)="lockClot()"><app-icon
-                [name]="'lock'"></app-icon>Keep</button>
-        <button class="options-btns flex font-semibold items-center h-6 gap-1" (click)="repClot()"><app-icon
-                [name]="'repeat'"></app-icon>Replace</button>
     </div>
 </div>
 }

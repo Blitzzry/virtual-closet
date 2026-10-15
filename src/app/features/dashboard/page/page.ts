@@ -51,6 +51,7 @@ export class Page {
     );
   }
 
+
   selectClot(id: string) {
     this.idSelectedClot.set(id);
     this.modalActive.set("preview");

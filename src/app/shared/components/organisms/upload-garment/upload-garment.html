@@ -84,7 +84,9 @@
             <div class="flex flex-col gap-0.5 max-w-sm">
                 <p class="field-label">Notes (AI)</p>
                 @if (editing) {
-                <input [(ngModel)]="this.aiAnswerInfo().item!.notes" (input)="onInput($event)">
+                    <textarea [(ngModel)]="this.aiAnswerInfo().item!.notes" class="mt-2">
+                    {{ this.aiAnswerInfo().item!.notes }}
+                    </textarea>
                 } @else {
                 <span class="text-sm">{{this.aiAnswerInfo().item!.notes}}</span>
                 }

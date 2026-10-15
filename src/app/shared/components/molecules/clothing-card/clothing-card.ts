@@ -19,20 +19,21 @@ export class ClothingCard {
   @Input() imageUrl: string = ''
   @Input() style: string = ''
   @Input() tags: string[] = []
-  @Output() replaceCloth = new EventEmitter<void>()
+  @Input() isFavorite: boolean = false
   @Output() selectClot = new EventEmitter<void>()
-  @Output() locknewClot = new EventEmitter<void>()
   @Output() delGarment = new EventEmitter<void>()
+  @Output() addFav = new EventEmitter<void>()
+  
+  addGrmtFav() {
+    this.addFav.emit()
+  }
+
   selClot() {
     this.selectClot.emit();
   }
-  repClot() {
-    this.replaceCloth.emit();
-  }
+
   deleteGarment() {
     this.delGarment.emit();
   }
-  lockClot() {
-    this.locknewClot.emit();
-  }
+
 }

@@ -79,6 +79,13 @@ export class ClothingService {
     }
   }
 
+  async addGarmentFav(id: string) {
+    this.savedGarment.update(clts => 
+      clts.map(clt => clt.id == id ? {...clt, isFavorite: !clt.isFavorite} : clt
+      ))
+    await this.garmentRep.updateGarment(id, this.savedGarment().filter(el => el.id == id)[0])
+  }
+
   closeAiResponse() {
     this.outfitMakerResponse.set({} as OutfitMakerInterface)
     this.aiAnswer.set({} as AiAnswer)
@@ -139,7 +146,7 @@ export class ClothingService {
 
   async saveGarment(event: ClothingItem) {
     this.clothAdded.set(true)
-    this.savedGarment.update((list) => [...list, { ...event }]);
+    this.savedGarment.update(list => [...list, { ...event }]);
     await this.garmentRep.insertClots(
       event,
       this.authService.currentUser()?.id,
@@ -175,13 +182,11 @@ export class ClothingService {
       notesInput: notesInput
     }
     this.isLoading.set(true)
-    console.log(this.paramsSelected)
     const { data, error } = await this.supabase.client.functions.invoke(
       'outfit-maker',
       { body: { clothes: this.savedGarment(), tags: tags, style: style, tempt: tempt, notesInput:notesInput}}
     )
     if (error) throw error;
-    console.log(data.response.choices[0].message.content)
     if (data || error) {
       this.isLoading.set(false)
     }
