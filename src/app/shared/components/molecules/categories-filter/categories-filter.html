@@ -17,6 +17,8 @@
         </div>
         }
         <div class="flex justify-between gap-3 category-filter"
+            [class.selected]="clothingService.filterByFavorite() == true"
+            (click)="clothingService.filterByFavorite.set(!clothingService.filterByFavorite())"
             >
             <div class="flex items-center gap-2">
                 <app-icon [name]="'heart'" [size]="'xs'" class="category-row icon"></app-icon>
@@ -24,7 +26,7 @@
             </div>
             <div class="flex">
                 <span class="counter flex items-center gap-2 justify-center">
-                    {{ 0 }}
+                    {{ numFavGarmnt() }}
                 </span>
                 <app-icon [name]="'check'" [size]="'xs'" class="check-icon shrink-0"></app-icon>
             </div>

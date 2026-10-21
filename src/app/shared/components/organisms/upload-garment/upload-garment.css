@@ -9,6 +9,10 @@
   box-shadow: var(--shadow-sm);
 }
 
+.card {
+  max-width: 700px;
+}
+
 .garment-name {
   font-size: 18px;
   font-weight: 600;
@@ -64,6 +68,11 @@
   font-weight: 500;
   cursor: pointer;
   transition: all .25s ease;
+}
+
+.tags {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .edit-btn:hover {

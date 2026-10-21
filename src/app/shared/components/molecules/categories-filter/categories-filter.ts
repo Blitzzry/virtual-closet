@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges, computed } from '@angular/core';
 import { Icon } from '../../atoms/icon/icons';
 import { ClothingService } from '../../../../core/services/clothing-service';
 import { ClothingCategory } from '../../../../core/models/interface';
@@ -18,8 +18,13 @@ export class CategoriesFilter implements OnChanges{
   categories: [ClothingCategory, number][] = []
   id: string = '030d4fa5-c079-40c0-9406-721616f96890'
   debugger(){
-    console.log(this.clothingService.savedGarment().filter(el => el.id == this.id))
+    console.log(this.clothingService.savedGarment())
+    console.log(this.auth.currentUser)
   }
+
+  numFavGarmnt = computed (()=> {
+    return this.clothingService.savedGarment().filter(el => el.isFavorite).length
+  })
   
   ngOnChanges(changes: SimpleChanges): void {
     this.categories = Object.entries(this.categoryCounter) as [ClothingCategory, number][]

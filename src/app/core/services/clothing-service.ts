@@ -1,4 +1,4 @@
-import { computed, Injectable, signal } from "@angular/core";
+import { computed, effect, Injectable, signal } from "@angular/core";
 import { AiAnswer, ClothingCategory, ClothingItem, OutfitMakerInterface, StylesList } from "../models/interface";
 import { GarmentRepository } from "./garment-repository";
 import { AuthService } from "./auht.service";
@@ -23,9 +23,11 @@ export class ClothingService {
       .subscribe(() => {
         this.windowWidth.set(window.innerWidth);
       });
-    if (authService.userIsLoggedIn() !== null) {
-      garmentRep.getAllClots().then((data) => this.savedGarment.set(data));
-    }
+    effect (() => {
+      if (authService.userIsLoggedIn() !== null) {
+        garmentRep.getAllClots().then((data) => this.savedGarment.set(data));
+      }
+    })
   }
 
   outfitMakerResponse = signal<OutfitMakerInterface>({} as OutfitMakerInterface);
@@ -42,6 +44,7 @@ export class ClothingService {
   isLoading = signal<boolean>(false)
   imageName: string = "";
   clothAdded = signal<boolean>(false)
+  filterByFavorite = signal<boolean>(false)
   compressedBlob: Blob | null = null;
   windowWidth = signal<number>(window.innerWidth);
   selectedCategories = signal<Set<ClothingCategory>>(new Set());
@@ -66,7 +69,8 @@ export class ClothingService {
 
   toggleCategory(cat: ClothingCategory, counter: number) {
     if (counter == 0) {
-    } else {
+    }
+     else {
       this.selectedCategories.update((current) => {
         const next = new Set(current);
         if (next.has(cat)) {
@@ -106,6 +110,11 @@ export class ClothingService {
     }
   })
 
+  async signOut() {
+    await this.authService.signOut()
+    this.savedGarment.set([])
+  }
+
   upldGarmentStep = computed (() => {
     if (this.aiAnswer().isGarment !== undefined && this.clothAdded() == false){
       return 'result'
@@ -120,13 +129,20 @@ export class ClothingService {
 
 
   filteredClots = computed(() => {
-    if (this.selectedCategories().size == 0) {
-      return this.savedGarment();
-    } else {
+    if(this.filterByFavorite() == true && this.selectedCategories().size == 0) {
+      return this.savedGarment().filter(el => el.isFavorite)
+    }
+    if (this.filterByFavorite() == false && this.selectedCategories().size !== 0) {
       return this.savedGarment().filter((ele) =>
         this.selectedCategories().has(ele.category)
-      );
+    )}
+    if (this.filterByFavorite() == true && this.selectedCategories().size !== 0) {
+      console.log ('aaaaaa')
+      return this.savedGarment().filter((ele) =>
+        this.selectedCategories().has(ele.category) && ele.isFavorite
+    );
     }
+    return this.savedGarment();
   });
 
   categoryCount = computed(() => {
@@ -136,7 +152,7 @@ export class ClothingService {
       dresses: 0,
       outerwear: 0,
       shoes: 0,
-      accessories: 0,
+      accessories: 0
     };
     return this.savedGarment().reduce((acc, garment) => {
       acc[garment.category] = acc[garment.category] + 1;
