@@ -22,8 +22,9 @@ export class LogInForm {
   async logIn(email: string, password: string): Promise<void> {
     try {
       await this.authService.logIn(email, password)
+
       this.router.navigate([''])
-      console.log(this.authService.currentUser())
+
     }
   catch (error){
     console.log(error)

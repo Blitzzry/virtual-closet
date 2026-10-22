@@ -13,6 +13,7 @@ export interface ClothingItem {
   notes: string;
   isFavorite: boolean;
   imageUrl: string;
+  isDirty: boolean;
 }
 
 export interface AiAnswer {
@@ -40,4 +41,5 @@ export interface GarmentRow {
   is_favorite: boolean;
   imageUrl: string;
   created_at: string;
+  is_dirty: boolean;
 }

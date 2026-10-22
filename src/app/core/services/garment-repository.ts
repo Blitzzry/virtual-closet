@@ -25,7 +25,8 @@ export class GarmentRepository {
             material: clot.material,
             notes: clot.notes,
             isFavorite: clot.is_favorite,
-            imageUrl: clot.imageUrl
+            imageUrl: clot.imageUrl,
+            isDirty: clot.is_dirty
         };
     }
 
@@ -75,12 +76,12 @@ export class GarmentRepository {
                 notes: item.notes,
                 is_favorite: item.isFavorite,
                 bucket_path: path,
+                is_dirty: item.isDirty
             });
         if (error) throw error;
     }
 
     async updateGarment(id: string, clot: Partial<ClothingItem>) {
-        console.log(clot)
         const { error } = await this.supaService.client
             .from("garment")
             .update({
@@ -90,6 +91,7 @@ export class GarmentRepository {
                 material: clot.material,
                 notes: clot.notes,
                 is_favorite: clot.isFavorite,
+                is_dirty: clot.isDirty,
             })
             .eq('id', id);
         if (error) throw error;

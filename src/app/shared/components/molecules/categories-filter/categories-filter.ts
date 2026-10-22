@@ -25,6 +25,10 @@ export class CategoriesFilter implements OnChanges{
   numFavGarmnt = computed (()=> {
     return this.clothingService.savedGarment().filter(el => el.isFavorite).length
   })
+
+  numDrtyGarmnt = computed (()=> {
+    return this.clothingService.savedGarment().filter(el => el.isDirty).length
+  })
   
   ngOnChanges(changes: SimpleChanges): void {
     this.categories = Object.entries(this.categoryCounter) as [ClothingCategory, number][]

@@ -20,9 +20,11 @@ export class ClothingCard {
   @Input() style: string = ''
   @Input() tags: string[] = []
   @Input() isFavorite: boolean = false
+  @Input() isDirty: boolean = false
   @Output() selectClot = new EventEmitter<void>()
   @Output() delGarment = new EventEmitter<void>()
   @Output() addFav = new EventEmitter<void>()
+  @Output() drtyGrmnt = new EventEmitter<void>()
   
   addGrmtFav() {
     this.addFav.emit()
@@ -34,6 +36,10 @@ export class ClothingCard {
 
   deleteGarment() {
     this.delGarment.emit();
+  }
+
+  dirtyGarment() {
+    this.drtyGrmnt.emit()
   }
 
 }

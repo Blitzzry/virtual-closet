@@ -1,17 +1,24 @@
 @if (style == 'home') {
-<div class="clothing-card w-48 h-62">
-    <div class="flex relative bg-gray-200 h-40 rounded-lg overflow-hidden py-2 items-center">
-        <div class="absolute top-2 right-3 flex gap-1">
-            <app-favorite-button (btnAction)="addGrmtFav()" [isFavorite]="isFavorite" [size]="'xxs'"></app-favorite-button>
-            <button class="bg-white !px-1" (click)="deleteGarment()"><app-icon [name]="'trash'"></app-icon></button>
+<div class="clothing-card w-48 h-62 flex flex-col">
+    <div class="z-10">
+        <div class="flex relative bg-gray-200 h-40 rounded-lg overflow-hidden py-2 items-center">
+            <div class="absolute top-2 right-3 flex gap-1">
+                <button [class.dirty]="isDirty" class="bg-white px-1! dirty-btn" (click)="dirtyGarment()">
+                    <app-icon [name]="isDirty ? 'washing-machine-fill' : 'washing-machine'"></app-icon>
+                </button>        
+                <app-favorite-button (btnAction)="addGrmtFav()" [isFavorite]="isFavorite"
+                    [size]="'xxs'"></app-favorite-button>
+                <button class="bg-white px-1!" (click)="deleteGarment()"><app-icon [name]="'trash'"></app-icon></button>
+            </div>
+            <img (click)="selClot()" [src]="imageUrl" alt="{{ name }}"
+                class="rounded-md object-hidden cursor-pointer" />
+            <app-badge class="absolute bottom-2 left-2" [text]="category"></app-badge>
         </div>
-        <img (click)="selClot()" [src]="imageUrl" alt="{{ name }}" class="rounded-md object-hidden cursor-pointer" />
-        <app-badge class="absolute bottom-2 left-2" [text]="category"></app-badge>
+        <div class="px-2 h-12 my-1 flex items-center">
+            <h3 class="text-sm font-medium">{{ name }}</h3>
+        </div>
+        <app-color-dot [colors]="colors" class="flex my-1 px-2"></app-color-dot>
     </div>
-    <div class="px-2 h-12 my-1 flex items-center">
-        <h3 class="text-sm font-medium">{{ name }}</h3>
-    </div>
-    <app-color-dot [colors]="colors" class="flex my-1 px-2"></app-color-dot>
 </div>
 } @else {
 <div class=" flex w-xs h-42 gap-1 without-hover flex-col">

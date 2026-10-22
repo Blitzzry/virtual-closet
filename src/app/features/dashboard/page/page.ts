@@ -38,19 +38,16 @@ export class Page {
   }
   garment: ClothingItem[] = [];
   categories: [ClothingCategory, number][] = [];
-  item: ClothingItem[] = mockClothing;
   isGarmentModalOpen: boolean = false;
   modalActive = signal<"uploader" | "OutfitMaker" | "preview" | null>(null);
   idSelectedClot = signal<string>("");
 
   deleteGarment(id: string, imageUrl: string) {
-    const url = new URL(imageUrl);
     this.clothingService.deleteGarment(
       id,
       imageUrl,
     );
   }
-
 
   selectClot(id: string) {
     this.idSelectedClot.set(id);

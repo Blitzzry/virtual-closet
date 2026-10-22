@@ -37,6 +37,8 @@ export class ClothingService {
     tempt: '',
     notesInput: ''
   }
+  filterByDirty = signal<boolean>(false)
+  filterByFavorite = signal<boolean>(false)
   aiAnswer = signal<AiAnswer>({} as AiAnswer);
   stateUploader = signal<"idle" | "result" | "added">("idle");
   base64Image = signal<string>("");
@@ -44,7 +46,6 @@ export class ClothingService {
   isLoading = signal<boolean>(false)
   imageName: string = "";
   clothAdded = signal<boolean>(false)
-  filterByFavorite = signal<boolean>(false)
   compressedBlob: Blob | null = null;
   windowWidth = signal<number>(window.innerWidth);
   selectedCategories = signal<Set<ClothingCategory>>(new Set());
@@ -95,6 +96,13 @@ export class ClothingService {
     this.aiAnswer.set({} as AiAnswer)
   }
 
+  async addToLaundry (id: string) {
+    this.savedGarment.update(clts => 
+      clts.map(clt => clt.id == id ? {...clt, isDirty: !clt.isDirty} : clt
+      ))
+      await this.garmentRep.updateGarment(id, this.savedGarment().filter(el => el.id == id)[0])
+  }
+
   async saveEdit(id: string, event: ClothingItem) {
     await this.garmentRep.updateGarment(id, event)
     this.savedGarment.update(clts => clts.map(clt => clt.id === id ? { ...event } : clt))
@@ -127,22 +135,8 @@ export class ClothingService {
     }
   })
 
-
   filteredClots = computed(() => {
-    if(this.filterByFavorite() == true && this.selectedCategories().size == 0) {
-      return this.savedGarment().filter(el => el.isFavorite)
-    }
-    if (this.filterByFavorite() == false && this.selectedCategories().size !== 0) {
-      return this.savedGarment().filter((ele) =>
-        this.selectedCategories().has(ele.category)
-    )}
-    if (this.filterByFavorite() == true && this.selectedCategories().size !== 0) {
-      console.log ('aaaaaa')
-      return this.savedGarment().filter((ele) =>
-        this.selectedCategories().has(ele.category) && ele.isFavorite
-    );
-    }
-    return this.savedGarment();
+      return this.savedGarment().filter(el => (!this.filterByFavorite() || el.isFavorite) && (!this.filterByDirty() || el.isDirty) && (this.selectedCategories().size === 0 || this.selectedCategories().has(el.category)))
   });
 
   categoryCount = computed(() => {
@@ -200,7 +194,7 @@ export class ClothingService {
     this.isLoading.set(true)
     const { data, error } = await this.supabase.client.functions.invoke(
       'outfit-maker',
-      { body: { clothes: this.savedGarment(), tags: tags, style: style, tempt: tempt, notesInput:notesInput}}
+      { body: { clothes: this.savedGarment().filter(clt => clt.isDirty == false), tags: tags, style: style, tempt: tempt, notesInput:notesInput}}
     )
     if (error) throw error;
     if (data || error) {

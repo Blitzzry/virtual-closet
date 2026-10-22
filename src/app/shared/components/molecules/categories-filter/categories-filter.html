@@ -31,6 +31,21 @@
                 <app-icon [name]="'check'" [size]="'xs'" class="check-icon shrink-0"></app-icon>
             </div>
         </div>
+        <div class="flex justify-between gap-3 category-filter"
+            [class.selected]="clothingService.filterByDirty() == true"
+            (click)="clothingService.filterByDirty.set(!clothingService.filterByDirty())"
+            >
+            <div class="flex items-center gap-2">
+                <app-icon [name]="'washing-machine'" [size]="'xs'" class="category-row icon"></app-icon>
+                <span>Laundry</span>
+            </div>
+            <div class="flex">
+                <span class="counter flex items-center gap-2 justify-center">
+                    {{ numDrtyGarmnt() }}
+                </span>
+                <app-icon [name]="'check'" [size]="'xs'" class="check-icon shrink-0"></app-icon>
+            </div>
+        </div>
     </div>
     <div class="flex mt-3 gap-2 w-full justify-center">
         <button (click)="debugger()">Debugger</button>

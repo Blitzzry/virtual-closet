@@ -23,8 +23,8 @@
                     @for (item of this.clothingService.filteredClots(); track $index) {
                     <app-clothing-card class="w-auto" [category]="item.category" [colors]="item.colors"
                         [imageUrl]="item.imageUrl" [name]="item.name" [style]="'home'"
-                        (selectClot)="selectClot(item.id)" [isFavorite]="item.isFavorite"
-                        (delGarment)="deleteGarment(item.id, item.imageUrl)" (addFav)="this.clothingService.addGarmentFav(item.id)"></app-clothing-card>
+                        (selectClot)="selectClot(item.id)" [isFavorite]="item.isFavorite" [isDirty]="item.isDirty" (drtyGrmnt)="clothingService.addToLaundry(item.id)"
+                        (delGarment)="deleteGarment(item.id, item.imageUrl)" (addFav)="clothingService.addGarmentFav(item.id)"></app-clothing-card>
                     }
                 </div>
             </div>
