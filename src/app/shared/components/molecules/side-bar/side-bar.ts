@@ -34,7 +34,12 @@ export class SideBar implements OnChanges {
   editedMaterial = signal<string>('')
   editedCategory = signal<ClothingCategory>(this.clot.category)
   @Output() close = new EventEmitter<void>();
+  @Output() addFav = new EventEmitter<void>()
   
+  addGrmtFav() {
+    this.addFav.emit()
+  }
+
   onNameChange(event: Event){
     this.editedName.set((event.target as HTMLInputElement).value)
   }
@@ -46,6 +51,7 @@ export class SideBar implements OnChanges {
   onMaterialChange(event: Event){
     this.editedMaterial.set((event.target as HTMLInputElement).value)
   }
+
 
   onBrandChange(event: Event){
     this.editedBrand.set((event.target as HTMLInputElement).value)
@@ -89,7 +95,6 @@ export class SideBar implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (this.idSelectedClot !== null) {
       this.clot = this.clots.find(garment => garment.id == this.idSelectedClot)!
-      console.log(typeof this.clots[0].category)
     }
   }
 }

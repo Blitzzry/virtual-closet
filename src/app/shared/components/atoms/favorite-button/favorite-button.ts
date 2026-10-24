@@ -11,8 +11,9 @@ export class FavoriteButton {
   constructor() {}
   @Input() isFavorite: boolean = false;
   @Input() size: string = 'xxs';
+  @Input() padding: string = 'p-0'
   @Output() btnAction = new EventEmitter<void>()
-
+  
   selectFavorite() {
     this.btnAction.emit()
   }

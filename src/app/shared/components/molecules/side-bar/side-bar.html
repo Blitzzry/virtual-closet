@@ -1,20 +1,21 @@
-<div class="w-full card flex gap-4 p-4">
+<div class="w-full card flex flex-col gap-4 p-4">
     <div class="flex flex-col gap-3">
         <div class="flex items-center gap-2">
             <div class="flex flex-col gap-1">
-                <button class="flex items-center edit-btn !p-1.5" (click)="toggleEdit()">
-                    <app-icon [name]="'edit'"></app-icon>
+                <button class="flex items-center edit-btn p-4 md:p-1.5!" (click)="toggleEdit()">
+                    <app-icon [size]="'xs'" [name]="'edit'"></app-icon>
                 </button>
-                <app-favorite-button [size]="'xxs'"></app-favorite-button>
+                <app-favorite-button [isFavorite]="clot.isFavorite" (btnAction)="addGrmtFav()" 
+                padding="px-4 py-7 md:px-1.5!" [size]="'xs'"></app-favorite-button>
             </div>
             <img [src]="this.clot.imageUrl" alt="garment image"
-                class="clothing-card object-fill h-64 min-w-0 flex-1 shrink min-h-xl">
+                class="clothing-card object-fill h-64 flex-1 py-4 md:py-1 shrink min-h-xl">
         </div>
         <div class="flex flex-col">
             @if (editing) {
             <div class="flex flex-col gap-1.5">
                 <input class="form-input garment-name" (input)="onNameChange($event)" [value]="this.clot.name">
-                <input class="form-input brand-text !font-normal !text-xs" (input)="onBrandChange($event)"
+                <input class="form-input brand-text font-normal! text-xs!" (input)="onBrandChange($event)"
                     [value]="clot.brand">
                 <select [ngModel]="clot.category" (ngModelChange)="onCategoryChange($event)">
                     @for (item of clothingCategories; track $index) {
@@ -55,17 +56,17 @@
             }
         </div>
     </div>
-</div>
-<div class="flex gap-1 mt-2 px-3 justify-around">
-    <button class="w-full flex items-center !py-3 !px-1 xl:!py-2 xl:!px-2 secondary-btn gap-1.5 justify-center"
-        (click)="closeModal()">
-        <span>Close</span>
-    </button>
-    @if (editing == true){
-    <button (click)="saveClt(clot.id, editedNote(), editedName(), editedMaterial(), editedCategory(), editedBrand())"
-        class="flex text-sm w-full !py-3 xl:!px-1 xl:!py-2 xl:!px-2 items-center save-btn gap-1.5">
-        <span>Save to closet</span>
-        <app-icon [name]="'save'"></app-icon>
-    </button>
-    }
+    <div class="flex gap-1 mt-2 px-3 bg-white justify-around">
+        <button class="w-full flex items-center py-3! px-1! xl:py-2! xl:px-2! secondary-btn gap-1.5 justify-center"
+            (click)="closeModal()">
+            <span>Close</span>
+        </button>
+        @if (editing == true){
+        <button (click)="saveClt(clot.id, editedNote(), editedName(), editedMaterial(), editedCategory(), editedBrand())"
+            class="flex text-sm w-full py-3! xl:py-2! xl:px-2! items-center save-btn gap-1.5">
+            <span>Save to closet</span>
+            <app-icon [name]="'save'"></app-icon>
+        </button>
+        }
+    </div>
 </div>

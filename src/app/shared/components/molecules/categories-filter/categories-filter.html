@@ -1,53 +1,52 @@
-<div class="flex flex-col gap-2 w-full">
-    <div class="flex flex-col gap-1">
-        @for (item of categories; track $index) {
-        <div class="flex justify-between gap-3 category-filter"
-            [class.selected]="clothingService.selectedCategories().has(item[0])"
-            (click)="clothingService.toggleCategory(item[0], item[1])">
-            <div class="flex items-center gap-2">
-                <app-icon [name]="item[0]" [size]="'xs'" class="category-row icon"></app-icon>
-                <span>{{ item[0].charAt(0).toUpperCase() + item[0].slice(1) }}</span>
-            </div>
-            <div class="flex">
-                <span class="counter flex items-center gap-2 justify-center">
-                    {{ item[1] }}
-                </span>
-                <app-icon [name]="'check'" [size]="'xs'" class="check-icon shrink-0"></app-icon>
-            </div>
+<div class="w-full flex md:flex-col gap-1 md:px-2 py-1">
+    @for (item of categories; track $index) {
+    <div class="flex flex-col md:flex-row justify-between md:gap-3 items-center category-filter"
+        [class.selected]="clothingService.selectedCategories().has(item[0])"
+        (click)="clothingService.toggleCategory(item[0], item[1])">
+        <div class="flex md:flex-row flex-col items-center md:gap-2">
+            <app-icon [name]="item[0]" [size]="'xs'" class="category-row icon"></app-icon>
+            <span>{{ item[0].charAt(0).toUpperCase() + item[0].slice(1) }}</span>
         </div>
-        }
-        <div class="flex justify-between gap-3 category-filter"
-            [class.selected]="clothingService.filterByFavorite() == true"
-            (click)="clothingService.filterByFavorite.set(!clothingService.filterByFavorite())"
-            >
-            <div class="flex items-center gap-2">
-                <app-icon [name]="'heart'" [size]="'xs'" class="category-row icon"></app-icon>
-                <span>Favorites</span>
-            </div>
-            <div class="flex">
-                <span class="counter flex items-center gap-2 justify-center">
-                    {{ numFavGarmnt() }}
-                </span>
-                <app-icon [name]="'check'" [size]="'xs'" class="check-icon shrink-0"></app-icon>
-            </div>
-        </div>
-        <div class="flex justify-between gap-3 category-filter"
-            [class.selected]="clothingService.filterByDirty() == true"
-            (click)="clothingService.filterByDirty.set(!clothingService.filterByDirty())"
-            >
-            <div class="flex items-center gap-2">
-                <app-icon [name]="'washing-machine'" [size]="'xs'" class="category-row icon"></app-icon>
-                <span>Laundry</span>
-            </div>
-            <div class="flex">
-                <span class="counter flex items-center gap-2 justify-center">
-                    {{ numDrtyGarmnt() }}
-                </span>
-                <app-icon [name]="'check'" [size]="'xs'" class="check-icon shrink-0"></app-icon>
-            </div>
+        <div class="flex">
+            <span class="counter flex items-center gap-2 justify-center">
+                {{ item[1] }}
+            </span>
+            @if(clothingService.windowWidth() >= 768){
+            <app-icon [name]="'check'" [size]="'xs'" class="check-icon shrink-0"></app-icon>
+            }
         </div>
     </div>
-    <div class="flex mt-3 gap-2 w-full justify-center">
-        <button (click)="debugger()">Debugger</button>
+    }
+    <div class="flex flex-col md:flex-row items-center justify-between md:gap-3 category-filter"
+        [class.selected]="clothingService.filterByFavorite() == true"
+        (click)="clothingService.filterByFavorite.set(!clothingService.filterByFavorite())">
+        <div class="flex flex-col md:flex-row items-center gap-2">
+            <app-icon [name]="'heart'" [size]="'xs'" class="category-row icon"></app-icon>
+            <span>Favorites</span>
+        </div>
+        <div class="flex">
+            <span class="counter flex items-center gap-2 justify-center">
+                {{ numFavGarmnt() }}
+            </span>
+            @if(clothingService.windowWidth() >= 768){
+            <app-icon [name]="'check'" [size]="'xs'" class="check-icon shrink-0"></app-icon>
+            }
+        </div>
+    </div>
+    <div class="flex flex-col md:flex-row items-center justify-between md:gap-3 category-filter"
+        [class.selected]="clothingService.filterByDirty() == true"
+        (click)="clothingService.filterByDirty.set(!clothingService.filterByDirty())">
+        <div class="flex flex-col md:flex-row items-center gap-2">
+            <app-icon [name]="'washing-machine'" [size]="'xs'" class="category-row icon"></app-icon>
+            <span>Laundry</span>
+        </div>
+        <div class="flex">
+            <span class="counter flex items-center gap-2 justify-center">
+                {{ numDrtyGarmnt() }}
+            </span>
+            @if(clothingService.windowWidth() >= 768){
+            <app-icon [name]="'check'" [size]="'xs'" class="check-icon shrink-0"></app-icon>
+            }
+        </div>
     </div>
 </div>

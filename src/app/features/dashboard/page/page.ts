@@ -39,7 +39,6 @@ export class Page {
   garment: ClothingItem[] = [];
   categories: [ClothingCategory, number][] = [];
   isGarmentModalOpen: boolean = false;
-  modalActive = signal<"uploader" | "OutfitMaker" | "preview" | null>(null);
   idSelectedClot = signal<string>("");
 
   deleteGarment(id: string, imageUrl: string) {
@@ -51,21 +50,14 @@ export class Page {
 
   selectClot(id: string) {
     this.idSelectedClot.set(id);
-    this.modalActive.set("preview");
-  }
-
-  activeModal(modal: "uploader" | "OutfitMaker" | "preview" | null) {
-    this.modalActive.set(modal);
+    this.clothingService.modalActive.set("preview");
   }
 
   closeModal() {
-    this.modalActive.set(null);
+    this.clothingService.modalActive.set(null);
     this.clothingService.closeAiResponse()
   }
 
-  debbugger() {
-    console.log(this.modalActive());
-  }
 
   signUp() {
     this.router.navigate(["/signUp"]);

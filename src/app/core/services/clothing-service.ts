@@ -24,6 +24,7 @@ export class ClothingService {
         this.windowWidth.set(window.innerWidth);
       });
     effect (() => {
+      document.body.classList.toggle('overflow-hidden', this.modalActive() !== null && this.windowWidth() <= 768)
       if (authService.userIsLoggedIn() !== null) {
         garmentRep.getAllClots().then((data) => this.savedGarment.set(data));
       }
@@ -49,6 +50,7 @@ export class ClothingService {
   compressedBlob: Blob | null = null;
   windowWidth = signal<number>(window.innerWidth);
   selectedCategories = signal<Set<ClothingCategory>>(new Set());
+  modalActive = signal<"uploader" | "OutfitMaker" | "preview" | null>(null);
   formRequests = signal<Set<ClothingCategory>>(new Set());
   styleList: StylesList[] = [
     "Casual",
@@ -67,6 +69,10 @@ export class ClothingService {
     "Vintage",
     "Business Casual",
   ];
+
+  activeModal(modal: "uploader" | "OutfitMaker" | "preview" | null) {
+    this.modalActive.set(modal);
+  }
 
   toggleCategory(cat: ClothingCategory, counter: number) {
     if (counter == 0) {
