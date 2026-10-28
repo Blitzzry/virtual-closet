@@ -98,7 +98,6 @@ export class GarmentRepository {
     }
 
     async removeClots(id: string, path: string[]) {
-        console.log(path);
         const { error } = await this.supaService.client
             .from("garment")
             .delete()

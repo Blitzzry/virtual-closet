@@ -34,10 +34,6 @@ export class OutfitMaker implements OnInit, OnDestroy {
     return this.clothingService.outfitMakerResponse();
   });
 
-  debugger() {
-    console.log(this.clothingService.suggestedCloths());
-  }
-
   addTag(tag: string) {
     if (this.tagsSelected.length == 3 || this.tagsSelected.includes(tag)) {
       this.tagsSelected = this.tagsSelected.filter((el) => el !== tag);

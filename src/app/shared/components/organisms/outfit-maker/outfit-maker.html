@@ -7,7 +7,7 @@
     <div class="grid grid-cols-2 gap-2">
         <div class="mt-2">
             <span class="section-title">Tags</span>
-            <div class="max-h-62 overflow-scroll gap-1.5 flex px-1.5 flex-col mt-4 px-4">
+            <div class="max-h-62 overflow-scroll gap-1.5 flex flex-col mt-4 px-4">
                 @for (item of tagsList(); track $index) {
                 <button class="py-1 w-full form-btn" (click)="addTag(item)"
                     [class.selected]="tagsSelected.find(el => el == item)">
@@ -18,7 +18,7 @@
         </div>
         <div class="mt-2">
             <span class="section-title">Style</span>
-            <div class="max-h-62 overflow-scroll flex flex-col px-1.5 gap-1.5 mt-4 px-4">
+            <div class="max-h-62 overflow-scroll flex flex-col gap-1.5 mt-4 px-4">
                 @for (item of clothingService.styleList; track item; let ind = $index) {
                 <button class="py-1.5 px-2 w-full form-btn" (click)="styleSelected = item"
                     [class.selected]="styleSelected == item">{{ item }} </button>
@@ -51,8 +51,8 @@
         <textarea #notesInput class="mt-2"></textarea>
     </div>
     <div class="flex items-center gap-3">
-        <button class="secondary-btn w-full mt-3 !py-2" (click)="closeModal()">Cancel</button>
-        <button class="primary-btn w-full mt-3 !py-5"
+        <button class="secondary-btn w-full mt-3 py-2!" (click)="closeModal()">Cancel</button>
+        <button class="primary-btn w-full mt-3 py-5!"
             (click)="clothingService.outitMaker(tagsSelected, styleSelected, weatherSelected, notesInput.value)">Generate
             Outfit</button>
     </div>

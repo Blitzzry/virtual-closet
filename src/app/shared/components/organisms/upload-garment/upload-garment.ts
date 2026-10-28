@@ -54,9 +54,4 @@ export class UploadGarment {
   anotherOne() {
     this.clothingService.aiAnswer.set({} as AiAnswer)
   }
-  
-  debugger() {
-    console.log(this.clothingService.aiAnswer())
-    console.log(this.clothingService.aiAnswer().isGarment)
-  }
 }

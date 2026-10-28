@@ -17,10 +17,6 @@ export class CategoriesFilter implements OnChanges{
   @Input() categoryCounter: Record<ClothingCategory, number> = {} as Record<ClothingCategory, number>;
   categories: [ClothingCategory, number][] = []
   id: string = '030d4fa5-c079-40c0-9406-721616f96890'
-  debugger(){
-    console.log(this.clothingService.savedGarment())
-    console.log(this.auth.currentUser)
-  }
 
   numFavGarmnt = computed (()=> {
     return this.clothingService.savedGarment().filter(el => el.isFavorite).length

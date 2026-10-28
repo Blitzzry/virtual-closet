@@ -24,7 +24,7 @@
 }
 
 .sign-up-btn {
-  height: 48px;
+  height: fit-content;
   border: none;
   border-radius: 14px;
   background: #C4A86A;
@@ -44,7 +44,7 @@
 }
 
 .log-in-btn {
-  height: 48px;
+  height: fit-content;
   border: 1px solid #DDD6CD;
   border-radius: 14px;
   background: #FFFFFF;

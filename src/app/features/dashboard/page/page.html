@@ -1,9 +1,9 @@
 <div class="flex w-full h-full gap-5 overflow-hidden">
     <div [class.modal-open]="clothingService.modalActive() !== null" class="flex flex-col gap-2 w-full h-full relative">
         @if (authService.userIsLoggedIn() == false){
-        <div class="flex w-full h-full justify-center items-center mb-3 gap-2 px-3">
-            <button class="log-in-btn px-6 py-4 md:py-8" (click)="logIn()">Log In!</button>
-            <button class="sign-up-btn px-6 py-4 md:py-8" (click)="signUp()">Sign Up!</button>
+        <div class="flex w-full h-screen justify-center items-center mb-3 gap-2 px-3">
+            <button class="log-in-btn px-6! py-4! md:py-8!" (click)="logIn()">Log In!</button>
+            <button class="sign-up-btn px-6! py-4! md:py-8!" (click)="signUp()">Sign Up!</button>
         </div>
         } @else {
         <app-top-bar [userName]="authService.currentUser()?.user_metadata?.['name']"
@@ -47,7 +47,7 @@
         }
         @if (clothingService.modalActive() == 'OutfitMaker') {
         <div class="modal-overlay">
-            <app-outfit-maker class="overflow-scroll modal rounded-xl" (close)="closeModal()"></app-outfit-maker>
+            <app-outfit-maker class="overflow-scroll modal rounded-xl mx-2" (close)="closeModal()"></app-outfit-maker>
         </div>
         }
         @if (clothingService.modalActive() == 'uploader') {
