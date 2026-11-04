@@ -53,21 +53,21 @@ export class ClothingService {
   modalActive = signal<"uploader" | "OutfitMaker" | "preview" | null>(null);
   formRequests = signal<Set<ClothingCategory>>(new Set());
   styleList: StylesList[] = [
-    "Casual",
-    "Streetwear",
-    "Old Money",
-    "Formal",
-    "Coquette",
-    "Y2K",
-    "Minimalista",
-    "Gótico",
-    "Deportivo",
-    "Boho",
+    "Casual", 
+    "Old Money", 
+    "Streetwear", 
+    "Formal", 
+    "Coquette", 
+    "Y2K", 
+    "Minimalist", 
+    "Gothic", 
+    "Athletic", 
+    "Boho", 
     "Preppy",
-    "Grunge",
-    "Elegante",
-    "Vintage",
-    "Business Casual",
+    "Grunge", 
+    "Elegant", 
+    "Vintage", 
+    "Business Casual"
   ];
 
   activeModal(modal: "uploader" | "OutfitMaker" | "preview" | null) {
@@ -176,9 +176,23 @@ export class ClothingService {
       await this.garmentRep.removeClots(id, [this.garmentRep.path])
     } else {
       const url = new URL (path)
-      await this.garmentRep.removeClots(id, [`${this.authService.currentUser()}/${url.pathname.split(`${this.authService.currentUser()?.id}/`)[1]}`])
-    }
+      const userId = this.authService.currentUser()?.id;
+      if (!userId) return;
+      const imagePath = url.pathname.split(`${userId}/`)[1];
+      await this.garmentRep.removeClots(
+        id,
+        [`${userId}/${imagePath}`]
+      );    }
     this.savedGarment.update(garments => garments.filter(garment => garment.id !== id))
+  }
+
+  resetUploader() {
+    this.aiAnswer.set({} as AiAnswer);
+    this.clothAdded.set(false);
+    this.base64Image.set('');
+    this.compressedBlob = null;
+    this.imageName = '';
+    this.isLoading.set(false);
   }
 
   suggestedCloths = computed(() => {
@@ -198,15 +212,16 @@ export class ClothingService {
       notesInput: notesInput
     }
     this.isLoading.set(true)
+    try {
     const { data, error } = await this.supabase.client.functions.invoke(
       'outfit-maker',
-      { body: { clothes: this.savedGarment().filter(clt => clt.isDirty == false), tags: tags, style: style, tempt: tempt, notesInput:notesInput}}
-    )
-    if (error) throw error;
-    if (data || error) {
+      { body: { clothes: this.savedGarment().filter(clt => clt.isDirty == false), tags: tags, style: style, tempt: tempt, notesInput:notesInput}})
+      this.outfitMakerResponse.set(JSON.parse(data.response.choices[0].message.content))
+    } catch (error) {
+      console.log(error)
+    } finally {
       this.isLoading.set(false)
     }
-    this.outfitMakerResponse.set(JSON.parse(data.response.choices[0].message.content))
     return this.outfitMakerResponse()
   }
 
@@ -235,7 +250,8 @@ export class ClothingService {
               ...ele.item!,
               id: crypto.randomUUID(),
               imageUrl: URL.createObjectURL(imageCompressed),
-              isFavorite: false
+              isFavorite: false,
+              isDirty: false
             }
           }))
           this.compressedBlob = imageCompressed;

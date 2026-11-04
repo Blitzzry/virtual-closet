@@ -3,10 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { Icon } from '../../../atoms/icon/icons';
 import { AuthService } from '../../../../../core/services/auht.service';
 import { RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'app-sign-up-form',
-  imports: [FormsModule, Icon, RouterLink],
+  imports: [FormsModule, Icon, RouterLink, TranslatePipe],
   templateUrl: './sign-up-form.html',
   styleUrl: './sign-up-form.css',
 })

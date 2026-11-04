@@ -3,10 +3,11 @@ import { FormsModule } from '@angular/forms';
 import { Icon } from '../../../atoms/icon/icons';
 import { AuthService } from '../../../../../core/services/auht.service';
 import { Router, RouterLink } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-log-in-form',
-  imports: [FormsModule, RouterLink],
+  imports: [FormsModule, RouterLink, TranslatePipe],
   templateUrl: './log-in-form.html',
   styleUrl: './log-in-form.css',
 })

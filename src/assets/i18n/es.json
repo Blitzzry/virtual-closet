@@ -1,0 +1,84 @@
+{
+    "COMMON": {
+      "APP_NAME": "Gira",
+      "CANCEL": "Cancelar",
+      "CLOSE": "Cerrar",
+      "EDIT": "Editar",
+      "SAVE_TO_CLOSET": "Guardar en el clóset",
+      "TRY_AGAIN": "Intentar de nuevo",
+      "FINISH": "Finalizar",
+      "ERROR_TITLE": "¡Ups! Algo salió mal",
+      "PROCESSING_HINT": "Esto puede tardar unos segundos.",
+      "GARMENT_IMAGE_ALT": "Imagen de la prenda"
+    },
+    "META": {
+      "PAGE_TITLE": "VirtualClosetApp"
+    },
+    "NAV": {
+      "MAKE_OUTFIT": "Crear un outfit",
+      "SIGN_OUT": "Cerrar sesión"
+    },
+    "AUTH": {
+      "BRAND_TITLE": "Gira",
+      "CREATE_ACCOUNT": "¡Crea una cuenta!",
+      "FULL_NAME": "Nombre completo",
+      "FULL_NAME_PLACEHOLDER": "Nombre completo",
+      "EMAIL": "Correo electrónico",
+      "EMAIL_PLACEHOLDER": "tu@correo.com",
+      "PASSWORD": "Contraseña",
+      "PASSWORD_PLACEHOLDER": ".....",
+      "CONFIRM_PASSWORD": "Confirmar contraseña",
+      "REMEMBER_ME": "Recuérdame",
+      "FORGOT_PASSWORD": "¿Olvidaste tu contraseña?",
+      "LOGIN_BUTTON": "¡Iniciar sesión!",
+      "SIGN_UP_BUTTON": "¡Registrarse!",
+      "NO_ACCOUNT": "¿No tienes una cuenta?",
+      "SIGN_UP_LINK": "Regístrate",
+      "ALREADY_HAVE_ACCOUNT": "¿Ya tienes una cuenta?",
+      "LOGIN_LINK": "Inicia sesión",
+      "REGISTER_SUCCESS": "¡Te registraste correctamente!",
+      "REGISTER_SUCCESS_PREFIX": "Ahora puedes explorar y",
+      "REGISTER_SUCCESS_LINK": "organizar tu clóset virtual."
+    },
+    "CLOSET": {
+      "TITLE": "Mi clóset",
+      "UPLOAD_GARMENT": "Subir prenda",
+      "EMPTY_STATE": "Aún no tienes prendas. ¡Agrega una ahora con el botón de abajo!"
+    },
+    "FILTERS": {
+      "FAVORITES": "Favoritos",
+      "LAUNDRY": "Ropa sucia"
+    },
+    "GARMENT_FIELDS": {
+      "COLORS": "Colores",
+      "SUGGESTED_TAGS": "Etiquetas sugeridas",
+      "MATERIAL": "Material",
+      "AI_NOTES": "Notas (IA)"
+    },
+    "UPLOAD_ZONE": {
+      "DROP_HINT_BEFORE": "Arrastra tu foto aquí o haz clic para",
+      "DROP_HINT_BROWSE": "buscar"
+    },
+    "MODAL_UPLOAD": {
+      "UPLOAD_BUTTON": "Subir",
+      "SCANNING": "Analizando prenda",
+      "ITEM_SAVED": "¡Prenda guardada en tu clóset!",
+      "ITEM_SAVED_DESCRIPTION": "Puedes verla y organizarla cuando quieras desde tu clóset.",
+      "VIEW_CLOSET": "Ver mi clóset",
+      "ADD_ANOTHER": "Agregar otra"
+    },
+    "OUTFIT": {
+      "TITLE": "Crea un nuevo outfit",
+      "DESCRIPTION": "Cuéntanos qué tienes en mente y deja que Gira cree un look increíble para ti.",
+      "TAGS": "Etiquetas",
+      "STYLE": "Estilo",
+      "WEATHER": "Clima",
+      "WEATHER_HOT": "Calor",
+      "WEATHER_MILD": "Templado",
+      "WEATHER_COLD": "Frío",
+      "NOTES": "Notas",
+      "GENERATE_BUTTON": "Generar outfit",
+      "CREATING": "Creando tu outfit",
+      "READY": "Tu outfit está listo"
+    }
+  }

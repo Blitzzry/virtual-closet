@@ -4,6 +4,7 @@ import { ClothingService } from "../../../../core/services/clothing-service";
 import { StylesList } from "../../../../core/models/interface";
 import { StepperIndicator } from "../../atoms/stepper-indicator/stepper-indicator";
 import { ClothingCard } from "../../molecules/clothing-card/clothing-card";
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: "app-outfit-maker",
@@ -47,12 +48,10 @@ export class OutfitMaker implements OnInit, OnDestroy {
     }
   }
   ngOnInit(): void {
-    // Bloquea el scroll del body al abrir la modal
     this.renderer.addClass(document.body, 'no-scroll');
   }
 
   ngOnDestroy(): void {
-    // Devuelve el scroll al body cuando la modal se destruye (cierra)
     this.renderer.removeClass(document.body, 'no-scroll');
   }
 }

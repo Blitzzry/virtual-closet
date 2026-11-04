@@ -3,25 +3,25 @@
         <button [routerLink]="['/']" class="self-end text-lg cursor-pointer">
             x
         </button>
-        <h1 class="text-2xl font-semibold text-gray-800">Mooder</h1>
-        <span class="mb-3">Create an account!</span>
+        <h1 class="text-2xl font-semibold text-gray-800">{{'AUTH.BRAND_TITLE' | translate}}</h1>
+        <span class="mb-3">{{'AUTH.CREATE_ACCOUNT' | translate}}</span>
         <div class="flex flex-col gap-1.5">
-            <span class="text-sm">Email</span>
-            <input type="email" placeholder="your@email.com" [(ngModel)]="email" />
-            <span class="text-sm">Password</span>
-            <input type="password" placeholder="....." [(ngModel)]="password" />
+            <span class="text-sm">{{'AUTH.EMAIL' | translate}}</span>
+            <input type="email" [placeholder]="'AUTH.EMAIL_PLACEHOLDER' | translate" [(ngModel)]="email" />
+            <span class="text-sm">{{'AUTH.PASSWORD' | translate}}</span>
+            <input type="password" [placeholder]="'AUTH.PASSWORD_PLACEHOLDER' | translate" [(ngModel)]="password" />
             <div class="grid grid-cols-2 w-auto gap-14">
                 <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;color:#5C554C;">
                     <input [(ngModel)]="rememberMe" type="checkbox"
                         style="width:14px;height:14px;accent-color:#C4A86A;" />
-                    Recuérdame
+                    {{'AUTH.REMEMBER_ME' | translate}}
                 </label>
-                <button class="text-sm text-gray-600 hover:underline mt-1 justify-self-end">Forgot password?</button>
+                <button class="text-sm text-gray-600 hover:underline mt-1 justify-self-end">{{'AUTH.FORGOT_PASSWORD' | translate}}</button>
             </div>
-            <button class="sign-up-btn my-2" (click)="logIn(email, password)">Log in!</button>
+            <button class="sign-up-btn my-2" (click)="logIn(email, password)">{{'AUTH.LOGIN_BUTTON' | translate}}</button>
         </div>
         <div class="flex flex-col gap-2 items-center w-full">
-            <span class="text-sm mt-1">You don't have an account? <a [routerLink]="['/signUp']" class="signIn hover:underline">Sign up</a></span>
+            <span class="text-sm mt-1">{{'AUTH.NO_ACCOUNT' | translate}} <a [routerLink]="['/signUp']" class="signIn hover:underline">{{'AUTH.SIGN_UP_LINK' | translate}}</a></span>
         </div>
     </div>
 </div>

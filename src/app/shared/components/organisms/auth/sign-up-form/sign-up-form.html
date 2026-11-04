@@ -1,35 +1,34 @@
 @if (authService.userIsLoggedIn()){
-<div class="w-full h-full items-center justify-center mt-5 flex">
-    <div class="w-92 flex items-center justify-center flex-col p-6 rounded-lg bg-white shadow-md gap-2 border-black border">
-        <h1 class="text-2xl font-semibold text-gray-800">Mooder</h1>
-        <app-icon [name]="'check-circle'" [size]="'lg'" class="text-green-300 text-center my-2"></app-icon>
-        <p class="text-lg">You have successfully registered!</p>
-        <span class="text-gray-600 text-center">Now you can browse and <a [routerLink]="['/']" class="signIn hover:underline">manage your virtual closet!</a></span> 
-        <!-- <button class="sign-up-btn my-4" (click)="signIn()">Log In!</button> -->
-    </div>
-</div>
-} @else {
-<div class="flex w-full h-full items-center justify-center mt-5">
-    <div class="w-92 flex flex-col p-6 rounded-lg bg-white shadow-md border-black border">
-        <button [routerLink]="['/']" class="self-end text-lg cursor-pointer">
-            x
-        </button>
-        <h1 class="text-2xl font-semibold text-gray-800">Mooder</h1>
-        <span class="mb-3">Create an account!</span>
-        <div class="flex flex-col gap-1.5">
-            <span class="text-sm">Full Name</span>
-            <input type="text" placeholder="Full Name" [(ngModel)]="name" />
-            <span class="text-sm">Email</span>
-            <input type="email" placeholder="your@email.com" [(ngModel)]="email" />
-            <span class="text-sm">Password</span>
-            <input type="password" placeholder="....." [(ngModel)]="password" />
-            <span class="text-sm">Confirm password</span>
-            <input type="password" placeholder="....." [(ngModel)]="confirmPassword" />
-            <button class="sign-up-btn my-4" (click)="signUp(email, password, confirmPassword, name)">Sign Up!</button>
-        </div>
-        <div class="flex flex-col gap-2 items-center">
-            <span class="text-sm">Already have an account? <a [routerLink]="['/logIn']" class="signIn hover:underline">Log in</a></span>
+    <div class="w-full h-full items-center justify-center mt-5 flex">
+        <div class="w-92 flex items-center justify-center flex-col p-6 rounded-lg bg-white shadow-md gap-2 border-black border">
+            <h1 class="text-2xl font-semibold text-gray-800">{{'AUTH.BRAND_TITLE' | translate}}</h1>
+            <app-icon [name]="'check-circle'" [size]="'lg'" class="text-green-300 text-center my-2"></app-icon>
+            <p class="text-lg">{{'AUTH.REGISTER_SUCCESS' | translate}}</p>
+            <span class="text-gray-600 text-center">{{'AUTH.REGISTER_SUCCESS_PREFIX' | translate}} <a [routerLink]="['/']" class="signIn hover:underline">{{'AUTH.REGISTER_SUCCESS_LINK' | translate}}</a></span>
         </div>
     </div>
-</div>
-}
+    } @else {
+    <div class="flex w-full h-full items-center justify-center mt-5">
+        <div class="w-92 flex flex-col p-6 rounded-lg bg-white shadow-md border-black border">
+            <button [routerLink]="['/']" class="self-end text-lg cursor-pointer">
+                x
+            </button>
+            <h1 class="text-2xl font-semibold text-gray-800">{{'AUTH.BRAND_TITLE' | translate}}</h1>
+            <span class="mb-3">{{'AUTH.CREATE_ACCOUNT' | translate}}</span>
+            <div class="flex flex-col gap-1.5">
+                <span class="text-sm">{{'AUTH.FULL_NAME' | translate}}</span>
+                <input type="text" [placeholder]="'AUTH.FULL_NAME_PLACEHOLDER' | translate" [(ngModel)]="name" />
+                <span class="text-sm">{{'AUTH.EMAIL' | translate}}</span>
+                <input type="email" [placeholder]="'AUTH.EMAIL_PLACEHOLDER' | translate" [(ngModel)]="email" />
+                <span class="text-sm">{{'AUTH.PASSWORD' | translate}}</span>
+                <input type="password" [placeholder]="'AUTH.PASSWORD_PLACEHOLDER' | translate" [(ngModel)]="password" />
+                <span class="text-sm">{{'AUTH.CONFIRM_PASSWORD' | translate}}</span>
+                <input type="password" [placeholder]="'AUTH.PASSWORD_PLACEHOLDER' | translate" [(ngModel)]="confirmPassword" />
+                <button class="sign-up-btn my-4" (click)="signUp(email, password, confirmPassword, name)">{{'AUTH.SIGN_UP_BUTTON' | translate}}</button>
+            </div>
+            <div class="flex flex-col gap-2 items-center">
+                <span class="text-sm">{{'AUTH.ALREADY_HAVE_ACCOUNT' | translate}} <a [routerLink]="['/logIn']" class="signIn hover:underline">{{'AUTH.LOGIN_LINK' | translate}}</a></span>
+            </div>
+        </div>
+    </div>
+    }

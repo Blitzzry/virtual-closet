@@ -35,7 +35,7 @@ export class UploadGarment {
     try {
       const response = await this.clothingService.aiAnswer()
     } catch (error) {
-      console.log('erroor')
+      console.log('error')
     }
   }
   saveGarment(event: ClothingItem) {
@@ -52,6 +52,6 @@ export class UploadGarment {
   }
   
   anotherOne() {
-    this.clothingService.aiAnswer.set({} as AiAnswer)
+    this.clothingService.resetUploader()
   }
 }
