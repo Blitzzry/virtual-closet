@@ -39,9 +39,11 @@
         <button class="w-full primary-btn mt-3" (click)="anotherOne()">{{'COMMON.TRY_AGAIN' | translate}}</button>
     </div>
     } @else {
-    <div class="flex gap-4">
-        <img [src]="clothingService.base64Image()" [alt]="'COMMON.GARMENT_IMAGE_ALT' | translate"
-            class="h-auto max-w-56 clothing-card object-cover">
+    <div class="flex flex-col md:flex-row gap-4">
+        <div class="w-full flex items-center justify-center">
+            <img [src]="clothingService.base64Image()" [alt]="'COMMON.GARMENT_IMAGE_ALT' | translate"
+                class="h-auto max-w-72 md:max-w-56  clothing-card object-cover">
+        </div>
         <div class="flex flex-col gap-3">
             <div class="flex flex-col">
                 @if (editing) {
@@ -67,8 +69,8 @@
             </div>
             <div class="flex flex-col gap-0.5">
                 <p class="field-label">{{'GARMENT_FIELDS.SUGGESTED_TAGS' | translate}}</p>
-                <app-suggested-tags [tags]="this.aiAnswerInfo().item!.tags" [class.tags]="this.aiAnswerInfo().item!.tags.length >= 4"
-                    class="flex gap-1"></app-suggested-tags>
+                <app-suggested-tags [tags]="this.aiAnswerInfo().item!.tags"
+                    [class.tags]="this.aiAnswerInfo().item!.tags.length >= 4" class="flex gap-1"></app-suggested-tags>
             </div>
             <div class="flex flex-col gap-0.5">
                 <p class="field-label">{{'GARMENT_FIELDS.MATERIAL' | translate}}</p>
@@ -112,7 +114,8 @@
     <div class="flex flex-col items-center p-3">
         <app-icon [name]="'check-circle'" [size]="'xl'"></app-icon>
         <span class="mt-3 mb-1.5 premium-title text-lg">{{'MODAL_UPLOAD.ITEM_SAVED' | translate}}</span>
-        <span class="secondary-text text-sm max-w-46 text-center">{{'MODAL_UPLOAD.ITEM_SAVED_DESCRIPTION' | translate}}</span>
+        <span class="secondary-text text-sm max-w-46 text-center">{{'MODAL_UPLOAD.ITEM_SAVED_DESCRIPTION' |
+            translate}}</span>
         <div class="flex gap-3 mt-4">
             <button class="save-btn flex items-center gap-1.5" (click)="closeModal()">
                 {{'MODAL_UPLOAD.VIEW_CLOSET' | translate}}
