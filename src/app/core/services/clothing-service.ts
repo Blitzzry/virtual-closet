@@ -1,10 +1,17 @@
 import { computed, effect, Injectable, signal } from "@angular/core";
-import { AiAnswer, ClothingCategory, ClothingItem, OutfitMakerInterface, StylesList } from "../models/interface";
+import {
+  AiAnswer,
+  ClothingCategory,
+  ClothingItem,
+  OutfitMakerInterface,
+  StylesList,
+} from "../models/interface";
 import { GarmentRepository } from "./garment-repository";
 import { AuthService } from "./auht.service";
 import { debounceTime, fromEvent } from "rxjs";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { SupabaseService } from "./supabase.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Injectable({
   providedIn: "root",
@@ -14,6 +21,7 @@ export class ClothingService {
     private garmentRep: GarmentRepository,
     private authService: AuthService,
     public supabase: SupabaseService,
+    private translate: TranslateService,
   ) {
     fromEvent(window, "resize")
       .pipe(
@@ -23,51 +31,56 @@ export class ClothingService {
       .subscribe(() => {
         this.windowWidth.set(window.innerWidth);
       });
-    effect (() => {
-      document.body.classList.toggle('overflow-hidden', this.modalActive() !== null && this.windowWidth() <= 768)
+    effect(() => {
+      document.body.classList.toggle(
+        "overflow-hidden",
+        this.modalActive() !== null && this.windowWidth() <= 768,
+      );
       if (authService.userIsLoggedIn() !== null) {
         garmentRep.getAllClots().then((data) => this.savedGarment.set(data));
       }
-    })
+    });
   }
 
-  outfitMakerResponse = signal<OutfitMakerInterface>({} as OutfitMakerInterface);
+  outfitMakerResponse = signal<OutfitMakerInterface>(
+    {} as OutfitMakerInterface,
+  );
   paramsSelected = {
-    tags: [''],
-    style: '',
-    tempt: '',
-    notesInput: ''
-  }
-  filterByDirty = signal<boolean>(false)
-  filterByFavorite = signal<boolean>(false)
+    tags: [""],
+    style: "",
+    tempt: "",
+    notesInput: "",
+  };
+  filterByDirty = signal<boolean>(false);
+  filterByFavorite = signal<boolean>(false);
   aiAnswer = signal<AiAnswer>({} as AiAnswer);
   stateUploader = signal<"idle" | "result" | "added">("idle");
   base64Image = signal<string>("");
   savedGarment = signal<ClothingItem[]>([]);
-  isLoading = signal<boolean>(false)
+  isLoading = signal<boolean>(false);
   imageName: string = "";
-  clothAdded = signal<boolean>(false)
+  clothAdded = signal<boolean>(false);
   compressedBlob: Blob | null = null;
   windowWidth = signal<number>(window.innerWidth);
   selectedCategories = signal<Set<ClothingCategory>>(new Set());
   modalActive = signal<"uploader" | "OutfitMaker" | "preview" | null>(null);
   formRequests = signal<Set<ClothingCategory>>(new Set());
   styleList: StylesList[] = [
-    "Casual", 
-    "Old Money", 
-    "Streetwear", 
-    "Formal", 
-    "Coquette", 
-    "Y2K", 
-    "Minimalist", 
-    "Gothic", 
-    "Athletic", 
-    "Boho", 
+    "Casual",
+    "Old Money",
+    "Streetwear",
+    "Formal",
+    "Coquette",
+    "Y2K",
+    "Minimalist",
+    "Gothic",
+    "Athletic",
+    "Boho",
     "Preppy",
-    "Grunge", 
-    "Elegant", 
-    "Vintage", 
-    "Business Casual"
+    "Grunge",
+    "Elegant",
+    "Vintage",
+    "Business Casual",
   ];
 
   activeModal(modal: "uploader" | "OutfitMaker" | "preview" | null) {
@@ -76,8 +89,7 @@ export class ClothingService {
 
   toggleCategory(cat: ClothingCategory, counter: number) {
     if (counter == 0) {
-    }
-     else {
+    } else {
       this.selectedCategories.update((current) => {
         const next = new Set(current);
         if (next.has(cat)) {
@@ -91,58 +103,76 @@ export class ClothingService {
   }
 
   async addGarmentFav(id: string) {
-    this.savedGarment.update(clts => 
-      clts.map(clt => clt.id == id ? {...clt, isFavorite: !clt.isFavorite} : clt
-      ))
-    await this.garmentRep.updateGarment(id, this.savedGarment().filter(el => el.id == id)[0])
+    this.savedGarment.update((clts) =>
+      clts.map((clt) =>
+        clt.id == id ? { ...clt, isFavorite: !clt.isFavorite } : clt
+      )
+    );
+    await this.garmentRep.updateGarment(
+      id,
+      this.savedGarment().filter((el) => el.id == id)[0],
+    );
   }
 
   closeAiResponse() {
-    this.outfitMakerResponse.set({} as OutfitMakerInterface)
-    this.aiAnswer.set({} as AiAnswer)
+    this.outfitMakerResponse.set({} as OutfitMakerInterface);
+    this.aiAnswer.set({} as AiAnswer);
   }
 
-  async addToLaundry (id: string) {
-    this.savedGarment.update(clts => 
-      clts.map(clt => clt.id == id ? {...clt, isDirty: !clt.isDirty} : clt
-      ))
-      await this.garmentRep.updateGarment(id, this.savedGarment().filter(el => el.id == id)[0])
+  async addToLaundry(id: string) {
+    this.savedGarment.update((clts) =>
+      clts.map((clt) => clt.id == id ? { ...clt, isDirty: !clt.isDirty } : clt)
+    );
+    await this.garmentRep.updateGarment(
+      id,
+      this.savedGarment().filter((el) => el.id == id)[0],
+    );
   }
 
   async saveEdit(id: string, event: ClothingItem) {
-    await this.garmentRep.updateGarment(id, event)
-    this.savedGarment.update(clts => clts.map(clt => clt.id === id ? { ...event } : clt))
+    await this.garmentRep.updateGarment(id, event);
+    this.savedGarment.update((clts) =>
+      clts.map((clt) => clt.id === id ? { ...event } : clt)
+    );
   }
 
-  outfitMakrStep = computed (() => {
-    if (this.outfitMakerResponse().outfitItemIds?.length !== undefined){
-      return 'result'
-    } if (this.isLoading() == true) {
-      return 'isLoading'
-    } else {
-      return 'idle'
+  outfitMakrStep = computed(() => {
+    if (this.outfitMakerResponse().outfitItemIds?.length !== undefined) {
+      return "result";
     }
-  })
+    if (this.isLoading() == true) {
+      return "isLoading";
+    } else {
+      return "idle";
+    }
+  });
 
   async signOut() {
-    await this.authService.signOut()
-    this.savedGarment.set([])
+    await this.authService.signOut();
+    this.savedGarment.set([]);
   }
 
-  upldGarmentStep = computed (() => {
-    if (this.aiAnswer().isGarment !== undefined && this.clothAdded() == false){
-      return 'result'
-    } if (this.isLoading() == true) {
-      return 'loading'
-    } if (this.clothAdded() == true) {
-      return 'added'
-    } else {
-      return 'idle'
+  upldGarmentStep = computed(() => {
+    if (this.aiAnswer().isGarment !== undefined && this.clothAdded() == false) {
+      return "result";
     }
-  })
+    if (this.isLoading() == true) {
+      return "loading";
+    }
+    if (this.clothAdded() == true) {
+      return "added";
+    } else {
+      return "idle";
+    }
+  });
 
   filteredClots = computed(() => {
-      return this.savedGarment().filter(el => (!this.filterByFavorite() || el.isFavorite) && (!this.filterByDirty() || el.isDirty) && (this.selectedCategories().size === 0 || this.selectedCategories().has(el.category)))
+    return this.savedGarment().filter((el) =>
+      (!this.filterByFavorite() || el.isFavorite) &&
+      (!this.filterByDirty() || el.isDirty) &&
+      (this.selectedCategories().size === 0 ||
+        this.selectedCategories().has(el.category))
+    );
   });
 
   categoryCount = computed(() => {
@@ -152,7 +182,7 @@ export class ClothingService {
       dresses: 0,
       outerwear: 0,
       shoes: 0,
-      accessories: 0
+      accessories: 0,
     };
     return this.savedGarment().reduce((acc, garment) => {
       acc[garment.category] = acc[garment.category] + 1;
@@ -161,8 +191,8 @@ export class ClothingService {
   });
 
   async saveGarment(event: ClothingItem) {
-    this.clothAdded.set(true)
-    this.savedGarment.update(list => [...list, { ...event }]);
+    this.clothAdded.set(true);
+    this.savedGarment.update((list) => [...list, { ...event }]);
     await this.garmentRep.insertClots(
       event,
       this.authService.currentUser()?.id,
@@ -171,64 +201,86 @@ export class ClothingService {
     );
   }
 
-  async deleteGarment (id: string, path: string) {
-   if (path.split(':')[0] == 'blob'){
-      await this.garmentRep.removeClots(id, [this.garmentRep.path])
+  async deleteGarment(id: string, path: string) {
+    if (path.split(":")[0] == "blob") {
+      await this.garmentRep.removeClots(id, [this.garmentRep.path]);
     } else {
-      const url = new URL (path)
+      const url = new URL(path);
       const userId = this.authService.currentUser()?.id;
       if (!userId) return;
       const imagePath = url.pathname.split(`${userId}/`)[1];
       await this.garmentRep.removeClots(
         id,
-        [`${userId}/${imagePath}`]
-      );    }
-    this.savedGarment.update(garments => garments.filter(garment => garment.id !== id))
+        [`${userId}/${imagePath}`],
+      );
+    }
+    this.savedGarment.update((garments) =>
+      garments.filter((garment) => garment.id !== id)
+    );
   }
 
   resetUploader() {
     this.aiAnswer.set({} as AiAnswer);
     this.clothAdded.set(false);
-    this.base64Image.set('');
+    this.base64Image.set("");
     this.compressedBlob = null;
-    this.imageName = '';
+    this.imageName = "";
     this.isLoading.set(false);
   }
 
   suggestedCloths = computed(() => {
-    let outfit = {} as ClothingItem[]
-    if (typeof this.outfitMakerResponse().outfitItemIds?.length !== 'undefined'){
-    outfit = this.savedGarment().filter((ele) => {
-      return this.outfitMakerResponse().outfitItemIds!.includes(ele.id);
-    });}
-    return outfit
+    let outfit = {} as ClothingItem[];
+    if (
+      typeof this.outfitMakerResponse().outfitItemIds?.length !== "undefined"
+    ) {
+      outfit = this.savedGarment().filter((ele) => {
+        return this.outfitMakerResponse().outfitItemIds!.includes(ele.id);
+      });
+    }
+    return outfit;
   });
 
-  async outitMaker (tags: string[], style: StylesList, tempt: string, notesInput: string){
+  async outitMaker(
+    tags: string[],
+    style: StylesList,
+    tempt: string,
+    notesInput: string,
+  ) {
     this.paramsSelected = {
       tags: tags,
       style: style,
       tempt: tempt,
-      notesInput: notesInput
-    }
-    this.isLoading.set(true)
+      notesInput: notesInput,
+    };
+    this.isLoading.set(true);
     try {
-    const { data, error } = await this.supabase.client.functions.invoke(
-      'outfit-maker',
-      { body: { clothes: this.savedGarment().filter(clt => clt.isDirty == false), tags: tags, style: style, tempt: tempt, notesInput:notesInput}})
-      this.outfitMakerResponse.set(JSON.parse(data.response.choices[0].message.content))
+      const { data, error } = await this.supabase.client.functions.invoke(
+        "outfit-maker",
+        {
+          body: {
+            clothes: this.savedGarment().filter((clt) => clt.isDirty == false),
+            tags: tags,
+            style: style,
+            tempt: tempt,
+            notesInput: notesInput,
+          },
+        },
+      );
+      this.outfitMakerResponse.set(
+        JSON.parse(data.response.choices[0].message.content),
+      );
     } catch (error) {
-      console.log(error)
+      console.log(error);
     } finally {
-      this.isLoading.set(false)
+      this.isLoading.set(false);
     }
-    return this.outfitMakerResponse()
+    return this.outfitMakerResponse();
   }
 
   async onFileSelected(event: Event): Promise<AiAnswer> {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
-    this.isLoading.set(true)
+    this.isLoading.set(true);
     if (file) {
       const reader = new FileReader();
       const imageCompressed: Blob = await this.imageCompressor(file);
@@ -236,24 +288,27 @@ export class ClothingService {
         this.base64Image.set(reader.result as string);
         const { data, error } = await this.supabase.client.functions.invoke(
           "ai-caller",
-          { body: { image: this.base64Image().split("base64")[1] } },
+          { body: {
+             image: this.base64Image().split("base64")[1],
+             language: this.translate.currentLang(),
+            } },
         );
         if (error) throw error;
-        if (data || error){
-          this.isLoading.set(false)
+        if (data || error) {
+          this.isLoading.set(false);
         }
         this.aiAnswer.set(JSON.parse(data.aiAnswer.choices[0].message.content));
         if (this.aiAnswer().isGarment) {
-          this.aiAnswer.update(ele => ({
+          this.aiAnswer.update((ele) => ({
             ...ele,
             item: {
               ...ele.item!,
               id: crypto.randomUUID(),
               imageUrl: URL.createObjectURL(imageCompressed),
               isFavorite: false,
-              isDirty: false
-            }
-          }))
+              isDirty: false,
+            },
+          }));
           this.compressedBlob = imageCompressed;
           this.imageName = file.name;
           return this.aiAnswer().item;

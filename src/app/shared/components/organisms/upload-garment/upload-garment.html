@@ -5,10 +5,10 @@
     <app-upload-zone></app-upload-zone>
     <div class="flex mt-4 justify-between">
         <button class="flex items-center edit-btn gap-1.5 w-26 justify-center" (click)="closeModal()">
-            <span>Cancel</span>
+            <span>{{'COMMON.CANCEL' | translate}}</span>
         </button>
         <button class="flex items-center save-btn gap-1.5 w-26 justify-center" (click)="fileInput.click()">
-            <span>Upload</span>
+            <span>{{'MODAL_UPLOAD.UPLOAD_BUTTON' | translate}}</span>
             <app-icon [name]="'arrow-bar-up'"></app-icon>
             <input #fileInput type="file" hidden (change)="this.onFileSelected($event)" class="w-full h-full" />
         </button>
@@ -21,12 +21,11 @@
     <div class="loading-content">
         <div class="loader-container">
             <div class="loader"></div>
-
             <span class="sparkle sparkle-one">✦</span>
             <span class="sparkle sparkle-two">✦</span>
         </div>
-        <h2>Scaning garment</h2>
-        <p>This may take a few seconds.</p>
+        <h2>{{'MODAL_UPLOAD.SCANNING' | translate}}</h2>
+        <p>{{'COMMON.PROCESSING_HINT' | translate}}</p>
     </div>
 </div>
 }
@@ -35,14 +34,13 @@
     <app-stepper-indicator [phase]="'second'"></app-stepper-indicator>
     @if (this.aiAnswerInfo().isGarment == false || this.aiAnswerInfo() == undefined){
     <div class="flex items-center flex-col">
-        <h1 class="text-2xl font-semibold">Oops! Something happened</h1>
+        <h1 class="text-2xl font-semibold">{{'COMMON.ERROR_TITLE' | translate}}</h1>
         <span class="ai-note text-center my-1">{{ clothingService.aiAnswer().reason }}</span>
-        <button class="w-full primary-btn mt-3" (click)="anotherOne()">Try again
-        </button>
+        <button class="w-full primary-btn mt-3" (click)="anotherOne()">{{'COMMON.TRY_AGAIN' | translate}}</button>
     </div>
     } @else {
     <div class="flex gap-4">
-        <img [src]="clothingService.base64Image()" alt="garment image"
+        <img [src]="clothingService.base64Image()" [alt]="'COMMON.GARMENT_IMAGE_ALT' | translate"
             class="h-auto max-w-56 clothing-card object-cover">
         <div class="flex flex-col gap-3">
             <div class="flex flex-col">
@@ -58,21 +56,22 @@
                 </div>
                 } @else {
                 <span class="garment-name">{{this.aiAnswerInfo().item!.name}}</span>
-                <span class="brand-text mb-1"> {{ aiAnswerInfo().item?.brand }} </span>
+                <span class="brand-text mb-1">{{ aiAnswerInfo().item?.brand }}</span>
                 <app-badge [text]="this.aiAnswerInfo().item!.category" class="flex"></app-badge>
                 }
             </div>
             <div class="flex flex-col gap-0.5">
-                <p class="field-label">Colors</p>
+                <p class="field-label">{{'GARMENT_FIELDS.COLORS' | translate}}</p>
                 <app-color-dot [colors]="this.aiAnswerInfo().item!.colors" [colorSize]="'18px'"
                     class="flex gap-0.5"></app-color-dot>
             </div>
             <div class="flex flex-col gap-0.5">
-                <p class="field-label">Suggested Tags</p>
-                <app-suggested-tags [tags]="this.aiAnswerInfo().item!.tags" [class.tags]="this.aiAnswerInfo().item!.tags.length >= 4" class="flex gap-1"></app-suggested-tags>
+                <p class="field-label">{{'GARMENT_FIELDS.SUGGESTED_TAGS' | translate}}</p>
+                <app-suggested-tags [tags]="this.aiAnswerInfo().item!.tags" [class.tags]="this.aiAnswerInfo().item!.tags.length >= 4"
+                    class="flex gap-1"></app-suggested-tags>
             </div>
             <div class="flex flex-col gap-0.5">
-                <p class="field-label">Material</p>
+                <p class="field-label">{{'GARMENT_FIELDS.MATERIAL' | translate}}</p>
                 @if (editing) {
                 <input [(ngModel)]="this.aiAnswerInfo().item!.material">
                 } @else {
@@ -80,11 +79,11 @@
                 }
             </div>
             <div class="flex flex-col gap-0.5 max-w-sm">
-                <p class="field-label">Notes (AI)</p>
+                <p class="field-label">{{'GARMENT_FIELDS.AI_NOTES' | translate}}</p>
                 @if (editing) {
-                    <textarea [(ngModel)]="this.aiAnswerInfo().item!.notes" class="mt-2">
+                <textarea [(ngModel)]="this.aiAnswerInfo().item!.notes" class="mt-2">
                     {{ this.aiAnswerInfo().item!.notes }}
-                    </textarea>
+                </textarea>
                 } @else {
                 <span class="text-sm">{{this.aiAnswerInfo().item!.notes}}</span>
                 }
@@ -93,14 +92,14 @@
     </div>
     <div class="flex gap-2 mt-5 justify-around">
         <button class="flex items-center edit-btn w-full gap-1.5 justify-center" (click)="closeModal()">
-            <span>Cancel</span>
+            <span>{{'COMMON.CANCEL' | translate}}</span>
         </button>
         <button class="flex items-center edit-btn w-full gap-1.5" (click)="toggleEdit()">
             <app-icon [name]="'edit'"></app-icon>
-            <span>Edit</span>
+            <span>{{'COMMON.EDIT' | translate}}</span>
         </button>
         <button class="flex items-center save-btn w-full gap-1.5" (click)="this.saveGarment(this.aiAnswerInfo().item!)">
-            <span>Save to closet</span>
+            <span>{{'COMMON.SAVE_TO_CLOSET' | translate}}</span>
             <app-icon [name]="'save'"></app-icon>
         </button>
     </div>
@@ -112,14 +111,15 @@
     <app-stepper-indicator [phase]="'completed'"></app-stepper-indicator>
     <div class="flex flex-col items-center p-3">
         <app-icon [name]="'check-circle'" [size]="'xl'"></app-icon>
-        <span class="mt-3 mb-1.5 premium-title text-lg">Item saved to your closet!</span>
-        <span class="secondary-text text-sm max-w-46 text-center">You can view and organize it anytime in your
-            closet</span>
+        <span class="mt-3 mb-1.5 premium-title text-lg">{{'MODAL_UPLOAD.ITEM_SAVED' | translate}}</span>
+        <span class="secondary-text text-sm max-w-46 text-center">{{'MODAL_UPLOAD.ITEM_SAVED_DESCRIPTION' | translate}}</span>
         <div class="flex gap-3 mt-4">
-            <button class="save-btn flex items-center gap-1.5 " (click)="closeModal()">View my closet
+            <button class="save-btn flex items-center gap-1.5" (click)="closeModal()">
+                {{'MODAL_UPLOAD.VIEW_CLOSET' | translate}}
                 <app-icon [name]="'hanger'"></app-icon>
             </button>
-            <button class="flex items-center gap-1.5 px-2 h-12" (click)="anotherOne()">Add a new one
+            <button class="flex items-center gap-1.5 px-2 h-12" (click)="anotherOne()">
+                {{'MODAL_UPLOAD.ADD_ANOTHER' | translate}}
             </button>
         </div>
     </div>

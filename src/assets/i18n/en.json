@@ -1,84 +1,92 @@
 {
-    "COMMON": {
-      "APP_NAME": "Gira",
-      "CANCEL": "Cancel",
-      "CLOSE": "Close",
-      "EDIT": "Edit",
-      "SAVE_TO_CLOSET": "Save to closet",
-      "TRY_AGAIN": "Try again",
-      "FINISH": "Finish",
-      "ERROR_TITLE": "Oops! Something went wrong",
-      "PROCESSING_HINT": "This may take a few seconds.",
-      "GARMENT_IMAGE_ALT": "Garment image"
-    },
-    "META": {
-      "PAGE_TITLE": "VirtualClosetApp"
-    },
-    "NAV": {
-      "MAKE_OUTFIT": "Make an outfit",
-      "SIGN_OUT": "Sign out"
-    },
-    "AUTH": {
-      "BRAND_TITLE": "Gira",
-      "CREATE_ACCOUNT": "Create an account!",
-      "FULL_NAME": "Full name",
-      "FULL_NAME_PLACEHOLDER": "Full name",
-      "EMAIL": "Email",
-      "EMAIL_PLACEHOLDER": "your@email.com",
-      "PASSWORD": "Password",
-      "PASSWORD_PLACEHOLDER": ".....",
-      "CONFIRM_PASSWORD": "Confirm password",
-      "REMEMBER_ME": "Remember me",
-      "FORGOT_PASSWORD": "Forgot password?",
-      "LOGIN_BUTTON": "Log in!",
-      "SIGN_UP_BUTTON": "Sign up!",
-      "NO_ACCOUNT": "Don't have an account?",
-      "SIGN_UP_LINK": "Sign up",
-      "ALREADY_HAVE_ACCOUNT": "Already have an account?",
-      "LOGIN_LINK": "Log in",
-      "REGISTER_SUCCESS": "You have successfully registered!",
-      "REGISTER_SUCCESS_PREFIX": "Now you can browse and",
-      "REGISTER_SUCCESS_LINK": "manage your virtual closet."
-    },
-    "CLOSET": {
-      "TITLE": "My Closet",
-      "UPLOAD_GARMENT": "Upload garment",
-      "EMPTY_STATE": "You don't have any garments yet. Add one now with the button below!"
-    },
-    "FILTERS": {
-      "FAVORITES": "Favorites",
-      "LAUNDRY": "Laundry"
-    },
-    "GARMENT_FIELDS": {
-      "COLORS": "Colors",
-      "SUGGESTED_TAGS": "Suggested Tags",
-      "MATERIAL": "Material",
-      "AI_NOTES": "Notes (AI)"
-    },
-    "UPLOAD_ZONE": {
-      "DROP_HINT_BEFORE": "Drag your photo here or click to",
-      "DROP_HINT_BROWSE": "browse"
-    },
-    "MODAL_UPLOAD": {
-      "UPLOAD_BUTTON": "Upload",
-      "SCANNING": "Scanning garment",
-      "ITEM_SAVED": "Item saved to your closet!",
-      "ITEM_SAVED_DESCRIPTION": "You can view and organize it anytime in your closet.",
-      "VIEW_CLOSET": "View my closet",
-      "ADD_ANOTHER": "Add a new one"
-    },
-    "OUTFIT": {
-      "TITLE": "Create a new outfit",
-      "DESCRIPTION": "Tell us what you have in mind, and let Gira create an amazing look for you.",
-      "TAGS": "Tags",
-      "STYLE": "Style",
-      "WEATHER": "Weather",
-      "WEATHER_HOT": "Hot",
-      "WEATHER_MILD": "Mild",
-      "WEATHER_COLD": "Cold",
-      "NOTES": "Notes",
-      "GENERATE_BUTTON": "Generate outfit",
-      "CREATING": "Creating your outfit",
-      "READY": "Your outfit is ready"
-    }
+  "COMMON": {
+    "APP_NAME": "Gira",
+    "CANCEL": "Cancel",
+    "CLOSE": "Close",
+    "EDIT": "Edit",
+    "SAVE_TO_CLOSET": "Save to closet",
+    "TRY_AGAIN": "Try again",
+    "FINISH": "Finish",
+    "ERROR_TITLE": "Oops! Something went wrong",
+    "PROCESSING_HINT": "This may take a few seconds.",
+    "GARMENT_IMAGE_ALT": "Garment image"
+  },
+  "META": {
+    "PAGE_TITLE": "VirtualClosetApp"
+  },
+  "NAV": {
+    "MAKE_OUTFIT": "Make an outfit",
+    "SIGN_OUT": "Sign out"
+  },
+  "AUTH": {
+    "BRAND_TITLE": "Gira",
+    "CREATE_ACCOUNT": "Create an account!",
+    "FULL_NAME": "Full name",
+    "FULL_NAME_PLACEHOLDER": "Full name",
+    "EMAIL": "Email",
+    "EMAIL_PLACEHOLDER": "your@email.com",
+    "PASSWORD": "Password",
+    "PASSWORD_PLACEHOLDER": ".....",
+    "CONFIRM_PASSWORD": "Confirm password",
+    "REMEMBER_ME": "Remember me",
+    "FORGOT_PASSWORD": "Forgot password?",
+    "LOGIN_BUTTON": "Log in!",
+    "SIGN_UP_BUTTON": "Sign up!",
+    "NO_ACCOUNT": "Don't have an account?",
+    "SIGN_UP_LINK": "Sign up",
+    "ALREADY_HAVE_ACCOUNT": "Already have an account?",
+    "LOGIN_LINK": "Log in",
+    "REGISTER_SUCCESS": "You have successfully registered!",
+    "REGISTER_SUCCESS_PREFIX": "Now you can browse and",
+    "REGISTER_SUCCESS_LINK": "manage your virtual closet."
+  },
+  "CLOSET": {
+    "TITLE": "My Closet",
+    "UPLOAD_GARMENT": "Upload garment",
+    "EMPTY_STATE": "You don't have any garments yet. Add one now with the button below!"
+  },
+  "FILTERS": {
+    "FAVORITES": "Favorites",
+    "LAUNDRY": "Laundry"
+  },
+  "GARMENT_FIELDS": {
+    "COLORS": "Colors",
+    "SUGGESTED_TAGS": "Suggested Tags",
+    "MATERIAL": "Material",
+    "AI_NOTES": "Notes (AI)"
+  },
+  "UPLOAD_ZONE": {
+    "DROP_HINT_BEFORE": "Drag your photo here or click to",
+    "DROP_HINT_BROWSE": "browse"
+  },
+  "MODAL_UPLOAD": {
+    "UPLOAD_BUTTON": "Upload",
+    "SCANNING": "Scanning garment",
+    "ITEM_SAVED": "Item saved to your closet!",
+    "ITEM_SAVED_DESCRIPTION": "You can view and organize it anytime in your closet.",
+    "VIEW_CLOSET": "View my closet",
+    "ADD_ANOTHER": "Add a new one"
+  },
+  "OUTFIT": {
+    "TITLE": "Create a new outfit",
+    "DESCRIPTION": "Tell us what you have in mind, and let Gira create an amazing look for you.",
+    "TAGS": "Tags",
+    "STYLE": "Style",
+    "WEATHER": "Weather",
+    "WEATHER_HOT": "Hot",
+    "WEATHER_MILD": "Mild",
+    "WEATHER_COLD": "Cold",
+    "NOTES": "Notes",
+    "GENERATE_BUTTON": "Generate outfit",
+    "CREATING": "Creating your outfit",
+    "READY": "Your outfit is ready"
+  },
+  "CATEGORIES": {
+    "TOPS": "Tops",
+    "BOTTOMS": "Bottoms",
+    "DRESSES": "Dresses",
+    "OUTERWEAR": "Outerwear",
+    "SHOES": "Shoes",
+    "ACCESSORIES": "Accessories"
   }
+}

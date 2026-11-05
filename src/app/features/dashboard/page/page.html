@@ -1,9 +1,9 @@
-<div class="flex w-full h-full gap-5 overflow-hidden">
+<div class="flex w-full h-full gap-5 overflow-scroll">
     <div [class.modal-open]="clothingService.modalActive() !== null" class="flex flex-col gap-2 w-full h-full relative">
         @if (authService.userIsLoggedIn() == false){
         <div class="flex w-full h-screen justify-center items-center mb-3 gap-2 px-3">
-            <button class="log-in-btn px-6! py-4! md:py-8!" (click)="logIn()">Log In!</button>
-            <button class="sign-up-btn px-6! py-4! md:py-8!" (click)="signUp()">Sign Up!</button>
+            <button class="log-in-btn px-6! py-4! md:py-8!" (click)="logIn()">{{'AUTH.LOGIN_BUTTON' | translate}}</button>
+            <button class="sign-up-btn px-6! py-4! md:py-8!" (click)="signUp()">{{'AUTH.SIGN_UP_BUTTON' | translate}}</button>
         </div>
         } @else {
         <app-top-bar [userName]="authService.currentUser()?.user_metadata?.['name']"
@@ -17,14 +17,15 @@
             <div class="flex flex-col mt-2 px-4 md:mx-4 md:px-16 w-full">
                 <div class="flex w-full justify-between mb-5 items-center">
                     <div class="flex gap-2 items-center">
-                        <span class="font-semibold">My Closet</span>
-                        <span class="bg-amber-100 rounded-xl p-1"> {{ clothingService.savedGarment().length }}</span>
+                        <span class="font-semibold">{{'CLOSET.TITLE' | translate}}</span>
+                        <span class="bg-amber-100 rounded-xl p-1">{{ clothingService.savedGarment().length }}</span>
                     </div>
-                    <button class="primary-btn w-fit py-6!" (click)="clothingService.activeModal('uploader')"><app-icon
-                            [name]="'upload'" />Upload
-                        garment</button>
+                    <button class="primary-btn w-fit py-6!" (click)="clothingService.activeModal('uploader')">
+                        <app-icon [name]="'upload'" />
+                        {{'CLOSET.UPLOAD_GARMENT' | translate}}
+                    </button>
                 </div>
-                <div  class="grid grid-cols-2 md:flex gap-7 justify-center flex-wrap items-center">
+                <div class="grid grid-cols-2 md:flex gap-7 justify-center flex-wrap items-center">
                     @for (item of this.clothingService.filteredClots(); track $index) {
                     <app-clothing-card class="w-auto" [category]="item.category" [colors]="item.colors"
                         [imageUrl]="item.imageUrl" [name]="item.name" [style]="'home'"
@@ -38,11 +39,11 @@
         </div>
         } @else {
         <div class="w-full items-center justify-center flex flex-col gap-3">
-            <span class="text-center"> You do not have any garment yet, add one right now with the
-                button below!
-            </span>
-            <button class="primary-btn py-7!" (click)="clothingService.activeModal('uploader')"><app-icon [name]="'upload'" />Upload
-                garment</button>
+            <span class="text-center">{{'CLOSET.EMPTY_STATE' | translate}}</span>
+            <button class="primary-btn py-7!" (click)="clothingService.activeModal('uploader')">
+                <app-icon [name]="'upload'" />
+                {{'CLOSET.UPLOAD_GARMENT' | translate}}
+            </button>
         </div>
         }
         @if (clothingService.modalActive() == 'OutfitMaker') {
@@ -58,8 +59,9 @@
     </div>
     @if(clothingService.modalActive() == 'preview'){
     <div [class.modal-overlay]="clothingService.windowWidth() <= 768" class="md:w-102 md:side-bar md:mt-10">
-        <app-side-bar [class.modal]="clothingService.windowWidth() <= 768" (addFav)="clothingService.addGarmentFav(idSelectedClot())" [idSelectedClot]="idSelectedClot()" 
-            (close)="clothingService.modalActive.set(null)" [clots]="clothingService.savedGarment()" ></app-side-bar>
+        <app-side-bar [class.modal]="clothingService.windowWidth() <= 768"
+            (addFav)="clothingService.addGarmentFav(idSelectedClot())" [idSelectedClot]="idSelectedClot()"
+            (close)="clothingService.modalActive.set(null)" [clots]="clothingService.savedGarment()"></app-side-bar>
     </div>
     }
 </div>

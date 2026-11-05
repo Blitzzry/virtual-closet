@@ -9,17 +9,31 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
   } else {
-    const { image } = await req.json();
+    const { image, language } = await req.json();
     const SYSTEM_PROMPT: string =
       `You are a clothing and accessory classifier. Analyze the image and respond ONLY with a valid JSON object, with no additional text before or after, no markdown, no explanations.
+You will also receive a target language code such as "es" or "en".
+
+IMPORTANT: All user-facing text MUST be written in the target language. This includes:
+- "name"
+- "tags"
+- generic fallback values like "generic"
+- "material"
+- "notes"
+- "reason"
+
+Do NOT translate internal application values.
+
+The "category" field must always be exactly one of:
+"tops" | "bottoms" | "dresses" | "outerwear" | "shoes" | "accessories"
 
 First determine whether the image shows a recognizable clothing item or accessory: shirts, t-shirts, pants, dresses, shoes, coats, bags, bras, bracelets, rings, belts, etc.
 
-If it is NOT a clothing item/accessory (for example: toys, animals, people, food, electronic devices, body parts with no visible clothing), respond exactly in this shape:
+If it is NOT a clothing item/accessory, respond exactly in this shape:
 {
   "isGarment": false,
   "item": null,
-  "reason": "brief explanation of what was detected instead"
+  "reason": "brief explanation in the target language of what was detected instead"
 }
 
 If it IS a valid clothing item/accessory, respond exactly in this shape:
@@ -29,17 +43,23 @@ If it IS a valid clothing item/accessory, respond exactly in this shape:
     "name": string,
     "category": exactly one of: "tops" | "bottoms" | "dresses" | "outerwear" | "shoes" | "accessories",
     "colors": string[] (2-3 main colors in hexadecimal format, up to 6 if the item is extremely multicolored),
-    "tags": string[] (style/occasion, e.g: casual, elegant, summer, winter, work, sport),
-    "brand": string (brand if a recognizable logo is detected, otherwise "generic"),
-    "material": string (material if identifiable, otherwise "generic"),
-    "notes": string (brief description of the item, 1-2 sentences)
+    "tags": string[] (style/occasion, written in the target language),
+    "brand": string (brand if a recognizable logo is detected, otherwise use the equivalent of "generic" in the target language),
+    "material": string (material if identifiable, otherwise use the equivalent of "generic" in the target language),
+    "notes": string (brief description of the item, 1-2 sentences, in the target language)
   },
   "reason": null
 }
 
-The "name" should be a brief, natural description, for example: "Green plaid shirt", "Led Zeppelin t-shirt", "Converse sneakers", "Brahma boots", "Skull ring", "Gold bracelet".
+The "name" should be a brief, natural description in the target language, for example:
+- English: "Green plaid shirt", "Led Zeppelin t-shirt", "Converse sneakers"
+- Spanish: "Camisa verde a cuadros", "Camiseta de Led Zeppelin", "Tenis Converse"
 
-Example outputs:
+Do not translate brand names.
+Do not translate category values.
+Do not mix languages in user-facing fields.
+
+Example output for target language "en":
 
 {
   "isGarment": true,
@@ -49,44 +69,35 @@ Example outputs:
     "colors": ["#F5F0E8", "#C4B9A8", "#8B7355"],
     "tags": ["casual", "winter"],
     "brand": "Zara",
-    "material": "80% Cotton, 20% Polyester",
-    "notes": "Comfortable everyday sweater, great for layering."
+    "material": "80% cotton, 20% polyester",
+    "notes": "A comfortable everyday sweater, great for layering."
   },
   "reason": null
 }
 
+Example output for target language "es":
+
 {
   "isGarment": true,
   "item": {
-    "name": "Satin button-up shirt",
+    "name": "Suéter de punto acanalado",
     "category": "tops",
-    "colors": ["#8FAF8F"],
-    "tags": ["work", "spring", "minimal"],
-    "brand": "Massimo Dutti",
-    "material": "100% Polyester",
-    "notes": "Lightweight and silky feel. Perfect for work or dinner outings."
+    "colors": ["#F5F0E8", "#C4B9A8", "#8B7355"],
+    "tags": ["casual", "invierno"],
+    "brand": "Zara",
+    "material": "80% algodón, 20% poliéster",
+    "notes": "Un suéter cómodo para el día a día, ideal para usar en capas."
   },
   "reason": null
 }
 
-{
-  "isGarment": true,
-  "item": {
-    "name": "Classic trench coat",
-    "category": "outerwear",
-    "colors": ["#C4A882", "#D4B896"],
-    "tags": ["work", "casual", "autumn"],
-    "brand": "Mango",
-    "material": "65% Polyester, 35% Cotton",
-    "notes": "Timeless trench, works for both office and weekend."
-  },
-  "reason": null
-}
+Example output for a non-garment in Spanish:
 
 {
   "isGarment": false,
   "item": null,
-  "reason": "The image shows a stuffed teddy bear, not a piece of clothing."
+  "reason": "La imagen muestra un oso de peluche, no una prenda ni un accesorio."
+}"
 }`;
     const response = await fetch(
       "https://api.groq.com/openai/v1/chat/completions",
@@ -100,7 +111,7 @@ Example outputs:
           messages: [
             {
               role: "system",
-              content: SYSTEM_PROMPT,
+              content: SYSTEM_PROMPT
             },
             {
               role: "user",
@@ -109,6 +120,10 @@ Example outputs:
                   type: "image_url",
                   image_url: { url: `data:image/jpeg;base64${image}` },
                 },
+                {
+                  type: "text",
+                  text: language
+                }
               ],
             },
           ],

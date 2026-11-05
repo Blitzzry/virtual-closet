@@ -5,6 +5,7 @@ import { ColorDot } from '../../atoms/color-dot/color-dot';
 import { Badge } from '../../atoms/badge/badge';
 import { SuggestedTags } from '../../atoms/suggested-tags/suggested-tags';
 import { Icon } from '../../atoms/icon/icons';
+import { ClothingCategory } from "../../../../core/models/interface"
 
 @Component({
   selector: 'app-clothing-card',
@@ -15,7 +16,7 @@ import { Icon } from '../../atoms/icon/icons';
 export class ClothingCard {
   @Input() colors: string[] = []
   @Input() name: string = ''
-  @Input() category: string = ''
+  @Input() category: ClothingCategory = '' as ClothingCategory
   @Input() imageUrl: string = ''
   @Input() style: string = ''
   @Input() tags: string[] = []

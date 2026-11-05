@@ -2,11 +2,11 @@
 @case ('idle') {
 <div class="card">
     <app-stepper-indicator [maxPhases]="3" [phase]="'zero'"></app-stepper-indicator>
-    <h1 class="text-2xl font-semibold">Create a new Outfit</h1>
-    <span class="description text-sm">Tell us what you have in mind, and let Gira make an amazing look for you.</span>
+    <h1 class="text-2xl font-semibold">{{'OUTFIT.TITLE' | translate}}</h1>
+    <span class="description text-sm">{{'OUTFIT.DESCRIPTION' | translate}}</span>
     <div class="grid grid-cols-2 gap-2">
         <div class="mt-2">
-            <span class="section-title">Tags</span>
+            <span class="section-title">{{'OUTFIT.TAGS' | translate}}</span>
             <div class="max-h-62 overflow-scroll gap-1.5 flex flex-col mt-4 px-4">
                 @for (item of tagsList(); track $index) {
                 <button class="py-1 w-full form-btn" (click)="addTag(item)"
@@ -17,44 +17,43 @@
             </div>
         </div>
         <div class="mt-2">
-            <span class="section-title">Style</span>
+            <span class="section-title">{{'OUTFIT.STYLE' | translate}}</span>
             <div class="max-h-62 overflow-scroll flex flex-col gap-1.5 mt-4 px-4">
                 @for (item of clothingService.styleList; track item; let ind = $index) {
                 <button class="py-1.5 px-2 w-full form-btn" (click)="styleSelected = item"
-                    [class.selected]="styleSelected == item">{{ item }} </button>
+                    [class.selected]="styleSelected == item">{{ item }}</button>
                 }
             </div>
         </div>
     </div>
-    <span class="section-title">
-        weather
-    </span>
+    <span class="section-title">{{'OUTFIT.WEATHER' | translate}}</span>
     <div class="grid grid-cols-3 gap-2 mt-2">
         <button class="weather-btn py-7 flex flex-col gap-0.5" (click)="weatherSelected = 'sun'"
             [class.selected-weather]="weatherSelected == 'sun'">
             <app-icon [name]="'sun'"></app-icon>
-            Heat
+            {{'OUTFIT.WEATHER_HOT' | translate}}
         </button>
         <button class="weather-btn py-7 flex flex-col gap-0.5" (click)="weatherSelected = 'cloud'"
             [class.selected-weather]="weatherSelected == 'cloud'">
             <app-icon [name]="'cloud'"></app-icon>
-            Temperate climate
+            {{'OUTFIT.WEATHER_MILD' | translate}}
         </button>
         <button class="weather-btn py-7 flex flex-col gap-0.5" (click)="weatherSelected = 'snowflake'"
             [class.selected-weather]="weatherSelected == 'snowflake'">
             <app-icon [name]="'snowflake'"></app-icon>
-            Freeze
+            {{'OUTFIT.WEATHER_COLD' | translate}}
         </button>
     </div>
     <div class="mt-2">
-        <span class="section-title">Notes</span>
+        <span class="section-title">{{'OUTFIT.NOTES' | translate}}</span>
         <textarea #notesInput class="mt-2"></textarea>
     </div>
     <div class="flex items-center gap-3">
-        <button class="secondary-btn w-full mt-3 py-2!" (click)="closeModal()">Cancel</button>
+        <button class="secondary-btn w-full mt-3 py-2!" (click)="closeModal()">{{'COMMON.CANCEL' | translate}}</button>
         <button class="primary-btn w-full mt-3 py-5!"
-            (click)="clothingService.outitMaker(tagsSelected, styleSelected, weatherSelected, notesInput.value)">Generate
-            Outfit</button>
+            (click)="clothingService.outitMaker(tagsSelected, styleSelected, weatherSelected, notesInput.value)">
+            {{'OUTFIT.GENERATE_BUTTON' | translate}}
+        </button>
     </div>
 </div>
 }
@@ -62,15 +61,13 @@
 <div class="card">
     <app-stepper-indicator [maxPhases]="3" [phase]="'first'"></app-stepper-indicator>
     <div class="loading-content">
-
         <div class="loader-container">
             <div class="loader"></div>
-
             <span class="sparkle sparkle-one">✦</span>
             <span class="sparkle sparkle-two">✦</span>
         </div>
-        <h2>Creating your outfit</h2>
-        <p>This may take a few seconds.</p>
+        <h2>{{'OUTFIT.CREATING' | translate}}</h2>
+        <p>{{'COMMON.PROCESSING_HINT' | translate}}</p>
     </div>
 </div>
 }
@@ -79,8 +76,7 @@
     <app-stepper-indicator [maxPhases]="3" [phase]="'completed'"></app-stepper-indicator>
     @if (clothingService.outfitMakerResponse().success == true) {
     <div class="flex gap-2">
-        <h1 class="text-2xl font-semibold">Your Outfit is ready</h1>
-        <button class="primary-btn"><app-icon [name]="'heart'"></app-icon></button>
+        <h1 class="text-2xl font-semibold">{{'OUTFIT.READY' | translate}}</h1>
     </div>
     <span class="max-w-46 ai-note">{{ clothingService.outfitMakerResponse().reason }}</span>
     <div class="flex gap-2 my-3 tags">
@@ -89,12 +85,11 @@
             this.clothingService.paramsSelected.tags }}</span>
         }
         <span class="flex items-center tag"><app-icon [name]="'dresses'"></app-icon>{{
-            this.clothingService.paramsSelected.style
-            }}</span>
+            this.clothingService.paramsSelected.style }}</span>
         @if (this.clothingService.paramsSelected.tempt) {
         <span class="flex items-center tag"><app-icon [name]="'arrow-bar-up'"></app-icon>{{
-            this.clothingService.paramsSelected.tempt
-            }}</span>}
+            this.clothingService.paramsSelected.tempt }}</span>
+        }
     </div>
     @if (this.clothingService.suggestedCloths().length !== 0){
     <div [class.a-ton-of-clothes]="this.clothingService.suggestedCloths().length >= 3" class="gap-3 flex flex-col">
@@ -104,9 +99,9 @@
         }
     </div>
     }
-    <button class="w-full primary-btn mt-1" (click)="closeModal()"> Finish</button>
+    <button class="w-full primary-btn mt-1" (click)="closeModal()">{{'COMMON.FINISH' | translate}}</button>
     } @else {
-    <h1 class="text-2xl font-semibold">Oops! Something happened</h1>
+    <h1 class="text-2xl font-semibold">{{'COMMON.ERROR_TITLE' | translate}}</h1>
     <span class="max-w-46 ai-note">{{ clothingService.outfitMakerResponse().error }}</span>
     }
 </div>

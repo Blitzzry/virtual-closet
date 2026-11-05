@@ -11,6 +11,7 @@ import { TopBar } from "../../../shared/components/molecules/top-bar/top-bar";
 import { SideBar } from "../../../shared/components/molecules/side-bar/side-bar";
 import { CategoriesFilter } from "../../../shared/components/molecules/categories-filter/categories-filter";
 import { OutfitMaker } from "../../../shared/components/organisms/outfit-maker/outfit-maker";
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: "app-page",
@@ -22,6 +23,7 @@ import { OutfitMaker } from "../../../shared/components/organisms/outfit-maker/o
     SideBar,
     CategoriesFilter,
     OutfitMaker,
+    TranslatePipe
   ],
   templateUrl: "./page.html",
   styleUrl: "./page.css",

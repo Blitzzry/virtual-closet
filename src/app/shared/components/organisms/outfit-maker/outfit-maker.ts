@@ -8,7 +8,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: "app-outfit-maker",
-  imports: [Icon, StepperIndicator, ClothingCard],
+  imports: [Icon, StepperIndicator, ClothingCard, TranslatePipe],
   templateUrl: "./outfit-maker.html",
   styleUrl: "./outfit-maker.css",
 })

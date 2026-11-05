@@ -8,7 +8,7 @@
                 <app-favorite-button [isFavorite]="clot.isFavorite" (btnAction)="addGrmtFav()" 
                 padding="px-4 py-7 md:px-1.5!" [size]="'xs'"></app-favorite-button>
             </div>
-            <img [src]="this.clot.imageUrl" alt="garment image"
+            <img [src]="this.clot.imageUrl" [alt]="'COMMON.GARMENT_IMAGE_ALT' | translate"
                 class="clothing-card object-fill h-64 flex-1 py-4 md:py-1 shrink min-h-xl">
         </div>
         <div class="flex flex-col">
@@ -25,20 +25,20 @@
             </div>
             } @else {
             <span class="garment-name">{{this.clot.name}}</span>
-            <span class="brand-text mb-1"> {{ clot.brand }} </span>
+            <span class="brand-text mb-1">{{ clot.brand }}</span>
             <app-badge [text]="this.clot.category" class="flex"></app-badge>
             }
         </div>
         <div class="flex flex-col gap-0.5">
-            <p class="field-label">Colors</p>
+            <p class="field-label">{{'GARMENT_FIELDS.COLORS' | translate}}</p>
             <app-color-dot [colors]="this.clot.colors" [colorSize]="'18px'" class="flex gap-0.5"></app-color-dot>
         </div>
         <div class="flex flex-col gap-0.5">
-            <p class="field-label">Suggested Tags</p>
+            <p class="field-label">{{'GARMENT_FIELDS.SUGGESTED_TAGS' | translate}}</p>
             <app-suggested-tags [tags]="this.clot.tags" class="flex gap-1"></app-suggested-tags>
         </div>
         <div class="flex flex-col gap-0.5">
-            <p class="field-label">Material</p>
+            <p class="field-label">{{'GARMENT_FIELDS.MATERIAL' | translate}}</p>
             @if (editing) {
             <input class="form-input" (input)="onMaterialChange($event)" [value]="this.clot.material">
             } @else {
@@ -46,7 +46,7 @@
             }
         </div>
         <div class="flex flex-col gap-0.5">
-            <p class="field-label">Notes (AI)</p>
+            <p class="field-label">{{'GARMENT_FIELDS.AI_NOTES' | translate}}</p>
             @if (editing) {
             <textarea (input)="onNoteChange($event)" class="mt-2">
                 {{ this.clot.notes }}
@@ -59,12 +59,12 @@
     <div class="flex gap-1 mt-2 px-3 bg-white justify-around">
         <button class="w-full flex items-center py-3! px-1! xl:py-2! xl:px-2! secondary-btn gap-1.5 justify-center"
             (click)="closeModal()">
-            <span>Close</span>
+            <span>{{'COMMON.CLOSE' | translate}}</span>
         </button>
         @if (editing == true){
         <button (click)="saveClt(clot.id, editedNote(), editedName(), editedMaterial(), editedCategory(), editedBrand())"
             class="flex text-sm w-full py-3! xl:py-2! xl:px-2! items-center save-btn gap-1.5">
-            <span>Save to closet</span>
+            <span>{{'COMMON.SAVE_TO_CLOSET' | translate}}</span>
             <app-icon [name]="'save'"></app-icon>
         </button>
         }

@@ -7,6 +7,7 @@ import { SuggestedTags } from '../../atoms/suggested-tags/suggested-tags';
 import { ColorDot } from '../../atoms/color-dot/color-dot';
 import { Badge } from '../../atoms/badge/badge';
 import { FavoriteButton } from '../../atoms/favorite-button/favorite-button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-side-bar',
@@ -16,7 +17,8 @@ import { FavoriteButton } from '../../atoms/favorite-button/favorite-button';
     ColorDot,
     Badge,
     FavoriteButton,
-    FormsModule
+    FormsModule,
+    TranslatePipe
   ],
   templateUrl: './side-bar.html',
   styleUrl: './side-bar.css',

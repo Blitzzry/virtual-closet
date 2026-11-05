@@ -8,10 +8,11 @@ import { SuggestedTags } from '../../atoms/suggested-tags/suggested-tags';
 import { FormsModule } from '@angular/forms';
 import { Icon } from '../../atoms/icon/icons';
 import { ClothingService } from '../../../../core/services/clothing-service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-upload-garment',
-  imports: [UploadZone, StepperIndicator, Badge, ColorDot, SuggestedTags, Icon, FormsModule],
+  imports: [UploadZone, StepperIndicator, Badge, ColorDot, SuggestedTags, Icon, FormsModule, TranslatePipe],
   templateUrl: './upload-garment.html',
   styleUrl: './upload-garment.css',
 })
